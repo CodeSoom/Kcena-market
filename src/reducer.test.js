@@ -4,7 +4,7 @@ import {
   setItems,
 } from './actions';
 
-import items from './fixtures/items';
+import items from '../fixtures/items';
 
 describe('reducer', () => {
   context('when previous state is undefined', () => {
