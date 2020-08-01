@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import List from '../presentational/List';
 
+import { get } from '../../utils';
+
 import {
   loadInitItems,
 } from '../../actions';
@@ -15,9 +17,7 @@ export default function ListContainer() {
     dispatch(loadInitItems());
   }, []);
 
-  const { items } = useSelector((state) => ({
-    items: state.items,
-  }));
+  const items = useSelector(get('items'));
 
   return (
     <List items={items} />

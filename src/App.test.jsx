@@ -21,6 +21,6 @@ describe('App', () => {
   it('renders Title', () => {
     const { container } = render(<App />);
 
-    expect(container).toHaveTextContent('당근 마켓');
+    expect(container).toHaveTextContent('Kcena Market');
   });
 });

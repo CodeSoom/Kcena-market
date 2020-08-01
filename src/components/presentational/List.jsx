@@ -1,4 +1,5 @@
 import React from 'react';
+import Item from './Item';
 
 export default function List({ items }) {
   if (!(items || []).length) {
@@ -9,14 +10,8 @@ export default function List({ items }) {
 
   return (
     <ul>
-      {items.map(({
-        id, title, address, price,
-      }) => (
-        <li key={id}>
-          <div>{title}</div>
-          <div>{address}</div>
-          <div>{price}</div>
-        </li>
+      {items.map((item) => (
+        <Item key={item.id} item={item} />
       ))}
     </ul>
   );
