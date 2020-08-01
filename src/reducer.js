@@ -1,6 +1,15 @@
-const initialState = {};
+const initialState = {
+  items: [],
+};
 
-const reducers = {};
+const reducers = {
+  setItems(state, { payload: { items } }) {
+    return {
+      ...state,
+      items,
+    };
+  },
+};
 
 function defaultReducer(state) {
   return state;
