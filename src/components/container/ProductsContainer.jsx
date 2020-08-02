@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import List from '../presentational/List';
+import Products from '../presentational/Products';
 
 import { get } from '../../utils';
 
@@ -10,7 +10,7 @@ import {
   loadInitProducts,
 } from '../../actions';
 
-export default function ListContainer() {
+export default function ProductsContainer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +20,6 @@ export default function ListContainer() {
   const products = useSelector(get('products'));
 
   return (
-    <List products={products} />
+    <Products products={products} />
   );
 }

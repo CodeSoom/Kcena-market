@@ -2,15 +2,15 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
-import List from './List';
+import Products from './Products';
 
 import products from '../../../fixtures/products';
 
-describe('List', () => {
+describe('Products', () => {
   context('with products', () => {
     it('renders products', () => {
       const { container } = render((
-        <List products={products} />
+        <Products products={products} />
       ));
 
       products.forEach(({ title, region, price }) => {
@@ -25,7 +25,7 @@ describe('List', () => {
     it('renders no products message', () => {
       [[], undefined, null].forEach((emptyProducts) => {
         const { container } = render((
-          <List products={emptyProducts} />
+          <Products products={emptyProducts} />
         ));
 
         expect(container).toHaveTextContent('품목이 없습니다!');

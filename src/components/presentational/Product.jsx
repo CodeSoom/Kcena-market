@@ -8,7 +8,7 @@ import {
   CardDescription,
 } from '../../styles/Card';
 
-export default function Item({ product }) {
+export default function Product({ product }) {
   const {
     title, thumbnailUrl, url, region, price,
   } = product;

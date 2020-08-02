@@ -3,18 +3,18 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ListContainer from './ListContainer';
+import ProductsContainer from './ProductsContainer';
 
 import products from '../../../fixtures/products';
 
 jest.mock('react-redux');
 
-describe('ListContainer', () => {
+describe('ProductsContainer', () => {
   const dispatch = jest.fn();
 
   function renderListContainer() {
     return render((
-      <ListContainer />
+      <ProductsContainer />
     ));
   }
   beforeEach(() => {
