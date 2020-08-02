@@ -4,18 +4,31 @@ import { render } from '@testing-library/react';
 
 import Product from './Product';
 
-import products from '../../../fixtures/products';
-
 describe('Product', () => {
-  it('renders product', () => {
-    const { title, region, price } = products[0];
+  const product = {
+    title: '청바지',
+    region: '인천광역시 미추홀구',
+    url: 'https://www.test.com/',
+    price: '10,000',
+  };
 
-    const { container } = render((
-      <Product product={products[0]} />
+  function renderProduct() {
+    return render((
+      <Product product={product} />
     ));
+  }
 
-    expect(container).toHaveTextContent(title);
-    expect(container).toHaveTextContent(region);
-    expect(container).toHaveTextContent(price);
+  it('renders product', () => {
+    const { getByText } = renderProduct();
+
+    expect(getByText('청바지')).not.toBeNull();
+    expect(getByText('인천광역시 미추홀구')).not.toBeNull();
+    expect(getByText('10,000원')).not.toBeNull();
+  });
+
+  it('click to go to the product link', () => {
+    const { getByText } = renderProduct();
+
+    expect(getByText('청바지').closest('a')).toHaveAttribute('href', 'https://www.test.com/');
   });
 });
