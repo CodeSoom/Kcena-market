@@ -1,8 +1,8 @@
 import {
-  fetchItems,
+  fetchProducts,
 } from './api';
 
-import mockItems from '../../fixtures/items';
+import mockProducts from '../../fixtures/products';
 
 describe('api', () => {
   const mockFetch = (data) => {
@@ -11,15 +11,15 @@ describe('api', () => {
     });
   };
 
-  describe('fetchItems', () => {
+  describe('fetchProducts', () => {
     beforeEach(() => {
-      mockFetch(mockItems);
+      mockFetch(mockProducts);
     });
 
-    it('returns items', async () => {
-      const items = await fetchItems();
+    it('returns products', async () => {
+      const products = await fetchProducts();
 
-      expect(items).toEqual(mockItems);
+      expect(products).toEqual(mockProducts);
     });
   });
 });

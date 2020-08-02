@@ -1,12 +1,12 @@
 const initialState = {
-  items: [],
+  products: [],
 };
 
 const reducers = {
-  setItems(state, { payload: { items } }) {
+  setProducts(state, { payload: { products } }) {
     return {
       ...state,
-      items,
+      products,
     };
   },
 };

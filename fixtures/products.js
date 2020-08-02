@@ -1,4 +1,4 @@
-const items = [
+const products = [
   {
     id: 1,
     title: '크리넥스 KF-AD 소형 마스크 팝니다.',
@@ -41,4 +41,4 @@ const items = [
   },
 ];
 
-export default items;
+export default products;

@@ -8,10 +8,10 @@ import {
   CardDescription,
 } from '../../styles/Card';
 
-export default function Item({ item }) {
+export default function Item({ product }) {
   const {
     title, thumbnailUrl, url, region, price,
-  } = item;
+  } = product;
 
   return (
     <CardItem>

@@ -7,19 +7,19 @@ import List from '../presentational/List';
 import { get } from '../../utils';
 
 import {
-  loadInitItems,
+  loadInitProducts,
 } from '../../actions';
 
 export default function ListContainer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadInitItems());
+    dispatch(loadInitProducts());
   }, []);
 
-  const items = useSelector(get('items'));
+  const products = useSelector(get('products'));
 
   return (
-    <List items={items} />
+    <List products={products} />
   );
 }

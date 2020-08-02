@@ -2,18 +2,16 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
-import Item from './Item';
+import Product from './Product';
 
-import items from '../../../fixtures/items';
+import products from '../../../fixtures/products';
 
-describe('Item', () => {
-  it('renders item', () => {
-    const ITEM = items[0];
-
-    const { title, region, price } = ITEM;
+describe('Product', () => {
+  it('renders product', () => {
+    const { title, region, price } = products[0];
 
     const { container } = render((
-      <Item item={ITEM} />
+      <Product product={products[0]} />
     ));
 
     expect(container).toHaveTextContent(title);

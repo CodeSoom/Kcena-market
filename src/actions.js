@@ -1,17 +1,17 @@
 import {
-  fetchItems,
+  fetchProducts,
 } from './services/api';
 
-export function setItems(items) {
+export function setProducts(products) {
   return {
-    type: 'setItems',
-    payload: { items },
+    type: 'setProducts',
+    payload: { products },
   };
 }
 
-export function loadInitItems() {
+export function loadInitProducts() {
   return async (dispatch) => {
-    const items = await fetchItems();
-    dispatch(setItems(items));
+    const products = await fetchProducts();
+    dispatch(setProducts(products));
   };
 }
