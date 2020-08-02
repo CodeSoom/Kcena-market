@@ -8,11 +8,11 @@ import {
   CardDescription,
 } from '../../styles/Card';
 
-export default function Product({ product }) {
-  const {
+export default function Product({
+  product: {
     title, thumbnailUrl, url, region, price,
-  } = product;
-
+  },
+}) {
   return (
     <CardItem>
       <CardArticle>
