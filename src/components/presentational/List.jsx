@@ -1,6 +1,8 @@
 import React from 'react';
 import Item from './Item';
 
+import { CardList } from '../../styles/Card';
+
 export default function List({ items }) {
   if (!(items || []).length) {
     return (
@@ -9,10 +11,10 @@ export default function List({ items }) {
   }
 
   return (
-    <ul>
+    <CardList>
       {items.map((item) => (
         <Item key={item.id} item={item} />
       ))}
-    </ul>
+    </CardList>
   );
 }

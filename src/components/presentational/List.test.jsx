@@ -13,9 +13,9 @@ describe('List', () => {
         <List items={items} />
       ));
 
-      items.forEach(({ title, address, price }) => {
+      items.forEach(({ title, region, price }) => {
         expect(container).toHaveTextContent(title);
-        expect(container).toHaveTextContent(address);
+        expect(container).toHaveTextContent(region);
         expect(container).toHaveTextContent(price);
       });
     });
