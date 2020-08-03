@@ -3,50 +3,50 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ListContainer from './ListContainer';
+import ProductsContainer from './ProductsContainer';
 
-import items from '../../../fixtures/items';
+import products from '../../../fixtures/products';
 
 jest.mock('react-redux');
 
-describe('ListContainer', () => {
+describe('ProductsContainer', () => {
   const dispatch = jest.fn();
 
   function renderListContainer() {
     return render((
-      <ListContainer />
+      <ProductsContainer />
     ));
   }
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      items: given.items,
+      products: given.products,
     }));
   });
 
-  context('with items', () => {
-    given('items', () => items);
+  context('with products', () => {
+    given('products', () => products);
 
-    it('renders items', () => {
+    it('renders products', () => {
       const { getByText } = renderListContainer();
 
-      items.forEach(({ title }) => {
+      products.forEach(({ title }) => {
         expect(getByText(title)).toBeInTheDocument();
       });
     });
   });
 
-  context('without items', () => {
-    given('items', () => []);
+  context('without products', () => {
+    given('products', () => []);
 
-    it('load items', () => {
+    it('load products', () => {
       renderListContainer();
 
       expect(dispatch).toBeCalledTimes(1);
     });
 
-    it('renders no items message', () => {
+    it('renders no products message', () => {
       const { getByText } = renderListContainer();
 
       expect(getByText('품목이 없습니다!')).not.toBeNull();

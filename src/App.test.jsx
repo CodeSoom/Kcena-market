@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import App from './App';
 
-import items from '../fixtures/items';
+import products from '../fixtures/products';
 
 jest.mock('react-redux');
 
@@ -14,7 +14,7 @@ describe('App', () => {
   beforeEach(() => {
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      items,
+      products,
     }));
   });
 

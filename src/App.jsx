@@ -1,12 +1,19 @@
 import React from 'react';
 
-import ListContainer from './components/container/ListContainer';
+import ProductsContainer from './components/container/ProductsContainer';
+
+import Header from './styles/Header';
+import Layout from './styles/Layout';
 
 export default function App() {
   return (
-    <div>
-      <h1>Kcena Market</h1>
-      <ListContainer />
-    </div>
+    <Layout>
+      <Header />
+      <Layout.Main>
+        <Layout.Title>Kcena Market 인기 매물</Layout.Title>
+        <Layout.TextLineDivider />
+        <ProductsContainer />
+      </Layout.Main>
+    </Layout>
   );
 }

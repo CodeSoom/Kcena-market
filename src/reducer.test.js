@@ -1,15 +1,15 @@
 import reducer from './reducer';
 
 import {
-  setItems,
+  setProducts,
 } from './actions';
 
-import items from '../fixtures/items';
+import products from '../fixtures/products';
 
 describe('reducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
-      items: [],
+      products: [],
     };
 
     it('returns initialState', () => {
@@ -19,15 +19,15 @@ describe('reducer', () => {
     });
   });
 
-  describe('setItems', () => {
+  describe('setProducts', () => {
     const initialState = {
-      items: [],
+      products: [],
     };
 
-    it('changes items', () => {
-      const state = reducer(initialState, setItems(items));
+    it('changes products', () => {
+      const state = reducer(initialState, setProducts(products));
 
-      expect(state.items).toEqual(items);
+      expect(state.products).toEqual(products);
     });
   });
 });

@@ -1,4 +1,4 @@
-export async function fetchItems() {
+export async function fetchProducts() {
   return [];
 }
 

@@ -3,8 +3,8 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {
-  setItems,
-  loadInitItems,
+  setProducts,
+  loadInitProducts,
 } from './actions';
 
 const middlewares = [thunk];
@@ -15,17 +15,17 @@ jest.mock('./services/api');
 describe('actions', () => {
   let store;
 
-  describe('loadInitItems', () => {
+  describe('loadInitProducts', () => {
     beforeEach(() => {
       store = mockStore({});
     });
 
-    it('runs setItems', async () => {
-      await store.dispatch(loadInitItems());
+    it('runs setProducts', async () => {
+      await store.dispatch(loadInitProducts());
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setItems([]));
+      expect(actions[0]).toEqual(setProducts([]));
     });
   });
 });
