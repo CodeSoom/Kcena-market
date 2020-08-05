@@ -1,19 +1,21 @@
 import React from 'react';
-
-import ProductsContainer from './components/container/ProductsContainer';
+import {
+  Switch, Route,
+} from 'react-router-dom';
 
 import Header from './styles/Header';
 import Layout from './styles/Layout';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   return (
     <Layout>
       <Header />
-      <Layout.Main>
-        <Layout.Title>Kcena Market 인기 매물</Layout.Title>
-        <Layout.TextLineDivider />
-        <ProductsContainer />
-      </Layout.Main>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route component={NotFoundPage} />
+      </Switch>
     </Layout>
   );
 }
