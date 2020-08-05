@@ -10,7 +10,7 @@ import {
   loadInitProducts,
 } from '../../actions';
 
-export default function ProductsContainer() {
+export default function ProductsContainer({ onClickProduct }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +20,9 @@ export default function ProductsContainer() {
   const products = useSelector(get('products'));
 
   return (
-    <Products products={products} />
+    <Products
+      products={products}
+      onClickProduct={onClickProduct}
+    />
   );
 }

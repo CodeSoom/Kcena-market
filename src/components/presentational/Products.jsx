@@ -3,7 +3,7 @@ import Product from './Product';
 
 import { CardList } from '../../styles/Card';
 
-export default function Products({ products }) {
+export default function Products({ products, onClickProduct }) {
   if (!(products || []).length) {
     return (
       <p>품목이 없습니다!</p>
@@ -13,7 +13,11 @@ export default function Products({ products }) {
   return (
     <CardList>
       {products.map((product) => (
-        <Product key={product.id} product={product} />
+        <Product
+          key={product.id}
+          product={product}
+          onClickProduct={onClickProduct}
+        />
       ))}
     </CardList>
   );

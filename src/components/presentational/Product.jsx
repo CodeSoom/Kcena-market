@@ -8,15 +8,22 @@ import {
   CardDescription,
 } from '../../styles/Card';
 
-export default function Product({
-  product: {
-    title, thumbnailUrl, url, region, price,
-  },
-}) {
+export default function Product({ product, onClickProduct }) {
+  const {
+    title, thumbnailUrl, region, price,
+  } = product;
+
+  function handleClick(selectedProduct) {
+    return (event) => {
+      event.preventDefault();
+      onClickProduct(selectedProduct);
+    };
+  }
+
   return (
     <CardItem>
       <CardArticle>
-        <CardLink href={url}>
+        <CardLink href="/products/1" onClick={handleClick(product)}>
           <CardImage url={thumbnailUrl}>
             <img src={thumbnailUrl} alt={title} />
           </CardImage>

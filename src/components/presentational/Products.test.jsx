@@ -7,10 +7,15 @@ import Products from './Products';
 import products from '../../../fixtures/products';
 
 describe('Products', () => {
+  const handleClickProduct = jest.fn();
+
   context('with products', () => {
     it('renders products', () => {
       const { container } = render((
-        <Products products={products} />
+        <Products
+          products={products}
+          onClickProduct={handleClickProduct}
+        />
       ));
 
       products.forEach(({ title, region, price }) => {
@@ -25,7 +30,10 @@ describe('Products', () => {
     it('renders no products message', () => {
       [[], undefined, null].forEach((emptyProducts) => {
         const { container } = render((
-          <Products products={emptyProducts} />
+          <Products
+            products={emptyProducts}
+            onClickProduct={handleClickProduct}
+          />
         ));
 
         expect(container).toHaveTextContent('품목이 없습니다!');
