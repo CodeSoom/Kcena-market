@@ -7,15 +7,19 @@ import Header from './styles/Header';
 import Layout from './styles/Layout';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
+import ProductPage from './pages/ProductPage';
 
 export default function App() {
   return (
     <Layout>
       <Header />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <Layout.Main>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/products/:id" component={ProductPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Layout.Main>
     </Layout>
   );
 }

@@ -14,10 +14,10 @@ export default function HomePage() {
   }
 
   return (
-    <Layout.Main>
+    <>
       <Layout.Title>Kcena Market 인기 매물</Layout.Title>
       <Layout.TextLineDivider />
       <ProductsContainer onClickProduct={handleClickProduct} />
-    </Layout.Main>
+    </>
   );
 }

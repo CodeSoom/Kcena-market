@@ -1,5 +1,6 @@
 import {
   fetchProducts,
+  fetchProduct,
 } from './api';
 
 import mockProducts from '../../fixtures/products';
@@ -20,6 +21,18 @@ describe('api', () => {
       const products = await fetchProducts();
 
       expect(products).toEqual(mockProducts);
+    });
+  });
+
+  describe('fetchProduct', () => {
+    beforeEach(() => {
+      mockFetch(mockProducts[0]);
+    });
+
+    it('returns product', async () => {
+      const product = await fetchProduct();
+
+      expect(product).toEqual(mockProducts[0]);
     });
   });
 });
