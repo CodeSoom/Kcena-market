@@ -1,4 +1,5 @@
 const initialState = {
+  product: null,
   products: [],
 };
 
@@ -7,6 +8,12 @@ const reducers = {
     return {
       ...state,
       products,
+    };
+  },
+  setProduct(state, { payload: { product } }) {
+    return {
+      ...state,
+      product,
     };
   },
 };
