@@ -1,10 +1,13 @@
 import React from 'react';
+
 import Product from './Product';
 
 import { CardList } from '../../styles/Card';
 
+import { isEmpty } from '../../utils';
+
 export default function Products({ products, onClickProduct }) {
-  if (!(products || []).length) {
+  if (isEmpty(products || [])) {
     return (
       <p>품목이 없습니다!</p>
     );

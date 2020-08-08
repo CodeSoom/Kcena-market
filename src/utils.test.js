@@ -1,4 +1,4 @@
-import { get, equal } from './utils';
+import { get, equal, isEmpty } from './utils';
 
 test('get', () => {
   const state = {
@@ -22,4 +22,18 @@ test('equal', () => {
 
   expect(f(state)).toBeTruthy();
   expect(g(state)).toBeFalsy();
+});
+
+describe('isEmpty', () => {
+  context('with empty array', () => {
+    it('returns true', () => {
+      expect(isEmpty([])).toBe(true);
+    });
+  });
+
+  context('with not empty array', () => {
+    it('returns false', () => {
+      expect(isEmpty([1, 2, 3])).toBe(false);
+    });
+  });
 });
