@@ -17,6 +17,7 @@ describe('ProductsContainer', () => {
       <ProductsContainer />
     ));
   }
+
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);

@@ -4,7 +4,9 @@ import configureStore from 'redux-mock-store';
 
 import {
   setProducts,
+  setProduct,
   loadInitProducts,
+  loadProduct,
 } from './actions';
 
 const middlewares = [thunk];
@@ -26,6 +28,20 @@ describe('actions', () => {
       const actions = store.getActions();
 
       expect(actions[0]).toEqual(setProducts([]));
+    });
+  });
+
+  describe('loadProduct', () => {
+    beforeEach(() => {
+      store = mockStore({});
+    });
+
+    it('dispatchs setProduct', async () => {
+      await store.dispatch(loadProduct({ productId: 1 }));
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setProduct({}));
     });
   });
 });

@@ -1,18 +1,26 @@
 import React from 'react';
-
-import ProductsContainer from './components/container/ProductsContainer';
+import {
+  Switch, Route, Link,
+} from 'react-router-dom';
 
 import Header from './styles/Header';
 import Layout from './styles/Layout';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
+import ProductPage from './pages/ProductPage';
 
 export default function App() {
   return (
     <Layout>
-      <Header />
+      <Header>
+        <Link to="/">Kcena Market</Link>
+      </Header>
       <Layout.Main>
-        <Layout.Title>Kcena Market 인기 매물</Layout.Title>
-        <Layout.TextLineDivider />
-        <ProductsContainer />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/products/:id" component={ProductPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
       </Layout.Main>
     </Layout>
   );

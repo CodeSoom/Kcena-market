@@ -1,34 +1,40 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import Product from './Product';
 
 describe('Product', () => {
+  const handleClickProduct = jest.fn();
+
   const product = {
     title: '청바지',
     region: '인천광역시 미추홀구',
-    url: 'https://www.test.com/',
     price: '10,000',
   };
 
   function renderProduct() {
     return render((
-      <Product product={product} />
+      <Product
+        product={product}
+        onClickProduct={handleClickProduct}
+      />
     ));
   }
 
   it('renders product', () => {
     const { getByText } = renderProduct();
 
-    expect(getByText('청바지')).not.toBeNull();
-    expect(getByText('인천광역시 미추홀구')).not.toBeNull();
-    expect(getByText('10,000원')).not.toBeNull();
+    expect(getByText(product.title)).not.toBeNull();
+    expect(getByText(product.region)).not.toBeNull();
+    expect(getByText(`${product.price}원`)).not.toBeNull();
   });
 
-  it('click to go to the product link', () => {
+  it('listens click event', () => {
     const { getByText } = renderProduct();
 
-    expect(getByText('청바지').closest('a')).toHaveAttribute('href', 'https://www.test.com/');
+    fireEvent.click(getByText(product.title));
+
+    expect(handleClickProduct).toBeCalled();
   });
 });
