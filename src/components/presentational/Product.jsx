@@ -10,7 +10,7 @@ import {
 
 export default function Product({ product, onClickProduct }) {
   const {
-    title, thumbnailUrl, region, price,
+    id, title, thumbnailUrl, region, price,
   } = product;
 
   function handleClick(selectedProduct) {
@@ -23,7 +23,7 @@ export default function Product({ product, onClickProduct }) {
   return (
     <CardItem>
       <CardArticle>
-        <CardLink href="/products/1" onClick={handleClick(product)}>
+        <CardLink href={`/products/${id}`} onClick={handleClick(product)}>
           <CardImage url={thumbnailUrl}>
             <img src={thumbnailUrl} alt={title} />
           </CardImage>

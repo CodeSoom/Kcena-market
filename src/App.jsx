@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Switch, Route,
+  Switch, Route, Link,
 } from 'react-router-dom';
 
 import Header from './styles/Header';
@@ -12,7 +12,9 @@ import ProductPage from './pages/ProductPage';
 export default function App() {
   return (
     <Layout>
-      <Header />
+      <Header>
+        <Link to="/">Kcena Market</Link>
+      </Header>
       <Layout.Main>
         <Switch>
           <Route exact path="/" component={HomePage} />

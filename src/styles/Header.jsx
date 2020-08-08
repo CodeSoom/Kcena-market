@@ -1,8 +1,6 @@
-import React from 'react';
-
 import styled from '@emotion/styled';
 
-const Wrapper = styled.header({
+const Header = styled.header({
   fontFamily: 'Baloo, cursive',
   display: 'flex',
   position: 'fixed',
@@ -15,12 +13,13 @@ const Wrapper = styled.header({
   zIndex: '100',
   top: '0px',
   boxShadow: '0 3px 6px rgba(0,0,0,0.10), 0 3px 6px rgba(0,0,0,0.20)',
+  '& a': {
+    color: '#555',
+    textDecoration: 'none',
+    '&:hover': {
+      color: '#000',
+    },
+  },
 });
-
-const Header = () => (
-  <Wrapper>
-    Kcena Market
-  </Wrapper>
-);
 
 export default Header;
