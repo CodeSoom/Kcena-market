@@ -28,13 +28,13 @@ describe('ProductDetail', () => {
 
       const { getByTestId, getByAltText } = renderProductDetail();
 
-      const firstImage = getByAltText(productImages[0]);
-      expect(firstImage).toHaveAttribute('src', productImages[0]);
+      const currentImage = getByAltText(productImages[0]);
+      expect(currentImage).toHaveAttribute('src', productImages[0]);
 
       fireEvent.click(getByTestId('nextArrow'));
 
-      const secondImage = getByAltText(productImages[1]);
-      expect(secondImage).toHaveAttribute('src', productImages[1]);
+      const nextImage = getByAltText(productImages[1]);
+      expect(nextImage).toHaveAttribute('src', productImages[1]);
     });
   });
 
@@ -44,13 +44,13 @@ describe('ProductDetail', () => {
 
       const { getByTestId, getByAltText } = renderProductDetail();
 
-      const firstImage = getByAltText(productImages[0]);
-      expect(firstImage).toHaveAttribute('src', productImages[0]);
+      const currentImage = getByAltText(productImages[0]);
+      expect(currentImage).toHaveAttribute('src', productImages[0]);
 
       fireEvent.click(getByTestId('prevArrow'));
 
-      const secondImage = getByAltText(productImages[2]);
-      expect(secondImage).toHaveAttribute('src', productImages[2]);
+      const prevImage = getByAltText(productImages[2]);
+      expect(prevImage).toHaveAttribute('src', productImages[2]);
     });
   });
 });

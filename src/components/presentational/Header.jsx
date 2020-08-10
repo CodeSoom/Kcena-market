@@ -1,6 +1,9 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 import styled from '@emotion/styled';
 
-const Header = styled.header({
+const Wrapper = styled.header({
   fontFamily: 'Baloo, cursive',
   display: 'flex',
   position: 'fixed',
@@ -22,4 +25,10 @@ const Header = styled.header({
   },
 });
 
-export default Header;
+export default function Header() {
+  return (
+    <Wrapper>
+      <Link to="/">Kcena Market</Link>
+    </Wrapper>
+  );
+}

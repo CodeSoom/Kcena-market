@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -27,6 +27,20 @@ describe('App', () => {
     ));
 
     expect(container).toHaveTextContent('Kcena Market');
+  });
+
+  it('navigates home when you click the logo', () => {
+    const { container, getByText } = render(
+      <MemoryRouter initialEntries={['/invalid']}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(container).toHaveTextContent('404 Not Found');
+
+    const goHomeLink = getByText('Kcena Market');
+    fireEvent.click(goHomeLink);
+
+    expect(container).toHaveTextContent(products[0].title);
   });
 
   context('with invalid path', () => {
