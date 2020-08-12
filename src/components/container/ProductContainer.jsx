@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import ProductDetail from '../presentational/ProductDetail';
 
-import { loadProduct } from '../../actions';
+import { loadProduct } from '../../slice';
 
 import { get } from '../../utils';
 
