@@ -8,7 +8,7 @@ import { get } from '../../utils';
 
 import {
   loadInitProducts,
-} from '../../actions';
+} from '../../slice';
 
 export default function ProductsContainer({ onClickProduct }) {
   const dispatch = useDispatch();
