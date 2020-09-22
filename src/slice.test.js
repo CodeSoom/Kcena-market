@@ -7,6 +7,11 @@ import reducer, {
   loadProduct,
   setProduct,
   setProducts,
+  changeLoginField,
+  setUser,
+  requestLogin,
+  logout,
+  requestLogout,
 } from './slice';
 
 import products from '../fixtures/products';
@@ -21,6 +26,14 @@ describe('reducer', () => {
     const initialState = {
       product: null,
       products: [],
+      loginFields: {
+        email: '',
+        password: '',
+      },
+      user: {
+        displayName: '',
+        uid: '',
+      },
     };
 
     it('returns initialState', () => {
@@ -54,6 +67,75 @@ describe('reducer', () => {
     expect(state.product.id).toBe(1);
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
   });
+
+  describe('changeLoginField', () => {
+    context('when email is changed', () => {
+      const initialState = {
+        loginFields: {
+          email: 'email',
+          password: 'password',
+        },
+      };
+
+      const state = reducer(initialState, changeLoginField({
+        name: 'email',
+        value: 'test',
+      }));
+
+      expect(state.loginFields.email).toBe('test');
+      expect(state.loginFields.password).toBe('password');
+    });
+
+    context('when password is changed', () => {
+      const initialState = {
+        loginFields: {
+          email: 'email',
+          password: 'password',
+        },
+      };
+
+      const state = reducer(initialState, changeLoginField({
+        name: 'password',
+        value: 'test',
+      }));
+
+      expect(state.loginFields.email).toBe('email');
+      expect(state.loginFields.password).toBe('test');
+    });
+  });
+
+  describe('setUser', () => {
+    const initialState = {
+      user: {
+        displayName: '',
+        uid: '',
+      },
+    };
+
+    const state = reducer(initialState, setUser({
+      displayName: 'tester',
+      uid: 'testuid12345',
+    }));
+
+    expect(state.user.displayName).toBe('tester');
+    expect(state.user.uid).toBe('testuid12345');
+  });
+
+  describe('logout', () => {
+    it('clears user', () => {
+      const initialState = {
+        user: {
+          displayName: 'tester',
+          uid: '123456',
+        },
+      };
+
+      const state = reducer(initialState, logout());
+
+      expect(state.user.displayName).toBe('');
+      expect(state.user.uid).toBe('');
+    });
+  });
 });
 
 describe('actions', () => {
@@ -84,6 +166,44 @@ describe('actions', () => {
       const actions = store.getActions();
 
       expect(actions[0]).toEqual(setProduct({}));
+    });
+  });
+
+  describe('requestLogin', () => {
+    beforeEach(() => {
+      store = mockStore({
+        loginFields: {
+          email: '',
+          password: '',
+        },
+      });
+    });
+
+    it('dispatchs setUser', async () => {
+      await store.dispatch(requestLogin());
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setUser({}));
+    });
+  });
+
+  describe('requestLogout', () => {
+    beforeEach(() => {
+      store = mockStore({
+        user: {
+          displayName: 'tester',
+          uid: '123456',
+        },
+      });
+    });
+
+    it('dispatchs logout', async () => {
+      await store.dispatch(requestLogout());
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(logout());
     });
   });
 });

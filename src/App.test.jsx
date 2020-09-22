@@ -16,6 +16,14 @@ describe('App', () => {
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       products,
+      loginFields: {
+        email: '',
+        password: '',
+      },
+      user: {
+        uid: '',
+        displayName: '',
+      },
     }));
   });
 
@@ -41,6 +49,17 @@ describe('App', () => {
     fireEvent.click(goHomeLink);
 
     expect(container).toHaveTextContent(products[0].title);
+  });
+
+  it('navigates log in when you click the "log in"', () => {
+    const { getByLabelText } = render(
+      <MemoryRouter initialEntries={['/login']}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(getByLabelText('E-mail')).not.toBeNull();
+    expect(getByLabelText('Password')).not.toBeNull();
   });
 
   context('with invalid path', () => {

@@ -10,7 +10,7 @@ const Wrapper = styled.header({
   justifyContent: 'center',
   alignItems: 'center',
   height: '75px',
-  width: '100%',
+  width: '100vw',
   fontSize: '2.5rem',
   backgroundColor: '#fff',
   zIndex: '100',
@@ -25,10 +25,19 @@ const Wrapper = styled.header({
   },
 });
 
+const Container = styled.div({
+  display: 'flex',
+  width: '1024px',
+  justifyContent: 'space-between',
+});
+
 export default function Header() {
   return (
     <Wrapper>
-      <Link to="/">Kcena Market</Link>
+      <Container>
+        <Link to="/">Kcena Market</Link>
+        <Link to="/login">Log In</Link>
+      </Container>
     </Wrapper>
   );
 }
