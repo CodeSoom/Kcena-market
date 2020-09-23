@@ -15,6 +15,3 @@ node_modules
 
 ## Jest
 coverage
-
-## env
-.env

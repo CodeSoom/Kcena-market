@@ -23,7 +23,7 @@ const Layout = ({ children }) => (
 Layout.Main = styled.section(mp({
   margin: '0 auto',
   marginTop: '2rem',
-  width: ['990px', 'calc(100% - 2rem)', 'calc(100% - 1rem)'],
+  width: ['1024px', 'calc(100% - 2rem)', 'calc(100% - 1rem)'],
   position: 'relative',
   backgroundColor: '#fff',
 }));

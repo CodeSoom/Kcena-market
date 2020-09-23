@@ -5,3 +5,13 @@ export async function fetchProducts() {
 export async function fetchProduct() {
   return {};
 }
+
+export async function postLogin() {
+  return {
+    user: {},
+  };
+}
+
+export async function postLogout() {
+  return {};
+}

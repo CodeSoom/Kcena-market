@@ -4,17 +4,15 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_DATABASE_URL,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGEIN_ID,
-  appId: process.env.REACT_APP_APP_ID,
+  apiKey: 'AIzaSyAez0dWEAoavVXfBjRlmTD8JS-cUUo1EeE',
+  authDomain: 'kcena-market.firebaseapp.com',
+  databaseURL: 'https://kcena-market.firebaseio.com',
+  projectId: 'kcena-market',
+  storageBucket: 'kcena-market.appspot.com',
+  messagingSenderId: '4102085429',
+  appId: '1:4102085429:web:73e3d5bb3cdbcc52c60a7c',
 };
 
 firebase.initializeApp(firebaseConfig);
 
-export const auth = firebase.auth();
-export const db = firebase.firestore();
-export const storage = firebase.storage();
+export default firebase;
