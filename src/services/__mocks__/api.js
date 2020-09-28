@@ -6,17 +6,9 @@ export async function fetchProduct() {
   return {};
 }
 
-export async function postLogin() {
-  return {
-    user: {},
-  };
-}
+export const postLogin = jest.fn();
 
-export async function postSignup() {
-  return {
-    user: {},
-  };
-}
+export const postSignup = jest.fn();
 
 export async function postLogout() {
   return {};

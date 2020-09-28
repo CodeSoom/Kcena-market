@@ -1,5 +1,4 @@
 import configureStore from 'redux-mock-store';
-
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import reducer, {
@@ -11,13 +10,14 @@ import reducer, {
   changeSignupField,
   setUser,
   setError,
-  requestLogin,
   logout,
+  requestLogin,
   requestLogout,
   requestSignup,
 } from './slice';
 
 import products from '../fixtures/products';
+import { postLogin, postSignup } from './services/api';
 
 const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
@@ -249,12 +249,30 @@ describe('actions', () => {
       });
     });
 
-    it('dispatchs setUser', async () => {
-      await store.dispatch(requestLogin());
+    it('dispatches requestLogin action and returns user', async () => {
+      postLogin.mockImplementationOnce(() => ({
+        user: {},
+      }));
+
+      await store.dispatch(requestLogin({}));
 
       const actions = store.getActions();
-
       expect(actions[0]).toEqual(setUser({}));
+    });
+
+    it('dispatches requestLogin action and returns an error', async () => {
+      postLogin.mockImplementationOnce(
+        () => Promise.reject(
+          new Error('something bad happened'),
+        ),
+      );
+
+      try {
+        await store.dispatch(requestLogin());
+      } catch {
+        const actions = store.getActions();
+        expect(actions[0].payload.error).toEqual('Something bad happened');
+      }
     });
   });
 
@@ -268,15 +286,30 @@ describe('actions', () => {
       });
     });
 
-    it('dispatchs setUser', async () => {
-      try {
-        await store.dispatch(requestSignup());
-      } catch (error) {
-        store.dispatch(setError(error.message));
-      }
+    it('dispatches requestSignup action and returns user', async () => {
+      postSignup.mockImplementationOnce(() => ({
+        user: {},
+      }));
+
+      await store.dispatch(requestSignup({}));
 
       const actions = store.getActions();
       expect(actions[0]).toEqual(setUser({}));
+    });
+
+    it('dispatches requestSignup action and returns an error', async () => {
+      postSignup.mockImplementationOnce(
+        () => Promise.reject(
+          new Error('something bad happened'),
+        ),
+      );
+
+      try {
+        await store.dispatch(requestSignup());
+      } catch {
+        const actions = store.getActions();
+        expect(actions[0].payload.error).toEqual('Something bad happened');
+      }
     });
   });
 

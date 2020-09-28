@@ -123,7 +123,6 @@ export function requestLogin() {
       } = await postLogin({ email, password });
 
       dispatch(setUser({ displayName, uid }));
-      console.log(`Log in success! : ${uid}`);
     } catch (error) {
       dispatch(setError(error.message));
     }
@@ -139,7 +138,6 @@ export function requestSignup() {
           displayName, uid,
         },
       } = await postSignup({ email, password });
-      console.log(`Sign up success! : ${uid}`);
       dispatch(setUser({ displayName, uid }));
     } catch (error) {
       dispatch(setError(error.message));
