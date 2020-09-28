@@ -2,9 +2,9 @@ import React from 'react';
 
 import { fireEvent, render } from '@testing-library/react';
 
-import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
-describe('LoginForm', () => {
+describe('SignupForm', () => {
   const handleChange = jest.fn();
   const handleSubmit = jest.fn();
 
@@ -13,9 +13,9 @@ describe('LoginForm', () => {
     handleSubmit.mockClear();
   });
 
-  function renderLoginForm({ email, password } = {}, error = '') {
+  function renderSignupForm({ email, password } = {}, error = '') {
     return render((
-      <LoginForm
+      <SignupForm
         fields={{ email, password }}
         onChange={handleChange}
         onSubmit={handleSubmit}
@@ -28,7 +28,7 @@ describe('LoginForm', () => {
     const email = 'test@test';
     const password = '1234';
 
-    const { getByLabelText } = renderLoginForm({ email, password });
+    const { getByLabelText } = renderSignupForm({ email, password });
 
     const controls = [
       { label: 'E-mail', value: email },
@@ -42,7 +42,7 @@ describe('LoginForm', () => {
   });
 
   it('listens change events', () => {
-    const { getByLabelText } = renderLoginForm();
+    const { getByLabelText } = renderSignupForm();
 
     const controls = [
       { label: 'E-mail', name: 'email', value: 'tester@example.com' },
@@ -58,17 +58,17 @@ describe('LoginForm', () => {
     });
   });
 
-  it('renders "Log In" button', () => {
-    const { getByText } = renderLoginForm();
+  it('renders "Sign up" button', () => {
+    const { getByText } = renderSignupForm();
 
-    fireEvent.click(getByText('Log In'));
+    fireEvent.click(getByText('Sign up'));
 
     expect(handleSubmit).toBeCalled();
   });
 
   it('renders error message', () => {
-    const { container, getByText } = renderLoginForm({}, 'Invaild');
-    fireEvent.click(getByText('Log In'));
+    const { container, getByText } = renderSignupForm({}, 'Invaild');
+    fireEvent.click(getByText('Sign up'));
     expect(container).toHaveTextContent('Invaild');
   });
 });

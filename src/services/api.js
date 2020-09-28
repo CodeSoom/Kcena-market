@@ -21,6 +21,13 @@ export async function postLogin({ email, password }) {
   return response;
 }
 
+export async function postSignup({ email, password }) {
+  const response = await firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password);
+  return response;
+}
+
 export async function postLogout() {
   const response = await firebase
     .auth()

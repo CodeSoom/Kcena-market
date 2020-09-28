@@ -2,30 +2,30 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import LoginForm from '../presentational/LoginForm';
+import SignupForm from '../presentational/SignupForm';
 import LogoutForm from '../presentational/LogoutForm';
 
 import {
-  changeLoginField,
-  requestLogin,
+  changeSignupField,
+  requestSignup,
   requestLogout,
 } from '../../slice';
 
 import { get } from '../../utils';
 
-export default function LoginFormContainer() {
+export default function SignupFormContainer() {
   const dispatch = useDispatch();
 
-  const { email, password } = useSelector(get('loginFields'));
+  const { email, password } = useSelector(get('signupFields'));
   const user = useSelector(get('user'));
   const error = useSelector(get('error'));
 
   function handleChange({ name, value }) {
-    dispatch(changeLoginField({ name, value }));
+    dispatch(changeSignupField({ name, value }));
   }
 
   function handleSubmit() {
-    dispatch(requestLogin());
+    dispatch(requestSignup());
   }
 
   function handleClickLogout() {
@@ -37,7 +37,7 @@ export default function LoginFormContainer() {
       {user.uid ? (
         <LogoutForm onClick={handleClickLogout} />
       ) : (
-        <LoginForm
+        <SignupForm
           fields={{ email, password }}
           onChange={handleChange}
           onSubmit={handleSubmit}

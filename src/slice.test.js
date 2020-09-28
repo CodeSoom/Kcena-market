@@ -8,10 +8,13 @@ import reducer, {
   setProduct,
   setProducts,
   changeLoginField,
+  changeSignupField,
   setUser,
+  setError,
   requestLogin,
   logout,
   requestLogout,
+  requestSignup,
 } from './slice';
 
 import products from '../fixtures/products';
@@ -30,10 +33,15 @@ describe('reducer', () => {
         email: '',
         password: '',
       },
+      signupFields: {
+        email: '',
+        password: '',
+      },
       user: {
         displayName: '',
         uid: '',
       },
+      error: '',
     };
 
     it('returns initialState', () => {
@@ -77,13 +85,15 @@ describe('reducer', () => {
         },
       };
 
-      const state = reducer(initialState, changeLoginField({
-        name: 'email',
-        value: 'test',
-      }));
+      it('change email', () => {
+        const state = reducer(initialState, changeLoginField({
+          name: 'email',
+          value: 'test',
+        }));
 
-      expect(state.loginFields.email).toBe('test');
-      expect(state.loginFields.password).toBe('password');
+        expect(state.loginFields.email).toBe('test');
+        expect(state.loginFields.password).toBe('password');
+      });
     });
 
     context('when password is changed', () => {
@@ -94,13 +104,55 @@ describe('reducer', () => {
         },
       };
 
-      const state = reducer(initialState, changeLoginField({
-        name: 'password',
-        value: 'test',
-      }));
+      it('change password', () => {
+        const state = reducer(initialState, changeLoginField({
+          name: 'password',
+          value: 'test',
+        }));
 
-      expect(state.loginFields.email).toBe('email');
-      expect(state.loginFields.password).toBe('test');
+        expect(state.loginFields.email).toBe('email');
+        expect(state.loginFields.password).toBe('test');
+      });
+    });
+  });
+
+  describe('changeSignupField', () => {
+    context('when email is changed', () => {
+      const initialState = {
+        signupFields: {
+          email: 'email',
+          password: 'password',
+        },
+      };
+
+      it('change email', () => {
+        const state = reducer(initialState, changeSignupField({
+          name: 'email',
+          value: 'test',
+        }));
+
+        expect(state.signupFields.email).toBe('test');
+        expect(state.signupFields.password).toBe('password');
+      });
+    });
+
+    context('when password is changed', () => {
+      const initialState = {
+        signupFields: {
+          email: 'email',
+          password: 'password',
+        },
+      };
+
+      it('change password', () => {
+        const state = reducer(initialState, changeSignupField({
+          name: 'password',
+          value: 'test',
+        }));
+
+        expect(state.signupFields.email).toBe('email');
+        expect(state.signupFields.password).toBe('test');
+      });
     });
   });
 
@@ -112,13 +164,15 @@ describe('reducer', () => {
       },
     };
 
-    const state = reducer(initialState, setUser({
-      displayName: 'tester',
-      uid: 'testuid12345',
-    }));
+    it('save log in user', () => {
+      const state = reducer(initialState, setUser({
+        displayName: 'tester',
+        uid: 'testuid12345',
+      }));
 
-    expect(state.user.displayName).toBe('tester');
-    expect(state.user.uid).toBe('testuid12345');
+      expect(state.user.displayName).toBe('tester');
+      expect(state.user.uid).toBe('testuid12345');
+    });
   });
 
   describe('logout', () => {
@@ -134,6 +188,22 @@ describe('reducer', () => {
 
       expect(state.user.displayName).toBe('');
       expect(state.user.uid).toBe('');
+    });
+  });
+
+  describe('setError', () => {
+    it('change error', () => {
+      const initialState = {
+        error: '',
+      };
+
+      const state = reducer(initialState, setError(
+        'The email address is already in use by another account.',
+      ));
+
+      expect(state.error).toBe(
+        'The email address is already in use by another account.',
+      );
     });
   });
 });
@@ -184,6 +254,28 @@ describe('actions', () => {
 
       const actions = store.getActions();
 
+      expect(actions[0]).toEqual(setUser({}));
+    });
+  });
+
+  describe('requestSignup', () => {
+    beforeEach(() => {
+      store = mockStore({
+        signupFields: {
+          email: '',
+          password: '',
+        },
+      });
+    });
+
+    it('dispatchs setUser', async () => {
+      try {
+        await store.dispatch(requestSignup());
+      } catch (error) {
+        store.dispatch(setError(error.message));
+      }
+
+      const actions = store.getActions();
       expect(actions[0]).toEqual(setUser({}));
     });
   });

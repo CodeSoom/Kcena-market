@@ -12,6 +12,12 @@ export async function postLogin() {
   };
 }
 
+export async function postSignup() {
+  return {
+    user: {},
+  };
+}
+
 export async function postLogout() {
   return {};
 }
