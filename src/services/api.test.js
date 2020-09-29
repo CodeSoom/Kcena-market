@@ -3,6 +3,7 @@ import {
   fetchProducts,
   fetchProduct,
   postLogin,
+  postSignup,
   postLogout,
 } from './api';
 
@@ -41,14 +42,14 @@ describe('product api', () => {
 });
 
 describe('firebase services', () => {
-  const mockFirebaseLogin = ({ email, password }) => {
-    firebase.auth().signInWithEmailAndPassword = jest.fn()
-      .mockResolvedValue({
-        email, password,
-      });
-  };
-
   describe('postLogin', () => {
+    const mockFirebaseLogin = ({ email, password }) => {
+      firebase.auth().signInWithEmailAndPassword = jest.fn()
+        .mockResolvedValue({
+          email, password,
+        });
+    };
+
     const email = 'tester@example.com';
     const password = '123456';
 
@@ -79,6 +80,31 @@ describe('firebase services', () => {
       const logout = await postLogout();
 
       expect(logout).toBe(true);
+    });
+  });
+
+  describe('postSignup', () => {
+    const mockFirebaseSignup = ({ email, password }) => {
+      firebase.auth().createUserWithEmailAndPassword = jest.fn()
+        .mockResolvedValue({
+          displayName: '',
+          email,
+          password,
+          uid: '',
+        });
+    };
+
+    const email = 'tester@example.com';
+    const password = '123456';
+
+    beforeEach(() => {
+      mockFirebaseSignup({ email, password });
+    });
+
+    it('returns new account', async () => {
+      const newUser = await postSignup({ email, password });
+
+      expect(newUser.email).toBe(email);
     });
   });
 });

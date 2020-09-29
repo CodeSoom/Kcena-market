@@ -4,17 +4,17 @@ import { fireEvent, render } from '@testing-library/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import LoginFormContainer from './LoginFormContainer';
+import SignupFormContainer from './SignupFormContainer';
 
 jest.mock('react-redux');
-describe('LoginFormContainer', () => {
+describe('SignupFormContainer', () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      loginFields: {
+      signupFields: {
         email: 'test@test',
         password: '1234',
       },
@@ -28,10 +28,9 @@ describe('LoginFormContainer', () => {
       displayName: '',
       uid: '',
     }));
-
     it('renders input controls', () => {
       const { getByLabelText } = render((
-        <LoginFormContainer />
+        <SignupFormContainer />
       ));
 
       expect(getByLabelText('E-mail').value).toBe('test@test');
@@ -40,7 +39,7 @@ describe('LoginFormContainer', () => {
 
     it('listens change events', () => {
       const { getByLabelText } = render((
-        <LoginFormContainer />
+        <SignupFormContainer />
       ));
 
       expect(getByLabelText('E-mail').value).toBe('test@test');
@@ -50,23 +49,23 @@ describe('LoginFormContainer', () => {
       });
 
       expect(dispatch).toBeCalledWith({
-        type: 'application/changeLoginField',
+        type: 'application/changeSignupField',
         payload: { name: 'email', value: 'new email' },
       });
     });
 
-    it('renders "Log In" button', () => {
+    it('renders "Sign up" button', () => {
       const { getByText } = render((
-        <LoginFormContainer />
+        <SignupFormContainer />
       ));
 
-      fireEvent.click(getByText('Log In'));
+      fireEvent.click(getByText('Sign up'));
 
       expect(dispatch).toBeCalled();
     });
   });
 
-  context('when input invaild login fields', () => {
+  context('when input invaild signup fields', () => {
     given('error', () => 'Invaild');
     given('user', () => ({
       displayName: '',
@@ -75,10 +74,10 @@ describe('LoginFormContainer', () => {
 
     it('renders error message', () => {
       const { container, getByText } = render((
-        <LoginFormContainer />
+        <SignupFormContainer />
       ));
 
-      fireEvent.click(getByText('Log In'));
+      fireEvent.click(getByText('Sign up'));
 
       expect(container).toHaveTextContent('Invaild');
     });
@@ -92,7 +91,7 @@ describe('LoginFormContainer', () => {
 
     it('renders "Log out" button', () => {
       const { getByText } = render((
-        <LoginFormContainer />
+        <SignupFormContainer />
       ));
       expect(getByText('Log out')).not.toBeNull();
 

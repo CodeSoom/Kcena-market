@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LoginForm({
+export default function SignupForm({
   fields, onChange, onSubmit, error,
 }) {
   const { email, password } = fields;
@@ -16,9 +16,9 @@ export default function LoginForm({
         <p>{error}</p>
       </div>
       <div>
-        <label htmlFor="login-email">E-mail</label>
+        <label htmlFor="signup-email">E-mail</label>
         <input
-          id="login-email"
+          id="signup-email"
           type="email"
           name="email"
           value={email}
@@ -27,9 +27,9 @@ export default function LoginForm({
       </div>
 
       <div>
-        <label htmlFor="login-password">Password</label>
+        <label htmlFor="signup-password">Password</label>
         <input
-          id="login-password"
+          id="signup-password"
           type="password"
           name="password"
           value={password}
@@ -40,7 +40,7 @@ export default function LoginForm({
         type="button"
         onClick={onSubmit}
       >
-        Log In
+        Sign up
       </button>
     </>
   );

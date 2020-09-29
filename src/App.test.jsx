@@ -20,6 +20,10 @@ describe('App', () => {
         email: '',
         password: '',
       },
+      signupFields: {
+        email: '',
+        password: '',
+      },
       user: {
         uid: '',
         displayName: '',
@@ -54,6 +58,17 @@ describe('App', () => {
   it('navigates log in when you click the "log in"', () => {
     const { getByLabelText } = render(
       <MemoryRouter initialEntries={['/login']}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(getByLabelText('E-mail')).not.toBeNull();
+    expect(getByLabelText('Password')).not.toBeNull();
+  });
+
+  it('navigates Sign up when you click the "Sign up"', () => {
+    const { getByLabelText } = render(
+      <MemoryRouter initialEntries={['/signup']}>
         <App />
       </MemoryRouter>,
     );

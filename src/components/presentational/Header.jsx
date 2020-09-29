@@ -31,12 +31,25 @@ const Container = styled.div({
   justifyContent: 'space-between',
 });
 
+const UserAuthBox = styled.div({
+  fontSize: '1.2rem',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '& a': {
+    paddingRight: '10px',
+  },
+});
+
 export default function Header() {
   return (
     <Wrapper>
       <Container>
         <Link to="/">Kcena Market</Link>
-        <Link to="/login">Log In</Link>
+        <UserAuthBox>
+          <Link to="/login">Log In</Link>
+          <Link to="/signup">Sign up</Link>
+        </UserAuthBox>
       </Container>
     </Wrapper>
   );

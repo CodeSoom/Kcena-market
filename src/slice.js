@@ -4,6 +4,7 @@ import {
   fetchProducts,
   fetchProduct,
   postLogin,
+  postSignup,
   postLogout,
 } from './services/api';
 
@@ -21,9 +22,14 @@ const { actions, reducer } = createSlice({
       email: '',
       password: '',
     },
+    signupFields: {
+      email: '',
+      password: '',
+    },
     user: {
       ...initialUser,
     },
+    error: '',
   },
   reducers: {
     setProducts(state, { payload: products }) {
@@ -47,6 +53,15 @@ const { actions, reducer } = createSlice({
         },
       };
     },
+    changeSignupField(state, { payload: { name, value } }) {
+      return {
+        ...state,
+        signupFields: {
+          ...state.signupFields,
+          [name]: value,
+        },
+      };
+    },
     setUser(state, { payload: { displayName, uid } }) {
       return {
         ...state,
@@ -54,6 +69,12 @@ const { actions, reducer } = createSlice({
           displayName,
           uid,
         },
+      };
+    },
+    setError(state, { payload: error }) {
+      return {
+        ...state,
+        error,
       };
     },
     logout(state) {
@@ -71,7 +92,9 @@ export const {
   setProducts,
   setProduct,
   changeLoginField,
+  changeSignupField,
   setUser,
+  setError,
   logout,
 } = actions;
 
@@ -101,7 +124,23 @@ export function requestLogin() {
 
       dispatch(setUser({ displayName, uid }));
     } catch (error) {
-      // TODO: setError
+      dispatch(setError(error.message));
+    }
+  };
+}
+
+export function requestSignup() {
+  return async (dispatch, getState) => {
+    const { signupFields: { email, password } } = getState();
+    try {
+      const {
+        user: {
+          displayName, uid,
+        },
+      } = await postSignup({ email, password });
+      dispatch(setUser({ displayName, uid }));
+    } catch (error) {
+      dispatch(setError(error.message));
     }
   };
 }
