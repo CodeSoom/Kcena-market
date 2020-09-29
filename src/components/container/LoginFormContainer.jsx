@@ -47,7 +47,7 @@ export default function LoginFormContainer() {
           onChange={handleChange}
           onSubmit={handleSubmit}
           error={error}
-          onGoogleSignin={handleSigninWithGoogle}
+          onGoogleSignIn={handleSigninWithGoogle}
         />
       )}
     </>

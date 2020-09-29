@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function LoginForm({
-  fields, onChange, onSubmit, error, onGoogleSignin,
+  fields, onChange, onSubmit, error, onGoogleSignIn,
 }) {
   const { email, password } = fields;
 
@@ -44,7 +44,7 @@ export default function LoginForm({
       </button>
       <button
         type="button"
-        onClick={onGoogleSignin}
+        onClick={onGoogleSignIn}
       >
         Sign in with Google
       </button>

@@ -7,12 +7,12 @@ import LoginForm from './LoginForm';
 describe('LoginForm', () => {
   const handleChange = jest.fn();
   const handleSubmit = jest.fn();
-  const handleGoogleSignin = jest.fn();
+  const handleGoogleSignIn = jest.fn();
 
   beforeEach(() => {
     handleChange.mockClear();
     handleSubmit.mockClear();
-    handleGoogleSignin.mockClear();
+    handleGoogleSignIn.mockClear();
   });
 
   function renderLoginForm({ email, password } = {}, error = '') {
@@ -21,7 +21,7 @@ describe('LoginForm', () => {
         fields={{ email, password }}
         onChange={handleChange}
         onSubmit={handleSubmit}
-        onGoogleSignin={handleGoogleSignin}
+        onGoogleSignIn={handleGoogleSignIn}
         error={error}
       />
     ));
@@ -74,7 +74,7 @@ describe('LoginForm', () => {
 
     fireEvent.click(getByText('Sign in with Google'));
 
-    expect(handleGoogleSignin).toBeCalled();
+    expect(handleGoogleSignIn).toBeCalled();
   });
 
   it('renders error message', () => {
