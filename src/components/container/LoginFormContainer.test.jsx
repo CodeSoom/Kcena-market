@@ -64,6 +64,16 @@ describe('LoginFormContainer', () => {
 
       expect(dispatch).toBeCalled();
     });
+
+    it('renders "Sign in with Google" button', () => {
+      const { getByText } = render((
+        <LoginFormContainer />
+      ));
+
+      fireEvent.click(getByText('Sign in with Google'));
+
+      expect(dispatch).toBeCalled();
+    });
   });
 
   context('when input invaild login fields', () => {

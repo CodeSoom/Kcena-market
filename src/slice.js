@@ -4,6 +4,7 @@ import {
   fetchProducts,
   fetchProduct,
   postLogin,
+  postGoogleSignIn,
   postSignup,
   postLogout,
 } from './services/api';
@@ -121,6 +122,22 @@ export function requestLogin() {
           displayName, uid,
         },
       } = await postLogin({ email, password });
+
+      dispatch(setUser({ displayName, uid }));
+    } catch (error) {
+      dispatch(setError(error.message));
+    }
+  };
+}
+
+export function requestGoogleSignIn() {
+  return async (dispatch) => {
+    try {
+      const {
+        user: {
+          displayName, uid,
+        },
+      } = await postGoogleSignIn();
 
       dispatch(setUser({ displayName, uid }));
     } catch (error) {

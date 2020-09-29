@@ -8,6 +8,7 @@ import LogoutForm from '../presentational/LogoutForm';
 import {
   changeLoginField,
   requestLogin,
+  requestGoogleSignIn,
   requestLogout,
 } from '../../slice';
 
@@ -32,6 +33,10 @@ export default function LoginFormContainer() {
     dispatch(requestLogout());
   }
 
+  function handleSigninWithGoogle() {
+    dispatch(requestGoogleSignIn());
+  }
+
   return (
     <>
       {user.uid ? (
@@ -42,6 +47,7 @@ export default function LoginFormContainer() {
           onChange={handleChange}
           onSubmit={handleSubmit}
           error={error}
+          onGoogleSignIn={handleSigninWithGoogle}
         />
       )}
     </>

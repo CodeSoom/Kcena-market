@@ -12,12 +12,17 @@ import reducer, {
   setError,
   logout,
   requestLogin,
+  requestGoogleSignIn,
   requestLogout,
   requestSignup,
 } from './slice';
 
 import products from '../fixtures/products';
-import { postLogin, postSignup } from './services/api';
+import {
+  postGoogleSignIn,
+  postLogin,
+  postSignup,
+} from './services/api';
 
 const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
@@ -269,6 +274,39 @@ describe('actions', () => {
 
       try {
         await store.dispatch(requestLogin());
+      } catch {
+        const actions = store.getActions();
+        expect(actions[0].payload.error).toEqual('Something bad happened');
+      }
+    });
+  });
+
+  describe('requestGoogleSignIn', () => {
+    beforeEach(() => {
+      store = mockStore({});
+    });
+
+    it('dispatches requestGoogleSignIn action and returns user', async () => {
+      postGoogleSignIn.mockImplementationOnce(() => ({
+        user: {},
+      }));
+
+      await store.dispatch(requestGoogleSignIn());
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setUser({}));
+    });
+
+    it('dispatches requestGoogleSignIn action and returns an error', async () => {
+      postGoogleSignIn.mockImplementationOnce(
+        () => Promise.reject(
+          new Error('something bad happened'),
+        ),
+      );
+
+      try {
+        await store.dispatch(requestGoogleSignIn());
       } catch {
         const actions = store.getActions();
         expect(actions[0].payload.error).toEqual('Something bad happened');

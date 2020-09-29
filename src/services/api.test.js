@@ -3,6 +3,7 @@ import {
   fetchProducts,
   fetchProduct,
   postLogin,
+  postGoogleSignIn,
   postSignup,
   postLogout,
 } from './api';
@@ -61,6 +62,29 @@ describe('firebase services', () => {
       const user = await postLogin({ email, password });
 
       expect(user).toEqual({ email, password });
+    });
+  });
+
+  describe('postGoogleSignIn', () => {
+    const mockFirebaseGoogle = () => {
+      firebase.auth().signInWithPopup = jest.fn()
+        .mockResolvedValue({
+          displayName: 'tester',
+          uid: 'abc1234',
+        });
+    };
+
+    beforeEach(() => {
+      mockFirebaseGoogle();
+    });
+
+    it('returns uid', async () => {
+      const user = await postGoogleSignIn();
+
+      expect(user).toEqual({
+        displayName: 'tester',
+        uid: 'abc1234',
+      });
     });
   });
 
