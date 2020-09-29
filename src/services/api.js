@@ -21,6 +21,15 @@ export async function postLogin({ email, password }) {
   return response;
 }
 
+export async function postGoogleSignIn() {
+  const response = await firebase
+    .auth()
+    .signInWithPopup(
+      new firebase.auth.GoogleAuthProvider(),
+    );
+  return response;
+}
+
 export async function postSignup({ email, password }) {
   const response = await firebase
     .auth()
