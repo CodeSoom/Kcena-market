@@ -3,6 +3,8 @@ import {
   Switch, Route,
 } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
+
 import Header from './components/presentational/Header';
 import Layout from './styles/Layout';
 import HomePage from './pages/HomePage';
@@ -11,7 +13,18 @@ import SignupPage from './pages/SignupPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductPage from './pages/ProductPage';
 
+import { setUser } from './slice';
+
+import { loadItem } from './services/storage';
+
 export default function App() {
+  const dispatch = useDispatch();
+
+  const user = loadItem('user');
+  if (user) {
+    dispatch(setUser(user));
+  }
+
   return (
     <Layout>
       <Header />
