@@ -14,7 +14,8 @@ describe('localStorage', () => {
   it('save to localStorage', () => {
     saveItem(KEY, VALUE);
 
-    expect(localStorage.setItem).toHaveBeenLastCalledWith(KEY, VALUE);
+    expect(localStorage.setItem)
+      .toHaveBeenLastCalledWith(KEY, JSON.stringify(VALUE));
   });
 
   it('load to localStorage', () => {
