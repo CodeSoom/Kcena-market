@@ -1,4 +1,4 @@
-import { saveItem, loadItem } from './storage';
+import { saveItem, loadItem, deleteItem } from './storage';
 
 describe('localStorage', () => {
   const KEY = 'user';
@@ -22,5 +22,11 @@ describe('localStorage', () => {
     loadItem(KEY);
 
     expect(localStorage.getItem).toHaveBeenLastCalledWith(KEY);
+  });
+
+  it('delete to localStorage', () => {
+    deleteItem(KEY);
+
+    expect(localStorage.removeItem).toHaveBeenLastCalledWith(KEY);
   });
 });
