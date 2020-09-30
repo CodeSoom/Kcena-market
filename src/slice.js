@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { saveItem, deleteItem } from './services/storage';
+
 import {
   fetchProducts,
   fetchProduct,
@@ -117,13 +119,11 @@ export function requestLogin() {
   return async (dispatch, getState) => {
     const { loginFields: { email, password } } = getState();
     try {
-      const {
-        user: {
-          displayName, uid,
-        },
-      } = await postLogin({ email, password });
+      const { user } = await postLogin({ email, password });
+      const { displayName, uid } = user;
 
       dispatch(setUser({ displayName, uid }));
+      saveItem('user', { displayName, uid });
     } catch (error) {
       dispatch(setError(error.message));
     }
@@ -133,13 +133,11 @@ export function requestLogin() {
 export function requestGoogleSignIn() {
   return async (dispatch) => {
     try {
-      const {
-        user: {
-          displayName, uid,
-        },
-      } = await postGoogleSignIn();
+      const { user } = await postGoogleSignIn();
+      const { displayName, uid } = user;
 
       dispatch(setUser({ displayName, uid }));
+      saveItem('user', { displayName, uid });
     } catch (error) {
       dispatch(setError(error.message));
     }
@@ -150,12 +148,10 @@ export function requestSignup() {
   return async (dispatch, getState) => {
     const { signupFields: { email, password } } = getState();
     try {
-      const {
-        user: {
-          displayName, uid,
-        },
-      } = await postSignup({ email, password });
+      const { user } = await postSignup({ email, password });
+      const { displayName, uid } = user;
       dispatch(setUser({ displayName, uid }));
+      saveItem('user', { displayName, uid });
     } catch (error) {
       dispatch(setError(error.message));
     }
@@ -166,6 +162,7 @@ export function requestLogout() {
   return async (dispatch) => {
     await postLogout();
     dispatch(logout());
+    deleteItem('user');
   };
 }
 
