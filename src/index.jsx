@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 
 import App from './App';
 
-import store from '../store';
+import store, { history } from '../store';
 
 import '../default.css';
 import 'slick-carousel/slick/slick.css';
@@ -14,9 +14,9 @@ import 'slick-carousel/slick/slick-theme.css';
 ReactDOM.render(
   (
     <Provider store={store}>
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <App />
-      </BrowserRouter>
+      </ConnectedRouter>
     </Provider>
   ),
   document.getElementById('app'),
