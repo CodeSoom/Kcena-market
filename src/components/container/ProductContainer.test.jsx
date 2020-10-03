@@ -16,7 +16,9 @@ describe('ProductContainer', () => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      product: given.product,
+      reducer: {
+        product: given.product,
+      },
     }));
   });
 

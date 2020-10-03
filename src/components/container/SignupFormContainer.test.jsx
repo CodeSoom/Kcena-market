@@ -14,12 +14,14 @@ describe('SignupFormContainer', () => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      signupFields: {
-        email: 'test@test',
-        password: '1234',
+      reducer: {
+        signupFields: {
+          email: 'test@test',
+          password: '1234',
+        },
+        user: given.user,
+        error: given.error,
       },
-      user: given.user,
-      error: given.error,
     }));
   });
 
