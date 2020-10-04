@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { push } from 'connected-react-router';
 import { saveItem, deleteItem } from './services/storage';
 
 import {
@@ -117,13 +118,14 @@ export function loadProduct({ productId }) {
 
 export function requestLogin() {
   return async (dispatch, getState) => {
-    const { loginFields: { email, password } } = getState();
+    const { reducer: { loginFields: { email, password } } } = getState();
     try {
       const { user } = await postLogin({ email, password });
       const { displayName, uid } = user;
 
       dispatch(setUser({ displayName, uid }));
       saveItem('user', { displayName, uid });
+      dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
     }
@@ -138,6 +140,7 @@ export function requestGoogleSignIn() {
 
       dispatch(setUser({ displayName, uid }));
       saveItem('user', { displayName, uid });
+      dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
     }
@@ -146,12 +149,13 @@ export function requestGoogleSignIn() {
 
 export function requestSignup() {
   return async (dispatch, getState) => {
-    const { signupFields: { email, password } } = getState();
+    const { reducer: { signupFields: { email, password } } } = getState();
     try {
       const { user } = await postSignup({ email, password });
       const { displayName, uid } = user;
       dispatch(setUser({ displayName, uid }));
       saveItem('user', { displayName, uid });
+      dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
     }

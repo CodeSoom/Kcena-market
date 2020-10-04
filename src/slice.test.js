@@ -28,6 +28,7 @@ const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
 
 jest.mock('./services/api');
+jest.mock('connected-react-router');
 
 describe('reducer', () => {
   context('when previous state is undefined', () => {
@@ -247,9 +248,11 @@ describe('actions', () => {
   describe('requestLogin', () => {
     beforeEach(() => {
       store = mockStore({
-        loginFields: {
-          email: '',
-          password: '',
+        reducer: {
+          loginFields: {
+            email: '',
+            password: '',
+          },
         },
       });
     });
@@ -317,9 +320,11 @@ describe('actions', () => {
   describe('requestSignup', () => {
     beforeEach(() => {
       store = mockStore({
-        signupFields: {
-          email: '',
-          password: '',
+        reducer: {
+          signupFields: {
+            email: '',
+            password: '',
+          },
         },
       });
     });
@@ -354,9 +359,11 @@ describe('actions', () => {
   describe('requestLogout', () => {
     beforeEach(() => {
       store = mockStore({
-        user: {
-          displayName: 'tester',
-          uid: '123456',
+        reducer: {
+          user: {
+            displayName: 'tester',
+            uid: '123456',
+          },
         },
       });
     });

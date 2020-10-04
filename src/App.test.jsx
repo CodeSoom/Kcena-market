@@ -27,18 +27,20 @@ describe('App', () => {
     useDispatch.mockImplementation(() => store.dispatch);
 
     useSelector.mockImplementation((selector) => selector({
-      products,
-      loginFields: {
-        email: '',
-        password: '',
-      },
-      signupFields: {
-        email: '',
-        password: '',
-      },
-      user: {
-        uid: '',
-        displayName: '',
+      reducer: {
+        products,
+        loginFields: {
+          email: '',
+          password: '',
+        },
+        signupFields: {
+          email: '',
+          password: '',
+        },
+        user: {
+          uid: '',
+          displayName: '',
+        },
       },
     }));
   });

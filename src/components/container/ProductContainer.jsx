@@ -14,7 +14,7 @@ export default function ProductContainer({ productId }) {
     dispatch(loadProduct({ productId }));
   }, []);
 
-  const product = useSelector(get('product'));
+  const { product } = useSelector(get('reducer'));
 
   if (!product) {
     return (

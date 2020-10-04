@@ -16,9 +16,13 @@ import { get } from '../../utils';
 export default function SignupFormContainer() {
   const dispatch = useDispatch();
 
-  const { email, password } = useSelector(get('signupFields'));
-  const user = useSelector(get('user'));
-  const error = useSelector(get('error'));
+  const {
+    user,
+    error,
+    signupFields: {
+      email, password,
+    },
+  } = useSelector(get('reducer'));
 
   function handleChange({ name, value }) {
     dispatch(changeSignupField({ name, value }));

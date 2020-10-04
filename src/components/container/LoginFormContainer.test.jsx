@@ -14,12 +14,14 @@ describe('LoginFormContainer', () => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      loginFields: {
-        email: 'test@test',
-        password: '1234',
+      reducer: {
+        loginFields: {
+          email: 'test@test',
+          password: '1234',
+        },
+        user: given.user,
+        error: given.error,
       },
-      user: given.user,
-      error: given.error,
     }));
   });
 

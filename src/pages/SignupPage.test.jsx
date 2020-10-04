@@ -13,13 +13,15 @@ jest.mock('react-redux');
 describe('SignupPage', () => {
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
-      signupFields: {
-        email: 'test@test',
-        password: '1234',
-      },
-      user: {
-        displayName: '',
-        uid: '',
+      reducer: {
+        signupFields: {
+          email: 'test@test',
+          password: '1234',
+        },
+        user: {
+          displayName: '',
+          uid: '',
+        },
       },
     }));
   });
