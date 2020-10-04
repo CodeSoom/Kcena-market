@@ -8,7 +8,7 @@ import { get } from '../../utils';
 
 import {
   loadInitProducts,
-} from '../../slice';
+} from '../../productSlice';
 
 export default function ProductsContainer({ onClickProduct }) {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function ProductsContainer({ onClickProduct }) {
     dispatch(loadInitProducts());
   }, []);
 
-  const { products } = useSelector(get('reducer'));
+  const { products } = useSelector(get('productReducer'));
 
   return (
     <Products

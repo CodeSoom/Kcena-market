@@ -27,8 +27,10 @@ describe('App', () => {
     useDispatch.mockImplementation(() => store.dispatch);
 
     useSelector.mockImplementation((selector) => selector({
-      reducer: {
+      productReducer: {
         products,
+      },
+      authReducer: {
         loginFields: {
           email: '',
           password: '',
@@ -108,7 +110,7 @@ describe('App', () => {
       const actions = store.getActions();
 
       expect(actions[0]).toEqual({
-        type: 'application/setUser',
+        type: 'authentication/setUser',
         payload: mockUser,
       });
     });

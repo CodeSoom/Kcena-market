@@ -4,8 +4,6 @@ import { push } from 'connected-react-router';
 import { saveItem, deleteItem } from './services/storage';
 
 import {
-  fetchProducts,
-  fetchProduct,
   postLogin,
   postGoogleSignIn,
   postSignup,
@@ -17,11 +15,9 @@ const initialUser = {
   uid: '',
 };
 
-const { actions, reducer } = createSlice({
-  name: 'application',
+const { actions, reducer: authReducer } = createSlice({
+  name: 'authentication',
   initialState: {
-    product: null,
-    products: [],
     loginFields: {
       email: '',
       password: '',
@@ -36,18 +32,6 @@ const { actions, reducer } = createSlice({
     error: '',
   },
   reducers: {
-    setProducts(state, { payload: products }) {
-      return {
-        ...state,
-        products,
-      };
-    },
-    setProduct(state, { payload: product }) {
-      return {
-        ...state,
-        product,
-      };
-    },
     changeLoginField(state, { payload: { name, value } }) {
       return {
         ...state,
@@ -93,8 +77,6 @@ const { actions, reducer } = createSlice({
 });
 
 export const {
-  setProducts,
-  setProduct,
   changeLoginField,
   changeSignupField,
   setUser,
@@ -102,23 +84,9 @@ export const {
   logout,
 } = actions;
 
-export function loadInitProducts() {
-  return async (dispatch) => {
-    const products = await fetchProducts();
-    dispatch(setProducts(products));
-  };
-}
-
-export function loadProduct({ productId }) {
-  return async (dispatch) => {
-    const product = await fetchProduct(productId);
-    dispatch(setProduct(product));
-  };
-}
-
 export function requestLogin() {
   return async (dispatch, getState) => {
-    const { reducer: { loginFields: { email, password } } } = getState();
+    const { loginFields: { email, password } } = getState();
     try {
       const { user } = await postLogin({ email, password });
       const { displayName, uid } = user;
@@ -149,7 +117,7 @@ export function requestGoogleSignIn() {
 
 export function requestSignup() {
   return async (dispatch, getState) => {
-    const { reducer: { signupFields: { email, password } } } = getState();
+    const { signupFields: { email, password } } = getState();
     try {
       const { user } = await postSignup({ email, password });
       const { displayName, uid } = user;
@@ -170,4 +138,4 @@ export function requestLogout() {
   };
 }
 
-export default reducer;
+export default authReducer;

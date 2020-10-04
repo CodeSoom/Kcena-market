@@ -14,7 +14,7 @@ describe('SignupFormContainer', () => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      reducer: {
+      authReducer: {
         signupFields: {
           email: 'test@test',
           password: '1234',
@@ -51,7 +51,7 @@ describe('SignupFormContainer', () => {
       });
 
       expect(dispatch).toBeCalledWith({
-        type: 'application/changeSignupField',
+        type: 'authentication/changeSignupField',
         payload: { name: 'email', value: 'new email' },
       });
     });
