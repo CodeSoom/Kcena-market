@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import ProductDetail from '../presentational/ProductDetail';
 
-import { loadProduct } from '../../slice';
+import { loadProduct } from '../../productSlice';
 
 import { get } from '../../utils';
 
@@ -14,7 +14,7 @@ export default function ProductContainer({ productId }) {
     dispatch(loadProduct({ productId }));
   }, []);
 
-  const { product } = useSelector(get('reducer'));
+  const { product } = useSelector(get('productReducer'));
 
   if (!product) {
     return (

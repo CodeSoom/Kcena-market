@@ -3,11 +3,13 @@ import { createBrowserHistory } from 'history';
 import { combineReducers } from 'redux';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 
-import reducer from './src/slice';
+import authReducer from './src/authSlice';
+import productReducer from './src/productSlice';
 
 const rootReducer = (history) => combineReducers({
   router: connectRouter(history),
-  reducer,
+  authReducer,
+  productReducer,
 });
 
 export const history = createBrowserHistory();

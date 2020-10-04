@@ -10,7 +10,7 @@ import {
   requestLogin,
   requestGoogleSignIn,
   requestLogout,
-} from '../../slice';
+} from '../../authSlice';
 
 import { get } from '../../utils';
 
@@ -23,7 +23,7 @@ export default function LoginFormContainer() {
     loginFields: {
       email, password,
     },
-  } = useSelector(get('reducer'));
+  } = useSelector(get('authReducer'));
 
   function handleChange({ name, value }) {
     dispatch(changeLoginField({ name, value }));

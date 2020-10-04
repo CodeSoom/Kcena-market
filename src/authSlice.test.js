@@ -1,11 +1,7 @@
 import configureStore from 'redux-mock-store';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
-import reducer, {
-  loadInitProducts,
-  loadProduct,
-  setProduct,
-  setProducts,
+import authReducer, {
   changeLoginField,
   changeSignupField,
   setUser,
@@ -15,9 +11,8 @@ import reducer, {
   requestGoogleSignIn,
   requestLogout,
   requestSignup,
-} from './slice';
+} from './authSlice';
 
-import products from '../fixtures/products';
 import {
   postGoogleSignIn,
   postLogin,
@@ -33,8 +28,6 @@ jest.mock('connected-react-router');
 describe('reducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
-      product: null,
-      products: [],
       loginFields: {
         email: '',
         password: '',
@@ -51,35 +44,10 @@ describe('reducer', () => {
     };
 
     it('returns initialState', () => {
-      const state = reducer(undefined, { type: 'action' });
+      const state = authReducer(undefined, { type: 'action' });
 
       expect(state).toEqual(initialState);
     });
-  });
-
-  describe('setProducts', () => {
-    const initialState = {
-      products: [],
-    };
-
-    it('changes products', () => {
-      const state = reducer(initialState, setProducts(products));
-
-      expect(state.products).toEqual(products);
-    });
-  });
-
-  describe('setProduct', () => {
-    const initialState = {
-      product: null,
-    };
-
-    const product = products[0];
-
-    const state = reducer(initialState, setProduct(product));
-
-    expect(state.product.id).toBe(1);
-    expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
   });
 
   describe('changeLoginField', () => {
@@ -92,7 +60,7 @@ describe('reducer', () => {
       };
 
       it('change email', () => {
-        const state = reducer(initialState, changeLoginField({
+        const state = authReducer(initialState, changeLoginField({
           name: 'email',
           value: 'test',
         }));
@@ -111,7 +79,7 @@ describe('reducer', () => {
       };
 
       it('change password', () => {
-        const state = reducer(initialState, changeLoginField({
+        const state = authReducer(initialState, changeLoginField({
           name: 'password',
           value: 'test',
         }));
@@ -132,7 +100,7 @@ describe('reducer', () => {
       };
 
       it('change email', () => {
-        const state = reducer(initialState, changeSignupField({
+        const state = authReducer(initialState, changeSignupField({
           name: 'email',
           value: 'test',
         }));
@@ -151,7 +119,7 @@ describe('reducer', () => {
       };
 
       it('change password', () => {
-        const state = reducer(initialState, changeSignupField({
+        const state = authReducer(initialState, changeSignupField({
           name: 'password',
           value: 'test',
         }));
@@ -171,7 +139,7 @@ describe('reducer', () => {
     };
 
     it('save log in user', () => {
-      const state = reducer(initialState, setUser({
+      const state = authReducer(initialState, setUser({
         displayName: 'tester',
         uid: 'testuid12345',
       }));
@@ -190,7 +158,7 @@ describe('reducer', () => {
         },
       };
 
-      const state = reducer(initialState, logout());
+      const state = authReducer(initialState, logout());
 
       expect(state.user.displayName).toBe('');
       expect(state.user.uid).toBe('');
@@ -203,7 +171,7 @@ describe('reducer', () => {
         error: '',
       };
 
-      const state = reducer(initialState, setError(
+      const state = authReducer(initialState, setError(
         'The email address is already in use by another account.',
       ));
 
@@ -217,42 +185,12 @@ describe('reducer', () => {
 describe('actions', () => {
   let store;
 
-  describe('loadInitProducts', () => {
-    beforeEach(() => {
-      store = mockStore({});
-    });
-
-    it('runs setProducts', async () => {
-      await store.dispatch(loadInitProducts());
-
-      const actions = store.getActions();
-
-      expect(actions[0]).toEqual(setProducts([]));
-    });
-  });
-
-  describe('loadProduct', () => {
-    beforeEach(() => {
-      store = mockStore({});
-    });
-
-    it('dispatchs setProduct', async () => {
-      await store.dispatch(loadProduct({ productId: 1 }));
-
-      const actions = store.getActions();
-
-      expect(actions[0]).toEqual(setProduct({}));
-    });
-  });
-
   describe('requestLogin', () => {
     beforeEach(() => {
       store = mockStore({
-        reducer: {
-          loginFields: {
-            email: '',
-            password: '',
-          },
+        loginFields: {
+          email: '',
+          password: '',
         },
       });
     });
@@ -320,11 +258,9 @@ describe('actions', () => {
   describe('requestSignup', () => {
     beforeEach(() => {
       store = mockStore({
-        reducer: {
-          signupFields: {
-            email: '',
-            password: '',
-          },
+        signupFields: {
+          email: '',
+          password: '',
         },
       });
     });
@@ -359,11 +295,9 @@ describe('actions', () => {
   describe('requestLogout', () => {
     beforeEach(() => {
       store = mockStore({
-        reducer: {
-          user: {
-            displayName: 'tester',
-            uid: '123456',
-          },
+        user: {
+          displayName: 'tester',
+          uid: '123456',
         },
       });
     });

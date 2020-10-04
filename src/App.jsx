@@ -13,7 +13,7 @@ import SignupPage from './pages/SignupPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductPage from './pages/ProductPage';
 
-import { setUser } from './slice';
+import { setUser } from './authSlice';
 
 import { loadItem } from './services/storage';
 

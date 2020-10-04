@@ -16,7 +16,7 @@ describe('ProductPage', () => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
-      reducer: {
+      productReducer: {
         product: products[0],
       },
     }));
