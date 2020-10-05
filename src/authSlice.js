@@ -86,7 +86,9 @@ export const {
 
 export function requestLogin() {
   return async (dispatch, getState) => {
-    const { loginFields: { email, password } } = getState();
+    const {
+      authReducer: { loginFields: { email, password } },
+    } = getState();
     try {
       const { user } = await postLogin({ email, password });
       const { displayName, uid } = user;
@@ -117,7 +119,10 @@ export function requestGoogleSignIn() {
 
 export function requestSignup() {
   return async (dispatch, getState) => {
-    const { signupFields: { email, password } } = getState();
+    const {
+      authReducer: { signupFields: { email, password } },
+    } = getState();
+
     try {
       const { user } = await postSignup({ email, password });
       const { displayName, uid } = user;
