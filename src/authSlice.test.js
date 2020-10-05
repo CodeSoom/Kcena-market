@@ -188,9 +188,11 @@ describe('actions', () => {
   describe('requestLogin', () => {
     beforeEach(() => {
       store = mockStore({
-        loginFields: {
-          email: '',
-          password: '',
+        authReducer: {
+          loginFields: {
+            email: '',
+            password: '',
+          },
         },
       });
     });
@@ -258,9 +260,11 @@ describe('actions', () => {
   describe('requestSignup', () => {
     beforeEach(() => {
       store = mockStore({
-        signupFields: {
-          email: '',
-          password: '',
+        authReducer: {
+          signupFields: {
+            email: '',
+            password: '',
+          },
         },
       });
     });
@@ -295,9 +299,11 @@ describe('actions', () => {
   describe('requestLogout', () => {
     beforeEach(() => {
       store = mockStore({
-        user: {
-          displayName: 'tester',
-          uid: '123456',
+        authReducer: {
+          user: {
+            displayName: 'tester',
+            uid: '123456',
+          },
         },
       });
     });
