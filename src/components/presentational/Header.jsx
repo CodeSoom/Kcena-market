@@ -1,7 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+
 import styled from '@emotion/styled';
+
+export default function Header() {
+  const user = useSelector((state) => state.authReducer.user);
+  return (
+    <Wrapper>
+      <Container>
+        <Link to="/">Kcena Market</Link>
+        <UserAuthBox>
+          {user.uid && <Link to="/newproduct">판매하기</Link>}
+          <Link to="/login">Log In</Link>
+          <Link to="/signup">Sign up</Link>
+        </UserAuthBox>
+      </Container>
+    </Wrapper>
+  );
+}
 
 const Wrapper = styled.header({
   fontFamily: 'Baloo, cursive',
@@ -40,17 +58,3 @@ const UserAuthBox = styled.div({
     paddingRight: '10px',
   },
 });
-
-export default function Header() {
-  return (
-    <Wrapper>
-      <Container>
-        <Link to="/">Kcena Market</Link>
-        <UserAuthBox>
-          <Link to="/login">Log In</Link>
-          <Link to="/signup">Sign up</Link>
-        </UserAuthBox>
-      </Container>
-    </Wrapper>
-  );
-}

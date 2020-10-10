@@ -16,6 +16,7 @@ import ProductPage from './pages/ProductPage';
 import { setUser } from './authSlice';
 
 import { loadItem } from './services/storage';
+import WritePage from './pages/WritePage';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ export default function App() {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/signup" component={SignupPage} />
           <Route path="/products/:id" component={ProductPage} />
+          <Route path="/newproduct" component={WritePage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Layout.Main>
