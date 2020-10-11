@@ -10,6 +10,10 @@ const { actions, reducer: productReducer } = createSlice({
   initialState: {
     product: null,
     products: [],
+    newProduct: {
+      title: '',
+      description: '',
+    },
   },
   reducers: {
     setProducts(state, { payload: products }) {
@@ -24,12 +28,22 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
+    writeNewProduct(state, { payload: { name, value } }) {
+      return {
+        ...state,
+        newProduct: {
+          ...state.newProduct,
+          [name]: value,
+        },
+      };
+    },
   },
 });
 
 export const {
   setProducts,
   setProduct,
+  writeNewProduct,
 } = actions;
 
 export function loadInitProducts() {
@@ -43,6 +57,12 @@ export function loadProduct({ productId }) {
   return async (dispatch) => {
     const product = await fetchProduct(productId);
     dispatch(setProduct(product));
+  };
+}
+
+export function postProduct() {
+  return async (dispatch) => {
+    // TODO...
   };
 }
 

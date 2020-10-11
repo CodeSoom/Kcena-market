@@ -1,9 +1,11 @@
 import React from 'react';
+import WriteFormContainer from '../components/container/WriteFormContainer';
 
 export default function WritePage() {
   return (
     <>
-      <p>Write Page</p>
+      <h2>Write new product</h2>
+      <WriteFormContainer />
     </>
   );
 }
