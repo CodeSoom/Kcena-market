@@ -3,7 +3,15 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchProducts,
   fetchProduct,
+  postProductFireStore,
 } from './services/api';
+
+const initialStateNewProduct = {
+  title: '',
+  description: '',
+  price: '',
+  region: '',
+};
 
 const { actions, reducer: productReducer } = createSlice({
   name: 'productSlice',
@@ -11,8 +19,7 @@ const { actions, reducer: productReducer } = createSlice({
     product: null,
     products: [],
     newProduct: {
-      title: '',
-      description: '',
+      ...initialStateNewProduct,
     },
   },
   reducers: {
@@ -37,6 +44,14 @@ const { actions, reducer: productReducer } = createSlice({
         },
       };
     },
+    initialNewProduct(state) {
+      return {
+        ...state,
+        newProduct: {
+          ...initialStateNewProduct,
+        },
+      };
+    },
   },
 });
 
@@ -44,6 +59,7 @@ export const {
   setProducts,
   setProduct,
   writeNewProduct,
+  initialNewProduct,
 } = actions;
 
 export function loadInitProducts() {
@@ -61,8 +77,29 @@ export function loadProduct({ productId }) {
 }
 
 export function postProduct() {
-  return async (dispatch) => {
-    // TODO...
+  return async (dispatch, getState) => {
+    const {
+      authReducer: {
+        user: {
+          uid,
+        },
+      },
+      productReducer: {
+        newProduct,
+      },
+    } = getState();
+
+    await postProductFireStore({
+      ...newProduct,
+      productImages: [
+        'https://via.placeholder.com/600/810b14',
+        'https://via.placeholder.com/600/24f355',
+        'https://via.placeholder.com/600/f66b97',
+      ],
+      creatorId: uid,
+      createAt: Date.now(),
+    });
+    dispatch(initialNewProduct());
   };
 }
 

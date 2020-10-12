@@ -8,6 +8,7 @@ import productReducer, {
   setProduct,
   setProducts,
   writeNewProduct,
+  initialNewProduct,
 } from './productSlice';
 
 import products from '../fixtures/products';
@@ -25,6 +26,8 @@ describe('productReducer', () => {
       newProduct: {
         title: '',
         description: '',
+        price: '',
+        region: '',
       },
     };
 
@@ -64,27 +67,31 @@ describe('productReducer', () => {
     context('when title is changed', () => {
       const initialState = {
         newProduct: {
-          title: 'test title',
-          description: 'description',
+          title: 'old title',
+          description: '아이패드 3세대 12인치 256기가 팝니다.',
+          price: '10000',
+          region: '인천',
         },
       };
 
       it('change title', () => {
         const state = productReducer(initialState, writeNewProduct({
           name: 'title',
-          value: 'post new product',
+          value: 'new title',
         }));
 
-        expect(state.newProduct.title).toBe('post new product');
-        expect(state.newProduct.description).toBe('description');
+        expect(state.newProduct.title).toBe('new title');
+        expect(state.newProduct.description).toBe('아이패드 3세대 12인치 256기가 팝니다.');
       });
     });
 
     context('when description is changed', () => {
       const initialState = {
         newProduct: {
-          title: 'title',
-          description: 'description',
+          title: '아이패드',
+          description: 'old description',
+          price: '10000',
+          region: '인천',
         },
       };
 
@@ -94,9 +101,26 @@ describe('productReducer', () => {
           value: 'new description',
         }));
 
-        expect(state.newProduct.title).toBe('title');
+        expect(state.newProduct.title).toBe('아이패드');
         expect(state.newProduct.description).toBe('new description');
       });
+    });
+  });
+
+  describe('initialNewProduct', () => {
+    it('initialization new product field', () => {
+      const initialState = {
+        newProduct: {
+          title: '아이패드',
+          description: 'old description',
+          price: '10000',
+          region: '인천',
+        },
+      };
+
+      const state = productReducer(initialState, initialNewProduct());
+
+      expect(state.newProduct.title).toBe('');
     });
   });
 });
@@ -135,16 +159,26 @@ describe('actions', () => {
   describe('postProduct', () => {
     beforeEach(() => {
       store = mockStore({
-        newProduct: {
-          title: 'iPhone',
-          description: '팝니다.',
+        authReducer: {
+          user: {
+            uid: '1234',
+          },
+        },
+        productReducer: {
+          newProduct: {
+            title: 'iPhone',
+            description: '팝니다.',
+          },
         },
       });
     });
 
     it('dispatchs', async () => {
       await store.dispatch(postProduct());
-      // TODO ...
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(initialNewProduct());
     });
   });
 });

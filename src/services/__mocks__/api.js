@@ -12,6 +12,8 @@ export const postGoogleSignIn = jest.fn();
 
 export const postSignup = jest.fn();
 
+export const postProductFireStore = jest.fn();
+
 export async function postLogout() {
   return {};
 }
