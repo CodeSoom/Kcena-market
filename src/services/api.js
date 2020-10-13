@@ -43,3 +43,9 @@ export async function postLogout() {
     .signOut();
   return response;
 }
+
+export async function postProductFireStore(newProduct) {
+  const response = await firebase
+    .firestore().collection('products').add(newProduct);
+  return response;
+}

@@ -13,10 +13,14 @@ describe('WriteForm', () => {
     handleSubmit.mockClear();
   });
 
-  function renderWriteForm({ title, description } = {}) {
+  function renderWriteForm({
+    title, description, price, region,
+  } = {}) {
     return render((
       <WriteForm
-        newProduct={{ title, description }}
+        newProduct={{
+          title, description, price, region,
+        }}
         onChange={handleChange}
         onSubmit={handleSubmit}
       />
@@ -26,12 +30,18 @@ describe('WriteForm', () => {
   it('render input controls', () => {
     const title = 'new product';
     const description = 'test description';
+    const price = '10000';
+    const region = '인천';
 
-    const { getByLabelText } = renderWriteForm({ title, description });
+    const { getByLabelText } = renderWriteForm({
+      title, description, price, region,
+    });
 
     const controls = [
       { label: 'Title', value: title },
       { label: 'Description', value: description },
+      { label: 'Price', value: price },
+      { label: 'Region', value: region },
     ];
 
     controls.forEach(({ label, value }) => {
@@ -44,8 +54,26 @@ describe('WriteForm', () => {
     const { getByLabelText } = renderWriteForm();
 
     const controls = [
-      { label: 'Title', name: 'title', value: '핸드폰' },
-      { label: 'Description', name: 'description', value: '상태 좋아요' },
+      {
+        label: 'Title',
+        name: 'title',
+        value: '아이패드 팝니다.',
+      },
+      {
+        label: 'Description',
+        name: 'description',
+        value: '상태 좋아요',
+      },
+      {
+        label: 'Price',
+        name: 'price',
+        value: '10000',
+      },
+      {
+        label: 'Region',
+        name: 'region',
+        value: '인천',
+      },
     ];
 
     controls.forEach(({ label, name, value }) => {

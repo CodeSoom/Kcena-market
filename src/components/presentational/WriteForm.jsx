@@ -1,7 +1,9 @@
 import React from 'react';
 
 export default function WriteForm({ newProduct, onChange, onSubmit }) {
-  const { title, description } = newProduct;
+  const {
+    title, description, price, region,
+  } = newProduct;
 
   function handleChange(event) {
     const { target: { name, value } } = event;
@@ -32,6 +34,32 @@ export default function WriteForm({ newProduct, onChange, onSubmit }) {
             name="description"
             rows="5"
             value={description}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor="write-price">Price</label>
+        <div>
+          <input
+            id="write-price"
+            type="number"
+            name="price"
+            value={price}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor="write-region">Region</label>
+        <div>
+          <input
+            id="write-region"
+            type="text"
+            name="region"
+            value={region}
             onChange={handleChange}
           />
         </div>

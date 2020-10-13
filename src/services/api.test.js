@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+
 import {
   fetchProducts,
   fetchProduct,
@@ -6,6 +7,7 @@ import {
   postGoogleSignIn,
   postSignup,
   postLogout,
+  postProductFireStore,
 } from './api';
 
 import mockProducts from '../../fixtures/products';
@@ -129,6 +131,28 @@ describe('firebase services', () => {
       const newUser = await postSignup({ email, password });
 
       expect(newUser.email).toBe(email);
+    });
+  });
+
+  describe('postProductFireStore', () => {
+    const add = jest.fn((mockProduct) => mockProduct);
+    const collection = jest.spyOn(
+      firebase.firestore(), 'collection',
+    ).mockReturnValue({ add });
+
+    it('post new product', async () => {
+      const mockProduct = {
+        title: '아이패드',
+        description: '2년 사용한 아이패드 팝니다.',
+        createdAt: Date.now(),
+        creatorId: 'abc123',
+      };
+
+      await postProductFireStore(mockProduct);
+
+      expect(collection).toHaveBeenCalledWith('products');
+
+      expect(add).toHaveBeenCalledWith(mockProduct);
     });
   });
 });
