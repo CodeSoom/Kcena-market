@@ -10,8 +10,10 @@ import {
 
 export default function Product({ product, onClickProduct }) {
   const {
-    id, title, thumbnailUrl, region, price,
+    id, title, productImages, region, price,
   } = product;
+
+  const thumbnailUrl = productImages[0];
 
   function handleClick(selectedProduct) {
     return (event) => {
