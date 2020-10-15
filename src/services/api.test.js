@@ -8,10 +8,6 @@ import {
   postProductFireStore,
 } from './api';
 
-jest.mock('firebase/auth');
-jest.mock('firebase/firestore');
-jest.mock('firebase/storage');
-
 describe('firebase services', () => {
   describe('postLogin', () => {
     const mockPostLogin = ({ email, password }) => {
