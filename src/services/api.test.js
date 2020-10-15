@@ -1,8 +1,6 @@
 import * as firebase from 'firebase';
 
 import {
-  fetchProducts,
-  fetchProduct,
   postLogin,
   postGoogleSignIn,
   postSignup,
@@ -10,45 +8,15 @@ import {
   postProductFireStore,
 } from './api';
 
-import mockProducts from '../../fixtures/products';
-
-describe('product api', () => {
-  const mockFetch = (data) => {
-    global.fetch = jest.fn().mockResolvedValue({
-      async json() { return data; },
-    });
-  };
-
-  describe('fetchProducts', () => {
-    beforeEach(() => {
-      mockFetch(mockProducts);
-    });
-
-    it('returns products', async () => {
-      const products = await fetchProducts();
-
-      expect(products).toEqual(mockProducts);
-    });
-  });
-
-  describe('fetchProduct', () => {
-    beforeEach(() => {
-      mockFetch(mockProducts[0]);
-    });
-
-    it('returns product', async () => {
-      const product = await fetchProduct();
-
-      expect(product).toEqual(mockProducts[0]);
-    });
-  });
-});
+jest.mock('firebase/auth');
+jest.mock('firebase/firestore');
+jest.mock('firebase/storage');
 
 describe('firebase services', () => {
   describe('postLogin', () => {
-    const mockFirebaseLogin = ({ email, password }) => {
-      firebase.auth().signInWithEmailAndPassword = jest.fn()
-        .mockResolvedValue({
+    const mockPostLogin = ({ email, password }) => {
+      firebase.auth()
+        .signInWithEmailAndPassword = jest.fn().mockResolvedValue({
           email, password,
         });
     };
@@ -57,7 +25,7 @@ describe('firebase services', () => {
     const password = '123456';
 
     beforeEach(() => {
-      mockFirebaseLogin({ email, password });
+      mockPostLogin({ email, password });
     });
 
     it('returns uid', async () => {
@@ -68,22 +36,24 @@ describe('firebase services', () => {
   });
 
   describe('postGoogleSignIn', () => {
-    const mockFirebaseGoogle = () => {
-      firebase.auth().signInWithPopup = jest.fn()
-        .mockResolvedValue({
-          displayName: 'tester',
-          uid: 'abc1234',
-        });
+    const mockGoogleSignIn = ({ user }) => {
+      firebase.auth()
+        .signInWithPopup = jest.fn().mockResolvedValue(user);
+    };
+
+    const user = {
+      displayName: 'tester',
+      uid: 'abc1234',
     };
 
     beforeEach(() => {
-      mockFirebaseGoogle();
+      mockGoogleSignIn({ user });
     });
 
     it('returns uid', async () => {
-      const user = await postGoogleSignIn();
+      const mockUser = await postGoogleSignIn();
 
-      expect(user).toEqual({
+      expect(mockUser).toEqual({
         displayName: 'tester',
         uid: 'abc1234',
       });
@@ -91,15 +61,13 @@ describe('firebase services', () => {
   });
 
   describe('postLogout', () => {
-    const mockFirebaseLogout = () => {
-      firebase.auth().signOut = jest.fn()
-        .mockResolvedValue(
-          Promise.resolve(true),
-        );
+    const mockLogout = () => {
+      firebase.auth()
+        .signOut = jest.fn().mockResolvedValue(true);
     };
 
     beforeEach(() => {
-      mockFirebaseLogout();
+      mockLogout();
     });
 
     it('returns promise', async () => {
@@ -111,8 +79,8 @@ describe('firebase services', () => {
 
   describe('postSignup', () => {
     const mockFirebaseSignup = ({ email, password }) => {
-      firebase.auth().createUserWithEmailAndPassword = jest.fn()
-        .mockResolvedValue({
+      firebase.auth()
+        .createUserWithEmailAndPassword = jest.fn().mockResolvedValue({
           displayName: '',
           email,
           password,
@@ -135,24 +103,25 @@ describe('firebase services', () => {
   });
 
   describe('postProductFireStore', () => {
-    const add = jest.fn((mockProduct) => mockProduct);
+    const add = jest.fn((product) => product);
     const collection = jest.spyOn(
       firebase.firestore(), 'collection',
     ).mockReturnValue({ add });
 
     it('post new product', async () => {
-      const mockProduct = {
-        title: '아이패드',
-        description: '2년 사용한 아이패드 팝니다.',
+      const newProduct = {
+        title: 'test title',
+        description: 'test description',
+        productImages: [],
         createdAt: Date.now(),
         creatorId: 'abc123',
       };
 
-      await postProductFireStore(mockProduct);
+      await postProductFireStore(newProduct);
 
       expect(collection).toHaveBeenCalledWith('products');
 
-      expect(add).toHaveBeenCalledWith(mockProduct);
+      expect(add).toHaveBeenCalledWith(newProduct);
     });
   });
 });
