@@ -14,6 +14,4 @@ export const postSignup = jest.fn();
 
 export const postProductFireStore = jest.fn();
 
-export async function postLogout() {
-  return {};
-}
+export const postLogout = jest.fn();
