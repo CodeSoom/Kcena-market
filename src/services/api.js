@@ -1,23 +1,40 @@
 import firebase from '../../plugin/firebase';
 
 export async function fetchProducts() {
-  // const url = 'http://localhost:3001/products';
-  // const response = await fetch(url);
-  // const data = await response.json();
-  // return data;
+  const response = await firebase
+    .firestore()
+    .collection('products').get();
+
+  const products = response.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return products;
 }
 
 export async function fetchProduct(productId) {
-  // const url = `http://localhost:3001/products/${productId}`;
-  // const response = await fetch(url);
-  // const data = await response.json();
-  // return data;
+  const response = await firebase
+    .firestore()
+    .collection('products').doc(productId).get();
+
+  const product = response.data();
+
+  return product;
+}
+
+export async function postProductFireStore(newProduct) {
+  const response = await firebase
+    .firestore().collection('products').add(newProduct);
+
+  return response;
 }
 
 export async function postLogin({ email, password }) {
   const response = await firebase
     .auth()
     .signInWithEmailAndPassword(email, password);
+
   return response;
 }
 
@@ -27,6 +44,7 @@ export async function postGoogleSignIn() {
     .signInWithPopup(
       new firebase.auth.GoogleAuthProvider(),
     );
+
   return response;
 }
 
@@ -34,6 +52,7 @@ export async function postSignup({ email, password }) {
   const response = await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password);
+
   return response;
 }
 
@@ -41,11 +60,6 @@ export async function postLogout() {
   const response = await firebase
     .auth()
     .signOut();
-  return response;
-}
 
-export async function postProductFireStore(newProduct) {
-  const response = await firebase
-    .firestore().collection('products').add(newProduct);
   return response;
 }
