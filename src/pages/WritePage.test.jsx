@@ -8,16 +8,15 @@ import { MemoryRouter } from 'react-router-dom';
 
 import WritePage from './WritePage';
 
+import newProduct from '../../fixtures/newProduct';
+
 jest.mock('react-redux');
 
 describe('WritePage', () => {
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
-        newProduct: {
-          title: '',
-          description: '',
-        },
+        newProduct,
       },
     }));
   });

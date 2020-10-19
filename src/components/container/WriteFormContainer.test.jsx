@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import WriteFormContainer from './WriteFormContainer';
 
+import newProduct from '../../../fixtures/newProduct';
+
 jest.mock('react-redux');
 
 describe('WriteFormContainer', () => {
@@ -16,10 +18,7 @@ describe('WriteFormContainer', () => {
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
-        newProduct: {
-          title: 'new product',
-          description: 'this product is ...',
-        },
+        newProduct,
       },
     }));
   });
@@ -33,14 +32,14 @@ describe('WriteFormContainer', () => {
   it('renders input controls', () => {
     const { getByLabelText } = renderWriteFormContainer();
 
-    expect(getByLabelText('Title').value).toBe('new product');
-    expect(getByLabelText('Description').value).toBe('this product is ...');
+    expect(getByLabelText('Title').value).toBe(newProduct.title);
+    expect(getByLabelText('Description').value).toBe(newProduct.description);
   });
 
   it('listens change events', () => {
     const { getByLabelText } = renderWriteFormContainer();
 
-    expect(getByLabelText('Title').value).toBe('new product');
+    expect(getByLabelText('Title').value).toBe(newProduct.title);
 
     fireEvent.change(getByLabelText('Title'), {
       target: { value: '핸드폰 팝니다.' },
