@@ -6,11 +6,12 @@ export default function ImagesDropzoneContainer() {
   const [files, setFiles] = useState([]);
 
   function handleOnDrop(acceptedFiles) {
-    setFiles(
-      acceptedFiles.map((file) => Object.assign(file, {
+    setFiles([
+      ...files,
+      ...acceptedFiles.map((file) => Object.assign(file, {
         preview: URL.createObjectURL(file),
       })),
-    );
+    ]);
   }
 
   useEffect(() => () => {
