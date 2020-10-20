@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import firebase from '../../plugin/firebase';
 
 export async function fetchProducts() {
@@ -28,6 +29,19 @@ export async function postProductFireStore(newProduct) {
     .firestore().collection('products').add(newProduct);
 
   return response;
+}
+
+export async function uploadProductImages({ uid, files }) {
+  const promises = files.map(async (file) => {
+    const uploadTask = firebase.storage()
+      .ref().child(`${uid}/${uuidv4()}`);
+    const response = await uploadTask.put(file);
+    const imageUrl = await response.ref.getDownloadURL();
+    return imageUrl;
+  });
+
+  const imagesUrl = await Promise.all(promises);
+  return imagesUrl;
 }
 
 export async function postLogin({ email, password }) {

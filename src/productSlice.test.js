@@ -174,7 +174,9 @@ describe('actions', () => {
     });
 
     it('dispatchs', async () => {
-      await store.dispatch(postProduct());
+      const files = [];
+
+      await store.dispatch(postProduct({ files }));
 
       const actions = store.getActions();
 
