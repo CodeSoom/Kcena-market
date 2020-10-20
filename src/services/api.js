@@ -24,24 +24,25 @@ export async function fetchProduct(productId) {
   return product;
 }
 
-export async function postProductFireStore(newProduct) {
-  const response = await firebase
-    .firestore().collection('products').add(newProduct);
-
-  return response;
-}
-
 export async function uploadProductImages({ uid, files }) {
-  const promises = files.map(async (file) => {
+  async function uploadProductImage(file) {
     const uploadTask = firebase.storage()
       .ref().child(`${uid}/${uuidv4()}`);
     const response = await uploadTask.put(file);
     const imageUrl = await response.ref.getDownloadURL();
     return imageUrl;
-  });
+  }
 
-  const imagesUrl = await Promise.all(promises);
-  return imagesUrl;
+  const uploadTasks = files.map(uploadProductImage);
+  const imageUrls = await Promise.all(uploadTasks);
+  return imageUrls;
+}
+
+export async function postProductFireStore(newProduct) {
+  const response = await firebase
+    .firestore().collection('products').add(newProduct);
+
+  return response;
 }
 
 export async function postLogin({ email, password }) {
