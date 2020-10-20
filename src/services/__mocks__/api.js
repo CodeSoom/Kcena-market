@@ -15,3 +15,5 @@ export const postSignup = jest.fn();
 export const postProductFireStore = jest.fn();
 
 export const postLogout = jest.fn();
+
+export const uploadProductImages = jest.fn();

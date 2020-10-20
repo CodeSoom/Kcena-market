@@ -4,6 +4,7 @@ import {
   fetchProducts,
   fetchProduct,
   postProductFireStore,
+  uploadProductImages,
 } from './services/api';
 
 const initialStateNewProduct = {
@@ -76,7 +77,7 @@ export function loadProduct({ productId }) {
   };
 }
 
-export function postProduct() {
+export function postProduct({ files }) {
   return async (dispatch, getState) => {
     const {
       authReducer: {
@@ -89,16 +90,17 @@ export function postProduct() {
       },
     } = getState();
 
+    const productImages = await uploadProductImages({
+      uid, files,
+    });
+
     await postProductFireStore({
       ...newProduct,
-      productImages: [
-        'https://via.placeholder.com/600/810b14',
-        'https://via.placeholder.com/600/24f355',
-        'https://via.placeholder.com/600/f66b97',
-      ],
+      productImages,
       creatorId: uid,
       createAt: Date.now(),
     });
+
     dispatch(initialNewProduct());
   };
 }
