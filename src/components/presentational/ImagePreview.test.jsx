@@ -4,7 +4,7 @@ import { fireEvent, render } from '@testing-library/react';
 
 import ImagePreview from './ImagePreview';
 
-import mockFiles from '../../../fixtures/files';
+import { mockFiles, mockEmptyFiles } from '../../../fixtures/files';
 
 describe('ImagePreview', () => {
   const handleDeleteImage = jest.fn();
@@ -37,9 +37,7 @@ describe('ImagePreview', () => {
 
   context('without images', () => {
     it('show empty image message', () => {
-      const emptyFiles = [];
-
-      const { getByText } = renderImagePreview({ files: emptyFiles });
+      const { getByText } = renderImagePreview({ files: mockEmptyFiles });
 
       expect(getByText('상품 이미지를 올려주세요!')).not.toBeNull();
     });
