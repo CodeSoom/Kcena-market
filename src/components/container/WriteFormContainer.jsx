@@ -30,8 +30,7 @@ export default function WriteFormContainer() {
   function handleOnDrop(acceptedFiles) {
     setFiles([
       ...files,
-      ...acceptedFiles.map((file) => ({
-        ...file,
+      ...acceptedFiles.map((file) => Object.assign(file, {
         preview: URL.createObjectURL(file),
       })),
     ]);
