@@ -30,7 +30,6 @@ export default function WriteFormContainer() {
   }
 
   function handleOnDrop(acceptedFiles) {
-    dispatch(() => {});
     setFiles([
       ...files,
       ...acceptedFiles.map((file) => Object.assign(file, {
