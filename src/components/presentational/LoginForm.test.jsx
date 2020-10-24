@@ -34,8 +34,8 @@ describe('LoginForm', () => {
     const { getByLabelText } = renderLoginForm({ email, password });
 
     const controls = [
-      { label: 'E-mail', value: email },
-      { label: 'Password', value: password },
+      { label: /E-mail/, value: email },
+      { label: /Password/, value: password },
     ];
 
     controls.forEach(({ label, value }) => {
@@ -48,8 +48,8 @@ describe('LoginForm', () => {
     const { getByLabelText } = renderLoginForm();
 
     const controls = [
-      { label: 'E-mail', name: 'email', value: 'tester@example.com' },
-      { label: 'Password', name: 'password', value: 'test' },
+      { label: /E-mail/, name: 'email', value: 'tester@example.com' },
+      { label: /Password/, name: 'password', value: 'test' },
     ];
 
     controls.forEach(({ label, name, value }) => {

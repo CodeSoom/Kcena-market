@@ -43,6 +43,6 @@ describe('LoginPage', () => {
       </MemoryRouter>
     ));
 
-    expect(getByLabelText('E-mail')).not.toBeNull();
+    expect(getByLabelText(/E-mail/)).not.toBeNull();
   });
 });

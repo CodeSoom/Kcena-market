@@ -36,8 +36,8 @@ describe('LoginFormContainer', () => {
         <LoginFormContainer />
       ));
 
-      expect(getByLabelText('E-mail').value).toBe('test@test');
-      expect(getByLabelText('Password').value).toBe('1234');
+      expect(getByLabelText(/E-mail/).value).toBe('test@test');
+      expect(getByLabelText(/Password/).value).toBe('1234');
     });
 
     it('listens change events', () => {
@@ -45,9 +45,9 @@ describe('LoginFormContainer', () => {
         <LoginFormContainer />
       ));
 
-      expect(getByLabelText('E-mail').value).toBe('test@test');
+      expect(getByLabelText(/E-mail/).value).toBe('test@test');
 
-      fireEvent.change(getByLabelText('E-mail'), {
+      fireEvent.change(getByLabelText(/E-mail/), {
         target: { value: 'new email' },
       });
 

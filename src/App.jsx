@@ -5,6 +5,7 @@ import {
 
 import { useDispatch } from 'react-redux';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from './components/presentational/Header';
 import Layout from './styles/Layout';
 import HomePage from './pages/HomePage';
@@ -28,6 +29,7 @@ export default function App() {
 
   return (
     <Layout>
+      <CssBaseline />
       <Header />
       <Layout.Main>
         <Switch>
