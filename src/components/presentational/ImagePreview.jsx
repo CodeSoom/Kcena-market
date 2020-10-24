@@ -22,7 +22,9 @@ const thumb = {
 const thumbInner = {
   display: 'flex',
   minWidth: 0,
-  overflow: 'hidden',
+  flexFlow: 'wrap',
+  justifyContent: 'center',
+  alignItems: 'center',
 };
 
 const img = {
@@ -31,7 +33,9 @@ const img = {
   height: '100%',
 };
 
-export default function ImagePreview({ files }) {
+export default function ImagePreview({
+  files, handleClickDeleteImage, handleClickDeleteAllImage,
+}) {
   if (files.length === 0) {
     return (
       <p>상품 이미지를 올려주세요!</p>
@@ -41,16 +45,28 @@ export default function ImagePreview({ files }) {
   return (
     <aside style={thumbsContainer}>
       {files.map((file) => (
-        <div style={thumb} key={file.name}>
+        <div style={thumb} key={file.id}>
           <div style={thumbInner}>
             <img
               alt={file.name}
               src={file.preview}
               style={img}
             />
+            <button
+              type="button"
+              onClick={() => handleClickDeleteImage(file)}
+            >
+              Delete
+            </button>
           </div>
         </div>
       ))}
+      <button
+        type="button"
+        onClick={handleClickDeleteAllImage}
+      >
+        Delete all
+      </button>
     </aside>
   );
 }

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import WriteForm from '../presentational/WriteForm';
 import ImagesDropzone from '../presentational/ImagesDropzone';
 import ImagePreview from '../presentational/ImagePreview';
@@ -32,8 +34,17 @@ export default function WriteFormContainer() {
       ...files,
       ...acceptedFiles.map((file) => Object.assign(file, {
         preview: URL.createObjectURL(file),
+        id: uuidv4(),
       })),
     ]);
+  }
+
+  function handleDeleteImage(selectedFile) {
+    setFiles(files.filter((file) => file !== selectedFile));
+  }
+
+  function handleDeleteAll() {
+    setFiles([]);
   }
 
   useEffect(() => () => {
@@ -44,7 +55,11 @@ export default function WriteFormContainer() {
   return (
     <div>
       <ImagesDropzone onDrop={handleOnDrop} />
-      <ImagePreview files={files} />
+      <ImagePreview
+        files={files}
+        handleClickDeleteImage={handleDeleteImage}
+        handleClickDeleteAllImage={handleDeleteAll}
+      />
       <WriteForm
         newProduct={newProduct}
         onChange={handleChange}
