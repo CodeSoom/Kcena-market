@@ -4,7 +4,7 @@ const thumbsContainer = {
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  marginTop: 16,
+  margin: '16px 0',
 };
 
 const thumb = {
@@ -37,9 +37,7 @@ export default function ImagePreview({
   files, handleClickDeleteImage, handleClickDeleteAllImage,
 }) {
   if (files.length === 0) {
-    return (
-      <p>상품 이미지를 올려주세요!</p>
-    );
+    return null;
   }
 
   return (

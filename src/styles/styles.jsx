@@ -11,6 +11,11 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginTop: theme.spacing(1),
   },
+  dropzoneArea: {
+    border: '2px dashed black',
+    padding: theme.spacing(5),
+    marginTop: theme.spacing(3),
+  },
 }));
 
 export default useStyles;

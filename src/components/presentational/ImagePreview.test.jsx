@@ -33,34 +33,26 @@ describe('ImagePreview', () => {
         expect(getByAltText(file.name)).toHaveAttribute('src', file.preview);
       });
     });
-  });
 
-  context('without images', () => {
-    it('show empty image message', () => {
-      const { getByText } = renderImagePreview({ files: mockEmptyFiles });
+    it('listen delete product images event', () => {
+      const { getAllByText } = renderImagePreview({ files: mockFiles });
 
-      expect(getByText('상품 이미지를 올려주세요!')).not.toBeNull();
+      const deleteButtons = getAllByText('Delete');
+
+      deleteButtons.forEach((deleteButton) => {
+        fireEvent.click(deleteButton);
+        expect(handleDeleteImage).toBeCalled();
+      });
     });
-  });
 
-  it('listen delete product images event', () => {
-    const { getAllByText } = renderImagePreview({ files: mockFiles });
+    it('listen delete all product images event', () => {
+      const { getByText } = renderImagePreview({ files: mockFiles });
 
-    const deleteButtons = getAllByText('Delete');
+      const deleteAllButton = getByText('Delete all');
 
-    deleteButtons.forEach((deleteButton) => {
-      fireEvent.click(deleteButton);
-      expect(handleDeleteImage).toBeCalled();
+      fireEvent.click(deleteAllButton);
+
+      expect(handleDeleteAll).toBeCalled();
     });
-  });
-
-  it('listen delete all product images event', () => {
-    const { getByText } = renderImagePreview({ files: mockFiles });
-
-    const deleteAllButton = getByText('Delete all');
-
-    fireEvent.click(deleteAllButton);
-
-    expect(handleDeleteAll).toBeCalled();
   });
 });
