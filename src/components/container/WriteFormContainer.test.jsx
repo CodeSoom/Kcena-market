@@ -32,16 +32,16 @@ describe('WriteFormContainer', () => {
   it('renders input controls', () => {
     const { getByLabelText } = renderWriteFormContainer();
 
-    expect(getByLabelText('Title').value).toBe(newProduct.title);
-    expect(getByLabelText('Description').value).toBe(newProduct.description);
+    expect(getByLabelText(/글 제목/).value).toBe(newProduct.title);
+    expect(getByLabelText(/게시글 내용을 작성해주세요/).value).toBe(newProduct.description);
   });
 
   it('listens change events', () => {
     const { getByLabelText } = renderWriteFormContainer();
 
-    expect(getByLabelText('Title').value).toBe(newProduct.title);
+    expect(getByLabelText(/글 제목/).value).toBe(newProduct.title);
 
-    fireEvent.change(getByLabelText('Title'), {
+    fireEvent.change(getByLabelText(/글 제목/), {
       target: { value: '핸드폰 팝니다.' },
     });
 

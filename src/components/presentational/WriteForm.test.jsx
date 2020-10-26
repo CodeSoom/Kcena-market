@@ -38,10 +38,10 @@ describe('WriteForm', () => {
     });
 
     const controls = [
-      { label: 'Title', value: title },
-      { label: 'Description', value: description },
-      { label: 'Price', value: price },
-      { label: 'Region', value: region },
+      { label: /글 제목/, value: title },
+      { label: /게시글 내용을 작성해주세요/, value: description },
+      { label: /상품 가격/, value: price },
+      { label: /판매 지역/, value: region },
     ];
 
     controls.forEach(({ label, value }) => {
@@ -55,22 +55,22 @@ describe('WriteForm', () => {
 
     const controls = [
       {
-        label: 'Title',
+        label: /글 제목/,
         name: 'title',
         value: '아이패드 팝니다.',
       },
       {
-        label: 'Description',
+        label: /게시글 내용을 작성해주세요/,
         name: 'description',
         value: '상태 좋아요',
       },
       {
-        label: 'Price',
+        label: /상품 가격/,
         name: 'price',
         value: '10000',
       },
       {
-        label: 'Region',
+        label: /판매 지역/,
         name: 'region',
         value: '인천',
       },

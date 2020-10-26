@@ -1,9 +1,15 @@
 import React from 'react';
 
+import {
+  TextField, Button,
+} from '@material-ui/core';
+import useStyles from '../../styles/styles';
+
 export default function WriteForm({ newProduct, onChange, onSubmit }) {
   const {
     title, description, price, region,
   } = newProduct;
+  const classes = useStyles();
 
   function handleChange(event) {
     const { target: { name, value } } = event;
@@ -11,68 +17,59 @@ export default function WriteForm({ newProduct, onChange, onSubmit }) {
   }
 
   return (
-    <>
-      <div>
-        <label htmlFor="write-title">Title</label>
-        <div>
-          <input
-            id="write-title"
-            type="text"
-            name="title"
-            value={title}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
+    <div>
+      <TextField
+        type="text"
+        label="글 제목"
+        id="write-title"
+        name="title"
+        value={title}
+        onChange={handleChange}
+        fullWidth
+        required
+      />
 
-      <div>
-        <label htmlFor="write-description">Description</label>
-        <div>
-          <textarea
-            id="write-description"
-            type="text"
-            name="description"
-            rows="5"
-            value={description}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
+      <TextField
+        type="text"
+        label="게시글 내용을 작성해주세요"
+        id="write-description"
+        name="description"
+        value={description}
+        onChange={handleChange}
+        multiline
+        rows={5}
+        variant="outlined"
+        fullWidth
+      />
 
-      <div>
-        <label htmlFor="write-price">Price</label>
-        <div>
-          <input
-            id="write-price"
-            type="number"
-            name="price"
-            value={price}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
+      <TextField
+        type="number"
+        label="상품 가격"
+        id="write-price"
+        name="price"
+        value={price}
+        onChange={handleChange}
+        fullWidth
+      />
 
-      <div>
-        <label htmlFor="write-region">Region</label>
-        <div>
-          <input
-            id="write-region"
-            type="text"
-            name="region"
-            value={region}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
+      <TextField
+        type="text"
+        label="판매 지역"
+        id="write-region"
+        name="region"
+        value={region}
+        onChange={handleChange}
+        fullWidth
+      />
 
-      <div>
-        <button
-          type="button"
-          onClick={onSubmit}
-        >
-          글쓰기
-        </button>
-      </div>
-    </>
+      <Button
+        type="submit"
+        variant="contained"
+        onClick={onSubmit}
+        fullWidth
+      >
+        글쓰기
+      </Button>
+    </div>
   );
 }
