@@ -75,15 +75,15 @@ describe('App', () => {
   it('navigates log in when you click the "log in"', () => {
     const { getByLabelText } = renderApp({ path: '/login' });
 
-    expect(getByLabelText('E-mail')).not.toBeNull();
-    expect(getByLabelText('Password')).not.toBeNull();
+    expect(getByLabelText(/E-mail/)).not.toBeNull();
+    expect(getByLabelText(/Password/)).not.toBeNull();
   });
 
   it('navigates Sign up when you click the "Sign up"', () => {
     const { getByLabelText } = renderApp({ path: '/signup' });
 
-    expect(getByLabelText('E-mail')).not.toBeNull();
-    expect(getByLabelText('Password')).not.toBeNull();
+    expect(getByLabelText(/E-mail/)).not.toBeNull();
+    expect(getByLabelText(/Password/)).not.toBeNull();
   });
 
   context('with invalid path', () => {

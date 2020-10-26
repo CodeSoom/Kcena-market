@@ -25,6 +25,7 @@ Layout.Main = styled.section(mp({
   marginTop: '2rem',
   width: ['1024px', 'calc(100% - 2rem)', 'calc(100% - 1rem)'],
   position: 'relative',
+  height: '100vh',
   backgroundColor: '#fff',
 }));
 
