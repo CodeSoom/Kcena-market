@@ -32,9 +32,9 @@ describe('ImagePreview', () => {
     });
 
     it('listen delete product images event', () => {
-      const { getAllByText } = renderImagePreview({ files: mockFiles });
+      const { getAllByLabelText } = renderImagePreview({ files: mockFiles });
 
-      const deleteButtons = getAllByText('Delete');
+      const deleteButtons = getAllByLabelText('delete');
 
       deleteButtons.forEach((deleteButton) => {
         fireEvent.click(deleteButton);
