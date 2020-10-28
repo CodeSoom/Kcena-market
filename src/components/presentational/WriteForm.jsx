@@ -1,6 +1,12 @@
 import React from 'react';
 
+import {
+  TextField, Button, Grid, InputAdornment,
+} from '@material-ui/core';
+import useStyles from '../../styles/styles';
+
 export default function WriteForm({ newProduct, onChange, onSubmit }) {
+  const classes = useStyles();
   const {
     title, description, price, region,
   } = newProduct;
@@ -11,68 +17,76 @@ export default function WriteForm({ newProduct, onChange, onSubmit }) {
   }
 
   return (
-    <>
-      <div>
-        <label htmlFor="write-title">Title</label>
-        <div>
-          <input
-            id="write-title"
-            type="text"
-            name="title"
-            value={title}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="write-description">Description</label>
-        <div>
-          <textarea
-            id="write-description"
-            type="text"
-            name="description"
-            rows="5"
-            value={description}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="write-price">Price</label>
-        <div>
-          <input
-            id="write-price"
-            type="number"
-            name="price"
-            value={price}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="write-region">Region</label>
-        <div>
-          <input
-            id="write-region"
-            type="text"
-            name="region"
-            value={region}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
-          type="button"
+    <Grid
+      container
+      spacing={3}
+      className={classes.form}
+    >
+      <Grid item xs={12}>
+        <TextField
+          type="text"
+          label="글 제목"
+          id="write-title"
+          name="title"
+          value={title}
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <TextField
+          type="number"
+          label="상품 가격"
+          id="write-price"
+          name="price"
+          value={price}
+          onChange={handleChange}
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                ￦
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <TextField
+          type="text"
+          label="판매 지역"
+          id="write-region"
+          name="region"
+          value={region}
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          type="text"
+          label="게시글 내용을 작성해주세요"
+          id="write-description"
+          name="description"
+          value={description}
+          onChange={handleChange}
+          multiline
+          rows={8}
+          variant="outlined"
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          type="submit"
+          variant="contained"
           onClick={onSubmit}
+          fullWidth
         >
           글쓰기
-        </button>
-      </div>
-    </>
+        </Button>
+
+      </Grid>
+    </Grid>
   );
 }
