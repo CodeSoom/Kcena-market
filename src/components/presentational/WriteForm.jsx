@@ -3,8 +3,10 @@ import React from 'react';
 import {
   TextField, Button, Grid, InputAdornment,
 } from '@material-ui/core';
+import useStyles from '../../styles/styles';
 
 export default function WriteForm({ newProduct, onChange, onSubmit }) {
+  const classes = useStyles();
   const {
     title, description, price, region,
   } = newProduct;
@@ -15,7 +17,11 @@ export default function WriteForm({ newProduct, onChange, onSubmit }) {
   }
 
   return (
-    <Grid container spacing={3}>
+    <Grid
+      container
+      spacing={3}
+      className={classes.form}
+    >
       <Grid item xs={12}>
         <TextField
           type="text"

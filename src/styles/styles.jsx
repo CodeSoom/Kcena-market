@@ -8,13 +8,18 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(8),
   },
   form: {
-    width: '100%',
     marginTop: theme.spacing(1),
   },
   dropzoneArea: {
     border: '2px dashed black',
     padding: theme.spacing(5),
     marginTop: theme.spacing(3),
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: '-25%',
+    left: '-30%',
+    zIndex: 10,
   },
 }));
 

@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import useStyles from '../../styles/styles';
+
 const thumbsContainer = {
   display: 'flex',
   flexDirection: 'row',
@@ -21,6 +25,7 @@ const thumb = {
 
 const thumbInner = {
   display: 'flex',
+  position: 'relative',
   minWidth: 0,
   flexFlow: 'wrap',
   justifyContent: 'center',
@@ -34,8 +39,9 @@ const img = {
 };
 
 export default function ImagePreview({
-  files, handleClickDeleteImage, handleClickDeleteAllImage,
+  files, handleClickDeleteImage,
 }) {
+  const classes = useStyles();
   if (files.length === 0) {
     return null;
   }
@@ -50,21 +56,21 @@ export default function ImagePreview({
               src={file.preview}
               style={img}
             />
-            <button
-              type="button"
+            <IconButton
+              aria-label="delete"
+              className={classes.deleteButton}
               onClick={() => handleClickDeleteImage(file)}
+              variant="contained"
+              color="secondary"
             >
-              Delete
-            </button>
+              <DeleteIcon
+                fontSize="small"
+              />
+            </IconButton>
+
           </div>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={handleClickDeleteAllImage}
-      >
-        Delete all
-      </button>
     </aside>
   );
 }
