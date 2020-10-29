@@ -30,6 +30,7 @@ describe('SignupFormContainer', () => {
       displayName: '',
       uid: '',
     }));
+
     it('renders input controls', () => {
       const { getByLabelText } = render((
         <SignupFormContainer />
@@ -56,7 +57,7 @@ describe('SignupFormContainer', () => {
       });
     });
 
-    it('renders "Sign up" button', () => {
+    it('renders "Sign up" button and listen click event', () => {
       const { getByText } = render((
         <SignupFormContainer />
       ));
@@ -82,24 +83,6 @@ describe('SignupFormContainer', () => {
       fireEvent.click(getByText('Sign up'));
 
       expect(container).toHaveTextContent('Invaild');
-    });
-  });
-
-  context('when logged in', () => {
-    given('user', () => ({
-      displayName: 'tester',
-      uid: '123456',
-    }));
-
-    it('renders "Log out" button', () => {
-      const { getByText } = render((
-        <SignupFormContainer />
-      ));
-      expect(getByText('Log out')).not.toBeNull();
-
-      fireEvent.click(getByText('Log out'));
-
-      expect(dispatch).toBeCalled();
     });
   });
 });

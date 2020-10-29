@@ -95,22 +95,4 @@ describe('LoginFormContainer', () => {
       expect(container).toHaveTextContent('Invaild');
     });
   });
-
-  context('when logged in', () => {
-    given('user', () => ({
-      displayName: 'tester',
-      uid: '123456',
-    }));
-
-    it('renders "Log out" button', () => {
-      const { getByText } = render((
-        <LoginFormContainer />
-      ));
-      expect(getByText('Log out')).not.toBeNull();
-
-      fireEvent.click(getByText('Log out'));
-
-      expect(dispatch).toBeCalled();
-    });
-  });
 });
