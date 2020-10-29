@@ -1,6 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 1,
+    '& a': {
+      color: '#fff',
+      textDecoration: 'none',
+      outline: 'none',
+    },
+    '& button': {
+      fontSize: '1.1rem',
+    },
+  },
   paper: {
     display: 'flex',
     flexDirection: 'column',

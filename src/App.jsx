@@ -6,8 +6,8 @@ import {
 import { useDispatch } from 'react-redux';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Container } from '@material-ui/core';
 import Header from './components/presentational/Header';
-import Layout from './styles/Layout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -28,10 +28,10 @@ export default function App() {
   }
 
   return (
-    <Layout>
+    <>
       <CssBaseline />
       <Header />
-      <Layout.Main>
+      <Container component="main" maxWidth="lg">
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
@@ -40,7 +40,7 @@ export default function App() {
           <Route path="/newproduct" component={WritePage} />
           <Route component={NotFoundPage} />
         </Switch>
-      </Layout.Main>
-    </Layout>
+      </Container>
+    </>
   );
 }
