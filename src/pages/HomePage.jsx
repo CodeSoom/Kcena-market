@@ -1,7 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Layout from '../styles/Layout';
+import styled from '@emotion/styled';
+
+import {
+  Typography, Box,
+} from '@material-ui/core';
 
 import ProductsContainer from '../components/container/ProductsContainer';
 
@@ -15,9 +19,26 @@ export default function HomePage() {
 
   return (
     <>
-      <Layout.Title>Kcena Market 인기 매물</Layout.Title>
-      <Layout.TextLineDivider />
-      <ProductsContainer onClickProduct={handleClickProduct} />
+      <Typography
+        variant="h4"
+        component="h3"
+        align="center"
+      >
+        <Box fontWeight="fontWeightBold" py={4}>
+          Kcena Market 인기 매물
+        </Box>
+      </Typography>
+      <TextLineDivider />
+      <ProductsContainer
+        onClickProduct={handleClickProduct}
+      />
     </>
   );
 }
+
+const TextLineDivider = styled.div({
+  width: '70px',
+  borderTop: '2px solid #FF8A3D',
+  margin: '0 auto',
+  marginBottom: '50px',
+});
