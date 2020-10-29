@@ -32,18 +32,12 @@ describe('Header', () => {
     }));
 
     it('render title, Log In and Sign up', () => {
-      const controls = ['Kcena Market', 'Log In', 'Sign up'];
+      const controls = ['Kcena Market', '판매하기', 'Log out'];
       const { getByText } = renderHeader();
 
       controls.forEach((control) => {
         expect(getByText(control)).not.toBeNull();
       });
-    });
-
-    it('render 판매하기', () => {
-      const { container } = renderHeader();
-
-      expect(container).toHaveTextContent('판매하기');
     });
   });
 
