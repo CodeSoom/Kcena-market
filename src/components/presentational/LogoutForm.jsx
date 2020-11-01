@@ -1,14 +1,16 @@
 import React from 'react';
 
+import { Button } from '@material-ui/core';
+
 export default function Logout({ onClick }) {
   return (
-    <div>
-      <button
-        type="button"
+    <>
+      <Button
+        color="inherit"
         onClick={onClick}
       >
         Log out
-      </button>
-    </div>
+      </Button>
+    </>
   );
 }
