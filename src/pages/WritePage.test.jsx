@@ -16,48 +16,39 @@ jest.mock('react-redux');
 jest.mock('../services/storage');
 
 describe('WritePage', () => {
+  function renderWritePage() {
+    return render((
+      <MemoryRouter>
+        <WritePage />
+      </MemoryRouter>
+    ));
+  }
+
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         newProduct,
       },
     }));
+    loadItem.mockImplementation(() => given.mockUser);
   });
 
   context('with user', () => {
-    const mockUser = {
+    given('mockUser', () => ({
       displayName: 'tester',
       uid: '123456',
-    };
-
-    beforeEach(() => {
-      loadItem.mockImplementation(() => mockUser);
-    });
-
+    }));
     it('render write page', () => {
-      const { container } = render((
-        <MemoryRouter>
-          <WritePage />
-        </MemoryRouter>
-      ));
+      const { container } = renderWritePage();
 
       expect(container).toHaveTextContent('Write new product');
     });
   });
 
   context('without user', () => {
-    const mockUser = null;
-
-    beforeEach(() => {
-      loadItem.mockImplementation(() => mockUser);
-    });
-
+    given('mockUser', () => null);
     it('render login page', () => {
-      const { container } = render((
-        <MemoryRouter>
-          <WritePage />
-        </MemoryRouter>
-      ));
+      const { container } = renderWritePage();
 
       expect(container).not.toHaveTextContent('Write new product');
     });

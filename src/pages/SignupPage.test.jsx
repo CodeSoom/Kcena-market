@@ -14,6 +14,14 @@ jest.mock('react-redux');
 jest.mock('../services/storage');
 
 describe('SignupPage', () => {
+  function renderSignupPage() {
+    return render((
+      <MemoryRouter>
+        <SignupPage />
+      </MemoryRouter>
+    ));
+  }
+
   beforeEach(() => {
     useSelector.mockImplementation((selector) => selector({
       authReducer: {
@@ -36,11 +44,7 @@ describe('SignupPage', () => {
       uid: '1234',
     }));
     it('doesn\'t render login page', () => {
-      const { container } = render((
-        <MemoryRouter>
-          <SignupPage />
-        </MemoryRouter>
-      ));
+      const { container } = renderSignupPage();
 
       expect(container).not.toHaveTextContent('Sign up');
     });
@@ -49,11 +53,7 @@ describe('SignupPage', () => {
   context('without user', () => {
     given('mockUser', () => null);
     it('render login page', () => {
-      const { container } = render((
-        <MemoryRouter>
-          <SignupPage />
-        </MemoryRouter>
-      ));
+      const { container } = renderSignupPage();
 
       expect(container).toHaveTextContent('Sign up');
     });
