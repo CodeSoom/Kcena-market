@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { push } from 'connected-react-router';
+
 import { saveItem, deleteItem } from './services/storage';
 
 import {
@@ -138,7 +139,9 @@ export function requestSignup() {
 export function requestLogout() {
   return async (dispatch) => {
     await postLogout();
+
     dispatch(logout());
+    dispatch(push('/'));
     deleteItem('user');
   };
 }
