@@ -10,7 +10,10 @@ import WritePage from './WritePage';
 
 import newProduct from '../../fixtures/newProduct';
 
+import { loadItem } from '../services/storage';
+
 jest.mock('react-redux');
+jest.mock('../services/storage');
 
 describe('WritePage', () => {
   beforeEach(() => {
@@ -21,13 +24,42 @@ describe('WritePage', () => {
     }));
   });
 
-  it('render', () => {
-    const { container } = render((
-      <MemoryRouter>
-        <WritePage />
-      </MemoryRouter>
-    ));
+  context('with user', () => {
+    const mockUser = {
+      displayName: 'tester',
+      uid: '123456',
+    };
 
-    expect(container).toHaveTextContent('Write new product');
+    beforeEach(() => {
+      loadItem.mockImplementation(() => mockUser);
+    });
+
+    it('render write page', () => {
+      const { container } = render((
+        <MemoryRouter>
+          <WritePage />
+        </MemoryRouter>
+      ));
+
+      expect(container).toHaveTextContent('Write new product');
+    });
+  });
+
+  context('without user', () => {
+    const mockUser = null;
+
+    beforeEach(() => {
+      loadItem.mockImplementation(() => mockUser);
+    });
+
+    it('render login page', () => {
+      const { container } = render((
+        <MemoryRouter>
+          <WritePage />
+        </MemoryRouter>
+      ));
+
+      expect(container).not.toHaveTextContent('Write new product');
+    });
   });
 });
