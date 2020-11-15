@@ -50,6 +50,7 @@ export default function WriteForm({ onSubmit }) {
             label="글 제목"
             id="write-title"
             name="title"
+            required
             value={formik.values.title}
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
@@ -63,6 +64,7 @@ export default function WriteForm({ onSubmit }) {
             label="상품 가격"
             id="write-price"
             name="price"
+            required
             value={formik.values.price}
             onChange={formik.handleChange}
             error={formik.touched.price && Boolean(formik.errors.price)}
@@ -83,6 +85,7 @@ export default function WriteForm({ onSubmit }) {
             label="판매 지역"
             id="write-region"
             name="region"
+            required
             value={formik.values.region}
             onChange={formik.handleChange}
             error={formik.touched.region && Boolean(formik.errors.region)}
@@ -96,6 +99,7 @@ export default function WriteForm({ onSubmit }) {
             label="게시글 내용을 작성해주세요"
             id="write-description"
             name="description"
+            required
             value={formik.values.description}
             onChange={formik.handleChange}
             error={formik.touched.description && Boolean(formik.errors.description)}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,7 +9,6 @@ import ImagesDropzone from '../presentational/ImagesDropzone';
 import ImagePreview from '../presentational/ImagePreview';
 
 import {
-  writeNewProduct,
   postProduct,
 } from '../../productSlice';
 
@@ -18,14 +17,8 @@ export default function WriteFormContainer() {
 
   const dispatch = useDispatch();
 
-  const newProduct = useSelector((state) => state.productReducer.newProduct);
-
-  function handleChange({ name, value }) {
-    dispatch(writeNewProduct({ name, value }));
-  }
-
-  function handleSubmit() {
-    dispatch(postProduct({ files }));
+  function handleSubmit({ newProduct }) {
+    dispatch(postProduct({ files, newProduct }));
     setFiles([]);
   }
 
@@ -61,8 +54,6 @@ export default function WriteFormContainer() {
         handleClickDeleteAllImage={handleDeleteAll}
       />
       <WriteForm
-        newProduct={newProduct}
-        onChange={handleChange}
         onSubmit={handleSubmit}
       />
     </div>
