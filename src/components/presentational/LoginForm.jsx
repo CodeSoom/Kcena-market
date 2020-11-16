@@ -53,7 +53,7 @@ export default function LoginForm({ onSubmit, onGoogleSignIn }) {
               <Grid item xs={12}>
                 <FormikField
                   type="email"
-                  label="email"
+                  label="E-mail"
                   id="email"
                   name="email"
                   variant="outlined"
@@ -70,7 +70,7 @@ export default function LoginForm({ onSubmit, onGoogleSignIn }) {
               <Grid item xs={12}>
                 <FormikField
                   type="password"
-                  label="password"
+                  label="Password"
                   id="password"
                   name="password"
                   variant="outlined"
