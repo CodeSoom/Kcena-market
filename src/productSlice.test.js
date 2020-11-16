@@ -7,11 +7,10 @@ import productReducer, {
   postProduct,
   setProduct,
   setProducts,
-  writeNewProduct,
-  initialNewProduct,
 } from './productSlice';
 
 import products from '../fixtures/products';
+import newProduct from '../fixtures/newProduct';
 
 const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
@@ -23,12 +22,6 @@ describe('productReducer', () => {
     const initialState = {
       product: null,
       products: [],
-      newProduct: {
-        title: '',
-        description: '',
-        price: '',
-        region: '',
-      },
     };
 
     it('returns initialState', () => {
@@ -61,67 +54,6 @@ describe('productReducer', () => {
 
     expect(state.product.id).toBe(1);
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
-  });
-
-  describe('writeNewProduct', () => {
-    context('when title is changed', () => {
-      const initialState = {
-        newProduct: {
-          title: 'old title',
-          description: '아이패드 3세대 12인치 256기가 팝니다.',
-          price: '10000',
-          region: '인천',
-        },
-      };
-
-      it('change title', () => {
-        const state = productReducer(initialState, writeNewProduct({
-          name: 'title',
-          value: 'new title',
-        }));
-
-        expect(state.newProduct.title).toBe('new title');
-        expect(state.newProduct.description).toBe('아이패드 3세대 12인치 256기가 팝니다.');
-      });
-    });
-
-    context('when description is changed', () => {
-      const initialState = {
-        newProduct: {
-          title: '아이패드',
-          description: 'old description',
-          price: '10000',
-          region: '인천',
-        },
-      };
-
-      it('change description', () => {
-        const state = productReducer(initialState, writeNewProduct({
-          name: 'description',
-          value: 'new description',
-        }));
-
-        expect(state.newProduct.title).toBe('아이패드');
-        expect(state.newProduct.description).toBe('new description');
-      });
-    });
-  });
-
-  describe('initialNewProduct', () => {
-    it('initialization new product field', () => {
-      const initialState = {
-        newProduct: {
-          title: '아이패드',
-          description: 'old description',
-          price: '10000',
-          region: '인천',
-        },
-      };
-
-      const state = productReducer(initialState, initialNewProduct());
-
-      expect(state.newProduct.title).toBe('');
-    });
   });
 });
 
@@ -164,23 +96,13 @@ describe('actions', () => {
             uid: '1234',
           },
         },
-        productReducer: {
-          newProduct: {
-            title: 'iPhone',
-            description: '팝니다.',
-          },
-        },
       });
     });
 
     it('dispatchs', async () => {
       const files = [];
 
-      await store.dispatch(postProduct({ files }));
-
-      const actions = store.getActions();
-
-      expect(actions[0]).toEqual(initialNewProduct());
+      await store.dispatch(postProduct({ files, newProduct }));
     });
   });
 });

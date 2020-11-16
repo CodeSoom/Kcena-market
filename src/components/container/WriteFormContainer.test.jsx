@@ -1,61 +1,73 @@
 import React from 'react';
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import WriteFormContainer from './WriteFormContainer';
-
-import newProduct from '../../../fixtures/newProduct';
 
 jest.mock('react-redux');
 
 describe('WriteFormContainer', () => {
   const dispatch = jest.fn();
 
+  function renderWriteFormContainer() {
+    return render(<WriteFormContainer />);
+  }
+
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
-    useSelector.mockImplementation((selector) => selector({
-      productReducer: {
-        newProduct,
-      },
-    }));
   });
 
-  function renderWriteFormContainer() {
-    return render(
-      <WriteFormContainer />,
-    );
-  }
+  context('when all forms are filled', () => {
+    it('possible submit event', async () => {
+      const { container } = renderWriteFormContainer();
 
-  it('renders input controls', () => {
-    const { getByLabelText } = renderWriteFormContainer();
+      const title = container.querySelector('input[name="title"]');
+      const description = container.querySelector('textarea[name="description"]');
+      const price = container.querySelector('input[name="price"]');
+      const region = container.querySelector('input[name="region"]');
 
-    expect(getByLabelText(/글 제목/).value).toBe(newProduct.title);
-    expect(getByLabelText(/게시글 내용을 작성해주세요/).value).toBe(newProduct.description);
-  });
+      await waitFor(() => {
+        fireEvent.change(title, {
+          target: {
+            value: '아이패드',
+          },
+        });
+      });
 
-  it('listens change events', () => {
-    const { getByLabelText } = renderWriteFormContainer();
+      await waitFor(() => {
+        fireEvent.change(description, {
+          target: {
+            value: '중고 아이패드 팝니다.',
+          },
+        });
+      });
 
-    expect(getByLabelText(/글 제목/).value).toBe(newProduct.title);
+      await waitFor(() => {
+        fireEvent.change(price, {
+          target: {
+            value: '1234',
+          },
+        });
+      });
 
-    fireEvent.change(getByLabelText(/글 제목/), {
-      target: { value: '핸드폰 팝니다.' },
+      await waitFor(() => {
+        fireEvent.change(region, {
+          target: {
+            value: '인천',
+          },
+        });
+      });
+
+      const submit = container.querySelector('button[type="submit"]');
+
+      await waitFor(() => {
+        fireEvent.click(submit);
+      });
+
+      expect(dispatch).toHaveBeenCalled();
     });
-
-    expect(dispatch).toBeCalledWith({
-      type: 'productSlice/writeNewProduct',
-      payload: { name: 'title', value: '핸드폰 팝니다.' },
-    });
-  });
-
-  it('listens submit event', () => {
-    const { getByText } = renderWriteFormContainer();
-
-    fireEvent.click(getByText('글쓰기'));
-
-    expect(dispatch).toBeCalled();
   });
 });

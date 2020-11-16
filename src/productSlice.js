@@ -7,21 +7,11 @@ import {
   uploadProductImages,
 } from './services/api';
 
-const initialStateNewProduct = {
-  title: '',
-  description: '',
-  price: '',
-  region: '',
-};
-
 const { actions, reducer: productReducer } = createSlice({
   name: 'productSlice',
   initialState: {
     product: null,
     products: [],
-    newProduct: {
-      ...initialStateNewProduct,
-    },
   },
   reducers: {
     setProducts(state, { payload: products }) {
@@ -34,23 +24,6 @@ const { actions, reducer: productReducer } = createSlice({
       return {
         ...state,
         product,
-      };
-    },
-    writeNewProduct(state, { payload: { name, value } }) {
-      return {
-        ...state,
-        newProduct: {
-          ...state.newProduct,
-          [name]: value,
-        },
-      };
-    },
-    initialNewProduct(state) {
-      return {
-        ...state,
-        newProduct: {
-          ...initialStateNewProduct,
-        },
       };
     },
   },
@@ -77,16 +50,13 @@ export function loadProduct({ productId }) {
   };
 }
 
-export function postProduct({ files }) {
-  return async (dispatch, getState) => {
+export function postProduct({ files, newProduct }) {
+  return async (_, getState) => {
     const {
       authReducer: {
         user: {
           uid,
         },
-      },
-      productReducer: {
-        newProduct,
       },
     } = getState();
 
@@ -100,8 +70,6 @@ export function postProduct({ files }) {
       creatorId: uid,
       createAt: Date.now(),
     });
-
-    dispatch(initialNewProduct());
   };
 }
 

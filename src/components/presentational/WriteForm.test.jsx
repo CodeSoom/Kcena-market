@@ -1,95 +1,109 @@
 import React from 'react';
 
-import { render, fireEvent } from '@testing-library/react';
+import {
+  render, fireEvent, waitFor,
+} from '@testing-library/react';
 
 import WriteForm from './WriteForm';
 
 describe('WriteForm', () => {
-  const handleChange = jest.fn();
   const handleSubmit = jest.fn();
 
-  beforeEach(() => {
-    handleChange.mockClear();
-    handleSubmit.mockClear();
-  });
+  const controls = [
+    { control: 'input', name: 'title', text: '아이패드' },
+    { control: 'input', name: 'region', text: '인천' },
+    { control: 'input', name: 'price', text: '200000' },
+    { control: 'textarea', name: 'description', text: '중고 팝니다.' },
+  ];
 
-  function renderWriteForm({
-    title, description, price, region,
-  } = {}) {
+  function renderWriteForm() {
     return render((
-      <WriteForm
-        newProduct={{
-          title, description, price, region,
-        }}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-      />
+      <WriteForm onSubmit={handleSubmit} />
     ));
   }
 
-  it('render input controls', () => {
-    const title = 'new product';
-    const description = 'test description';
-    const price = '10000';
-    const region = '인천';
+  beforeEach(() => {
+    handleSubmit.mockClear();
+  });
 
-    const { getByLabelText } = renderWriteForm({
-      title, description, price, region,
-    });
+  it('render input form controls', () => {
+    const { container } = renderWriteForm();
 
-    const controls = [
-      { label: /글 제목/, value: title },
-      { label: /게시글 내용을 작성해주세요/, value: description },
-      { label: /상품 가격/, value: price },
-      { label: /판매 지역/, value: region },
-    ];
+    controls.forEach(({ control, name }) => {
+      const input = container.querySelector(`${control}[name=${name}]`);
 
-    controls.forEach(({ label, value }) => {
-      const input = getByLabelText(label);
-      expect(input.value).toBe(value);
+      expect(input).not.toBeNull();
     });
   });
 
-  it('listens change events', () => {
-    const { getByLabelText } = renderWriteForm();
+  context('when all forms are filled', () => {
+    it('possible submit event', async () => {
+      const { container } = renderWriteForm();
 
-    const controls = [
-      {
-        label: /글 제목/,
-        name: 'title',
-        value: '아이패드 팝니다.',
-      },
-      {
-        label: /게시글 내용을 작성해주세요/,
-        name: 'description',
-        value: '상태 좋아요',
-      },
-      {
-        label: /상품 가격/,
-        name: 'price',
-        value: '10000',
-      },
-      {
-        label: /판매 지역/,
-        name: 'region',
-        value: '인천',
-      },
-    ];
+      const title = container.querySelector('input[name="title"]');
+      const description = container.querySelector('textarea[name="description"]');
+      const price = container.querySelector('input[name="price"]');
+      const region = container.querySelector('input[name="region"]');
 
-    controls.forEach(({ label, name, value }) => {
-      const input = getByLabelText(label);
+      await waitFor(() => {
+        fireEvent.change(title, {
+          target: {
+            value: '아이패드',
+          },
+        });
+      });
 
-      fireEvent.change(input, { target: { value } });
+      await waitFor(() => {
+        fireEvent.change(description, {
+          target: {
+            value: '중고 아이패드 팝니다.',
+          },
+        });
+      });
 
-      expect(handleChange).toBeCalledWith({ name, value });
+      await waitFor(() => {
+        fireEvent.change(price, {
+          target: {
+            value: '1234',
+          },
+        });
+      });
+
+      await waitFor(() => {
+        fireEvent.change(region, {
+          target: {
+            value: '인천',
+          },
+        });
+      });
+
+      const submit = container.querySelector('button[type="submit"]');
+
+      await waitFor(() => {
+        fireEvent.click(submit);
+      });
+
+      expect(handleSubmit).toHaveBeenCalledWith({
+        newProduct: {
+          description: '중고 아이패드 팝니다.', price: 1234, region: '인천', title: '아이패드',
+        },
+      });
     });
   });
 
-  it('listens submit event', () => {
-    const { getByText } = renderWriteForm();
+  context('When all forms are not filled', () => {
+    it('can\'t submit and show validation', async () => {
+      const { container } = renderWriteForm();
 
-    fireEvent.click(getByText('글쓰기'));
+      const submit = container.querySelector('button[type="submit"]');
 
-    expect(handleSubmit).toBeCalled();
+      await waitFor(() => {
+        fireEvent.click(submit);
+      });
+
+      await waitFor(() => {
+        expect(container).toHaveTextContent(/필수 항목입니다./);
+      });
+    });
   });
 });
