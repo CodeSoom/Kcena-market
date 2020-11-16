@@ -1,76 +1,43 @@
 import React from 'react';
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import LoginFormContainer from './LoginFormContainer';
 
 jest.mock('react-redux');
+
 describe('LoginFormContainer', () => {
   const dispatch = jest.fn();
+
+  function renderLoginFormContainer() {
+    return render(<LoginFormContainer />);
+  }
 
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
-    useSelector.mockImplementation((selector) => selector({
-      authReducer: {
-        loginFields: {
-          email: 'test@test',
-          password: '1234',
-        },
-        user: given.user,
-        error: given.error,
-      },
-    }));
   });
 
   context('when logged out', () => {
-    given('user', () => ({
-      displayName: '',
-      uid: '',
-    }));
-
     it('renders input controls', () => {
-      const { getByLabelText } = render((
-        <LoginFormContainer />
-      ));
+      const { getByLabelText } = renderLoginFormContainer();
 
-      expect(getByLabelText(/E-mail/).value).toBe('test@test');
-      expect(getByLabelText(/Password/).value).toBe('1234');
+      expect(getByLabelText(/E-mail/)).not.toBeNull();
+      expect(getByLabelText(/Password/)).not.toBeNull();
     });
 
-    it('listens change events', () => {
-      const { getByLabelText } = render((
-        <LoginFormContainer />
-      ));
+    it('renders "Log In" button', async () => {
+      const { container } = renderLoginFormContainer();
 
-      expect(getByLabelText(/E-mail/).value).toBe('test@test');
+      const submit = container.querySelector('button[type="submit"]');
 
-      fireEvent.change(getByLabelText(/E-mail/), {
-        target: { value: 'new email' },
-      });
-
-      expect(dispatch).toBeCalledWith({
-        type: 'authentication/changeLoginField',
-        payload: { name: 'email', value: 'new email' },
-      });
-    });
-
-    it('renders "Log In" button', () => {
-      const { getByText } = render((
-        <LoginFormContainer />
-      ));
-
-      fireEvent.click(getByText('Log In'));
-
-      expect(dispatch).toBeCalled();
+      expect(submit).not.toBeNull();
     });
 
     it('renders "Sign in with Google" button', () => {
-      const { getByText } = render((
-        <LoginFormContainer />
-      ));
+      const { getByText } = renderLoginFormContainer();
 
       fireEvent.click(getByText('Sign in with Google'));
 
@@ -78,21 +45,27 @@ describe('LoginFormContainer', () => {
     });
   });
 
-  context('when input invaild login fields', () => {
-    given('error', () => 'Invaild');
-    given('user', () => ({
-      displayName: '',
-      uid: '',
-    }));
+  context('when all forms are filled', () => {
+    it('possible submit event and call dispatch', async () => {
+      const { container } = renderLoginFormContainer();
 
-    it('renders error message', () => {
-      const { container, getByText } = render((
-        <LoginFormContainer />
-      ));
+      const email = container.querySelector('input[name="email"]');
+      const password = container.querySelector('input[name="password"]');
 
-      fireEvent.click(getByText('Log In'));
+      await waitFor(() => {
+        fireEvent.change(email,
+          { target: { value: 'tester@example.com' } });
+        fireEvent.change(password,
+          { target: { value: '1234abcd' } });
+      });
 
-      expect(container).toHaveTextContent('Invaild');
+      const submit = container.querySelector('button[type="submit"]');
+
+      await waitFor(() => {
+        fireEvent.click(submit);
+      });
+
+      expect(dispatch).toBeCalled();
     });
   });
 });

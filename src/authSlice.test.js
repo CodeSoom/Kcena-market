@@ -2,7 +2,6 @@ import configureStore from 'redux-mock-store';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import authReducer, {
-  changeLoginField,
   changeSignupField,
   setUser,
   setError,
@@ -28,10 +27,6 @@ jest.mock('connected-react-router');
 describe('reducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
-      loginFields: {
-        email: '',
-        password: '',
-      },
       signupFields: {
         email: '',
         password: '',
@@ -47,46 +42,6 @@ describe('reducer', () => {
       const state = authReducer(undefined, { type: 'action' });
 
       expect(state).toEqual(initialState);
-    });
-  });
-
-  describe('changeLoginField', () => {
-    context('when email is changed', () => {
-      const initialState = {
-        loginFields: {
-          email: 'email',
-          password: 'password',
-        },
-      };
-
-      it('change email', () => {
-        const state = authReducer(initialState, changeLoginField({
-          name: 'email',
-          value: 'test',
-        }));
-
-        expect(state.loginFields.email).toBe('test');
-        expect(state.loginFields.password).toBe('password');
-      });
-    });
-
-    context('when password is changed', () => {
-      const initialState = {
-        loginFields: {
-          email: 'email',
-          password: 'password',
-        },
-      };
-
-      it('change password', () => {
-        const state = authReducer(initialState, changeLoginField({
-          name: 'password',
-          value: 'test',
-        }));
-
-        expect(state.loginFields.email).toBe('email');
-        expect(state.loginFields.password).toBe('test');
-      });
     });
   });
 
@@ -187,22 +142,20 @@ describe('actions', () => {
 
   describe('requestLogin', () => {
     beforeEach(() => {
-      store = mockStore({
-        authReducer: {
-          loginFields: {
-            email: '',
-            password: '',
-          },
-        },
-      });
+      store = mockStore({});
     });
 
     it('dispatches requestLogin action and returns user', async () => {
+      const loginFields = {
+        email: 'tester@example.com',
+        password: '1234abcd',
+      };
+
       postLogin.mockImplementationOnce(() => ({
         user: {},
       }));
 
-      await store.dispatch(requestLogin({}));
+      await store.dispatch(requestLogin({ loginFields }));
 
       const actions = store.getActions();
 
@@ -210,6 +163,11 @@ describe('actions', () => {
     });
 
     it('dispatches requestLogin action and returns an error', async () => {
+      const loginFields = {
+        email: 'tester@example.com',
+        password: '1234abcd',
+      };
+
       postLogin.mockImplementationOnce(
         () => Promise.reject(
           new Error('something bad happened'),
@@ -217,9 +175,10 @@ describe('actions', () => {
       );
 
       try {
-        await store.dispatch(requestLogin());
+        await store.dispatch(requestLogin({ loginFields }));
       } catch {
         const actions = store.getActions();
+
         expect(actions[0].payload.error).toEqual('Something bad happened');
       }
     });

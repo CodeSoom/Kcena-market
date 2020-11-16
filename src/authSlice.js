@@ -19,10 +19,6 @@ const initialUser = {
 const { actions, reducer: authReducer } = createSlice({
   name: 'authentication',
   initialState: {
-    loginFields: {
-      email: '',
-      password: '',
-    },
     signupFields: {
       email: '',
       password: '',
@@ -33,15 +29,6 @@ const { actions, reducer: authReducer } = createSlice({
     error: '',
   },
   reducers: {
-    changeLoginField(state, { payload: { name, value } }) {
-      return {
-        ...state,
-        loginFields: {
-          ...state.loginFields,
-          [name]: value,
-        },
-      };
-    },
     changeSignupField(state, { payload: { name, value } }) {
       return {
         ...state,
@@ -78,18 +65,16 @@ const { actions, reducer: authReducer } = createSlice({
 });
 
 export const {
-  changeLoginField,
   changeSignupField,
   setUser,
   setError,
   logout,
 } = actions;
 
-export function requestLogin() {
-  return async (dispatch, getState) => {
-    const {
-      authReducer: { loginFields: { email, password } },
-    } = getState();
+export function requestLogin({ loginFields }) {
+  const { email, password } = loginFields;
+
+  return async (dispatch) => {
     try {
       const { user } = await postLogin({ email, password });
       const { displayName, uid } = user;
