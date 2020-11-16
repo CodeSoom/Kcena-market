@@ -12,6 +12,8 @@ import LockRounded from '@material-ui/icons/LockRounded';
 
 import FormikField from './FormikField';
 
+import TextError from './TextError';
+
 import useStyles from '../../styles/styles';
 
 const initialValues = {
@@ -29,7 +31,7 @@ const validationSchema = yup.object({
     .matches(/(?=.*[0-9])/, '비밀번호에는 숫자가 포함되어야 합니다.'),
 });
 
-export default function LoginForm({ onSubmit, onGoogleSignIn }) {
+export default function LoginForm({ loginError, onSubmit, onGoogleSignIn }) {
   const classes = useStyles();
 
   function handleSubmit(values) {
@@ -103,6 +105,9 @@ export default function LoginForm({ onSubmit, onGoogleSignIn }) {
                 >
                   Sign in with Google
                 </Button>
+              </Grid>
+              <Grid item xs={12}>
+                {loginError && <TextError>{loginError}</TextError>}
               </Grid>
             </Grid>
           </Form>

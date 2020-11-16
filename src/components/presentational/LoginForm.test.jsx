@@ -7,6 +7,7 @@ import LoginForm from './LoginForm';
 describe('LoginForm', () => {
   const handleSubmit = jest.fn();
   const handleGoogleSignIn = jest.fn();
+
   const controls = [
     { control: 'input', name: 'email', text: 'tester@example.com' },
     { control: 'input', name: 'password', text: '1234abcd' },
@@ -17,9 +18,10 @@ describe('LoginForm', () => {
     handleGoogleSignIn.mockClear();
   });
 
-  function renderLoginForm() {
+  function renderLoginForm(error = '') {
     return render((
       <LoginForm
+        loginError={error}
         onSubmit={handleSubmit}
         onGoogleSignIn={handleGoogleSignIn}
       />
@@ -107,6 +109,15 @@ describe('LoginForm', () => {
 
       expect(container).toHaveTextContent(/잘못된 이메일 형식입니다./);
       expect(container).toHaveTextContent(/비밀번호는 최소 6자리의 숫자\/문자 조합이어야 합니다./);
+    });
+  });
+
+  context('when request login fail', () => {
+    it('render error message', () => {
+      const error = 'Error message';
+      const { container } = renderLoginForm(error);
+
+      expect(container).toHaveTextContent('Error message');
     });
   });
 });

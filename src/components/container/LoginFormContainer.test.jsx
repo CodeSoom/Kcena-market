@@ -2,7 +2,7 @@ import React from 'react';
 
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import LoginFormContainer from './LoginFormContainer';
 
@@ -18,6 +18,20 @@ describe('LoginFormContainer', () => {
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
+    useSelector.mockImplementation((selector) => selector({
+      authReducer: {
+        error: given.error,
+      },
+    }));
+  });
+
+  context('when login request fail', () => {
+    it('render error message', () => {
+      given('error', () => 'Error message');
+      const { container } = renderLoginFormContainer();
+
+      expect(container).toHaveTextContent('Error message');
+    });
   });
 
   context('when logged out', () => {
