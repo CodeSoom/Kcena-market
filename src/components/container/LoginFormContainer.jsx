@@ -1,33 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import LoginForm from '../presentational/LoginForm';
 
 import {
-  changeLoginField,
   requestLogin,
   requestGoogleSignIn,
+  setError,
 } from '../../authSlice';
-
-import { get } from '../../utils';
 
 export default function LoginFormContainer() {
   const dispatch = useDispatch();
 
-  const {
-    error,
-    loginFields: {
-      email, password,
-    },
-  } = useSelector(get('authReducer'));
+  const error = useSelector((state) => state.authReducer.error);
 
-  function handleChange({ name, value }) {
-    dispatch(changeLoginField({ name, value }));
-  }
+  useEffect(() => {
+    dispatch(setError(''));
+  }, []);
 
-  function handleSubmit() {
-    dispatch(requestLogin());
+  function handleSubmit({ loginFields }) {
+    dispatch(requestLogin({ loginFields }));
   }
 
   function handleSigninWithGoogle() {
@@ -36,10 +29,8 @@ export default function LoginFormContainer() {
 
   return (
     <LoginForm
-      fields={{ email, password }}
-      onChange={handleChange}
+      loginError={error}
       onSubmit={handleSubmit}
-      error={error}
       onGoogleSignIn={handleSigninWithGoogle}
     />
   );

@@ -1,90 +1,118 @@
 import React from 'react';
 
-import {
-  TextField, Button, Box, InputAdornment,
-} from '@material-ui/core';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
-import {
-  AccountCircle, LockRounded,
-} from '@material-ui/icons';
+import Button from '@material-ui/core/Button';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Grid from '@material-ui/core/Grid';
+
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import LockRounded from '@material-ui/icons/LockRounded';
+
+import FormikField from './FormikField';
+
+import TextError from './TextError';
 
 import useStyles from '../../styles/styles';
 
-export default function LoginForm({
-  fields, onChange, onSubmit, error, onGoogleSignIn,
-}) {
-  const classes = useStyles();
-  const { email, password } = fields;
+const initialValues = {
+  email: '',
+  password: '',
+};
 
-  function handleChange(event) {
-    const { target: { name, value } } = event;
-    onChange({ name, value });
+const validationSchema = yup.object({
+  email: yup.string()
+    .email('잘못된 이메일 형식입니다.')
+    .required('필수 항목입니다.'),
+  password: yup.string()
+    .required('필수 항목입니다.')
+    .min(6, '비밀번호는 최소 6자리의 숫자/문자 조합이어야 합니다.')
+    .matches(/(?=.*[0-9])/, '비밀번호에는 숫자가 포함되어야 합니다.'),
+});
+
+export default function LoginForm({ loginError, onSubmit, onGoogleSignIn }) {
+  const classes = useStyles();
+
+  function handleSubmit(values) {
+    onSubmit({ loginFields: values });
   }
 
   return (
-    <div className={classes.form}>
-      <div>
-        <p>{error}</p>
-      </div>
-      <TextField
-        type="email"
-        label="E-mail"
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="email"
-        name="email"
-        value={email}
-        onChange={handleChange}
-        autoFocus
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <AccountCircle />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        type="password"
-        label="Password"
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="password"
-        name="password"
-        value={password}
-        onChange={handleChange}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <LockRounded />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Box clone my={1}>
-        <Button
-          variant="contained"
-          fullWidth
-          color="primary"
-          onClick={onSubmit}
-        >
-          Log In
-        </Button>
-      </Box>
-      <Box clone my={1}>
-        <Button
-          variant="contained"
-          fullWidth
-          color="secondary"
-          onClick={onGoogleSignIn}
-        >
-          Sign in with Google
-        </Button>
-      </Box>
-    </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {
+        ({ touched, errors }) => (
+          <Form>
+            <Grid
+              container
+              spacing={3}
+              className={classes.form}
+            >
+              <Grid item xs={12}>
+                <FormikField
+                  type="email"
+                  label="E-mail"
+                  id="email"
+                  name="email"
+                  variant="outlined"
+                  error={touched.email && Boolean(errors.email)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormikField
+                  type="password"
+                  label="Password"
+                  id="password"
+                  name="password"
+                  variant="outlined"
+                  error={touched.password && Boolean(errors.password)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockRounded />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  color="primary"
+                >
+                  Log In
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  color="secondary"
+                  onClick={onGoogleSignIn}
+                >
+                  Sign in with Google
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                {loginError && <TextError>{loginError}</TextError>}
+              </Grid>
+            </Grid>
+          </Form>
+        )
+      }
+    </Formik>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MemoryRouter } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { render } from '@testing-library/react';
 
@@ -14,6 +14,8 @@ jest.mock('react-redux');
 jest.mock('../services/storage');
 
 describe('LoginPage', () => {
+  const dispatch = jest.fn();
+
   function renderLoginPage() {
     return render((
       <MemoryRouter>
@@ -23,6 +25,7 @@ describe('LoginPage', () => {
   }
 
   beforeEach(() => {
+    useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       authReducer: {
         loginFields: {

@@ -67,7 +67,7 @@ describe('WriteFormContainer', () => {
         fireEvent.click(submit);
       });
 
-      expect(dispatch).toHaveBeenCalled();
+      expect(dispatch).toBeCalled();
     });
   });
 });
