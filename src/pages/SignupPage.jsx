@@ -2,7 +2,8 @@ import React from 'react';
 
 import { Redirect } from 'react-router-dom';
 
-import { Typography, Container } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 
 import { loadItem } from '../services/storage';
 

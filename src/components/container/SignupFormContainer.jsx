@@ -1,40 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import SignupForm from '../presentational/SignupForm';
 
 import {
-  changeSignupField,
   requestSignup,
+  setError,
 } from '../../authSlice';
-
-import { get } from '../../utils';
 
 export default function SignupFormContainer() {
   const dispatch = useDispatch();
 
-  const {
-    error,
-    signupFields: {
-      email, password,
-    },
-  } = useSelector(get('authReducer'));
+  const error = useSelector((state) => state.authReducer.error);
 
-  function handleChange({ name, value }) {
-    dispatch(changeSignupField({ name, value }));
-  }
+  useEffect(() => {
+    dispatch(setError(''));
+  }, []);
 
-  function handleSubmit() {
-    dispatch(requestSignup());
+  function handleSubmit({ signupFields }) {
+    dispatch(requestSignup({ signupFields }));
   }
 
   return (
     <SignupForm
-      fields={{ email, password }}
-      onChange={handleChange}
+      signupError={error}
       onSubmit={handleSubmit}
-      error={error}
     />
   );
 }

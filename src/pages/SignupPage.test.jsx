@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MemoryRouter } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { render } from '@testing-library/react';
 
@@ -14,6 +14,8 @@ jest.mock('react-redux');
 jest.mock('../services/storage');
 
 describe('SignupPage', () => {
+  const dispatch = jest.fn();
+
   function renderSignupPage() {
     return render((
       <MemoryRouter>
@@ -23,12 +25,10 @@ describe('SignupPage', () => {
   }
 
   beforeEach(() => {
+    dispatch.mockClear();
+    useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       authReducer: {
-        signupFields: {
-          email: 'test@test',
-          password: '1234',
-        },
         user: {
           displayName: '',
           uid: '',
@@ -43,7 +43,7 @@ describe('SignupPage', () => {
       displayName: 'tester',
       uid: '1234',
     }));
-    it('doesn\'t render login page', () => {
+    it('doesn\'t render signup page', () => {
       const { container } = renderSignupPage();
 
       expect(container).not.toHaveTextContent('Sign up');
@@ -52,7 +52,7 @@ describe('SignupPage', () => {
 
   context('without user', () => {
     given('mockUser', () => null);
-    it('render login page', () => {
+    it('render signup page', () => {
       const { container } = renderSignupPage();
 
       expect(container).toHaveTextContent('Sign up');

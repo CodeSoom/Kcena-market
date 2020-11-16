@@ -19,25 +19,12 @@ const initialUser = {
 const { actions, reducer: authReducer } = createSlice({
   name: 'authentication',
   initialState: {
-    signupFields: {
-      email: '',
-      password: '',
-    },
     user: {
       ...initialUser,
     },
     error: '',
   },
   reducers: {
-    changeSignupField(state, { payload: { name, value } }) {
-      return {
-        ...state,
-        signupFields: {
-          ...state.signupFields,
-          [name]: value,
-        },
-      };
-    },
     setUser(state, { payload: { displayName, uid } }) {
       return {
         ...state,
@@ -65,7 +52,6 @@ const { actions, reducer: authReducer } = createSlice({
 });
 
 export const {
-  changeSignupField,
   setUser,
   setError,
   logout,
@@ -103,15 +89,14 @@ export function requestGoogleSignIn() {
   };
 }
 
-export function requestSignup() {
-  return async (dispatch, getState) => {
-    const {
-      authReducer: { signupFields: { email, password } },
-    } = getState();
+export function requestSignup({ signupFields }) {
+  const { email, password } = signupFields;
 
+  return async (dispatch) => {
     try {
       const { user } = await postSignup({ email, password });
       const { displayName, uid } = user;
+
       dispatch(setUser({ displayName, uid }));
       saveItem('user', { displayName, uid });
       dispatch(push('/'));

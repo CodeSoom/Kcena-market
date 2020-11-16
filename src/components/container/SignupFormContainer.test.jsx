@@ -1,88 +1,77 @@
 import React from 'react';
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import SignupFormContainer from './SignupFormContainer';
 
 jest.mock('react-redux');
+
 describe('SignupFormContainer', () => {
   const dispatch = jest.fn();
+
+  function renderSignupFormContainer() {
+    return render(<SignupFormContainer />);
+  }
 
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       authReducer: {
-        signupFields: {
-          email: 'test@test',
-          password: '1234',
-        },
-        user: given.user,
         error: given.error,
       },
     }));
   });
 
-  context('when logged out', () => {
-    given('user', () => ({
-      displayName: '',
-      uid: '',
-    }));
+  context('when sign up request fail', () => {
+    it('render error message', () => {
+      given('error', () => 'Error message');
+      const { container } = renderSignupFormContainer();
 
-    it('renders input controls', () => {
-      const { getByLabelText } = render((
-        <SignupFormContainer />
-      ));
-
-      expect(getByLabelText(/E-mail/).value).toBe('test@test');
-      expect(getByLabelText(/Password/).value).toBe('1234');
-    });
-
-    it('listens change events', () => {
-      const { getByLabelText } = render((
-        <SignupFormContainer />
-      ));
-
-      expect(getByLabelText(/E-mail/).value).toBe('test@test');
-
-      fireEvent.change(getByLabelText(/E-mail/), {
-        target: { value: 'new email' },
-      });
-
-      expect(dispatch).toBeCalledWith({
-        type: 'authentication/changeSignupField',
-        payload: { name: 'email', value: 'new email' },
-      });
-    });
-
-    it('renders "Sign up" button and listen click event', () => {
-      const { getByText } = render((
-        <SignupFormContainer />
-      ));
-
-      fireEvent.click(getByText('Sign up'));
-
-      expect(dispatch).toBeCalled();
+      expect(container).toHaveTextContent('Error message');
     });
   });
 
-  context('when input invaild signup fields', () => {
-    given('error', () => 'Invaild');
-    given('user', () => ({
-      displayName: '',
-      uid: '',
-    }));
+  context('without user', () => {
+    it('renders input controls', () => {
+      const { getByLabelText } = renderSignupFormContainer();
 
-    it('renders error message', () => {
-      const { container, getByText } = render((
-        <SignupFormContainer />
-      ));
+      expect(getByLabelText(/E-mail/)).not.toBeNull();
+      expect(getByLabelText(/Password/)).not.toBeNull();
+    });
 
-      fireEvent.click(getByText('Sign up'));
+    it('renders "Sign up" button', async () => {
+      const { container } = renderSignupFormContainer();
 
-      expect(container).toHaveTextContent('Invaild');
+      const submit = container.querySelector('button[type="submit"]');
+
+      expect(submit).not.toBeNull();
+    });
+  });
+
+  context('when all forms are filled', () => {
+    it('possible submit event and call dispatch', async () => {
+      const { container } = renderSignupFormContainer();
+
+      const email = container.querySelector('input[name="email"]');
+      const password = container.querySelector('input[name="password"]');
+
+      await waitFor(() => {
+        fireEvent.change(email,
+          { target: { value: 'tester@example.com' } });
+        fireEvent.change(password,
+          { target: { value: '1234abcd' } });
+      });
+
+      const submit = container.querySelector('button[type="submit"]');
+
+      await waitFor(() => {
+        fireEvent.click(submit);
+      });
+
+      expect(dispatch).toBeCalled();
     });
   });
 });
