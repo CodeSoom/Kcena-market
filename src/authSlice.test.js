@@ -140,17 +140,17 @@ describe('reducer', () => {
 describe('actions', () => {
   let store;
 
+  const loginFields = {
+    email: 'tester@example.com',
+    password: '1234abcd',
+  };
+
   describe('requestLogin', () => {
     beforeEach(() => {
       store = mockStore({});
     });
 
     it('dispatches requestLogin action and returns user', async () => {
-      const loginFields = {
-        email: 'tester@example.com',
-        password: '1234abcd',
-      };
-
       postLogin.mockImplementationOnce(() => ({
         user: {},
       }));
@@ -163,11 +163,6 @@ describe('actions', () => {
     });
 
     it('dispatches requestLogin action and returns an error', async () => {
-      const loginFields = {
-        email: 'tester@example.com',
-        password: '1234abcd',
-      };
-
       postLogin.mockImplementationOnce(
         () => Promise.reject(
           new Error('something bad happened'),
