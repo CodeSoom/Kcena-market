@@ -2,7 +2,6 @@ import configureStore from 'redux-mock-store';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import authReducer, {
-  changeSignupField,
   setUser,
   setError,
   logout,
@@ -27,10 +26,6 @@ jest.mock('connected-react-router');
 describe('reducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
-      signupFields: {
-        email: '',
-        password: '',
-      },
       user: {
         displayName: '',
         uid: '',
@@ -42,46 +37,6 @@ describe('reducer', () => {
       const state = authReducer(undefined, { type: 'action' });
 
       expect(state).toEqual(initialState);
-    });
-  });
-
-  describe('changeSignupField', () => {
-    context('when email is changed', () => {
-      const initialState = {
-        signupFields: {
-          email: 'email',
-          password: 'password',
-        },
-      };
-
-      it('change email', () => {
-        const state = authReducer(initialState, changeSignupField({
-          name: 'email',
-          value: 'test',
-        }));
-
-        expect(state.signupFields.email).toBe('test');
-        expect(state.signupFields.password).toBe('password');
-      });
-    });
-
-    context('when password is changed', () => {
-      const initialState = {
-        signupFields: {
-          email: 'email',
-          password: 'password',
-        },
-      };
-
-      it('change password', () => {
-        const state = authReducer(initialState, changeSignupField({
-          name: 'password',
-          value: 'test',
-        }));
-
-        expect(state.signupFields.email).toBe('email');
-        expect(state.signupFields.password).toBe('test');
-      });
     });
   });
 
@@ -213,15 +168,13 @@ describe('actions', () => {
   });
 
   describe('requestSignup', () => {
+    const signupFields = {
+      email: 'tester@example.com',
+      password: '1234abcd',
+    };
+
     beforeEach(() => {
-      store = mockStore({
-        authReducer: {
-          signupFields: {
-            email: '',
-            password: '',
-          },
-        },
-      });
+      store = mockStore({});
     });
 
     it('dispatches requestSignup action and returns user', async () => {
@@ -229,7 +182,7 @@ describe('actions', () => {
         user: {},
       }));
 
-      await store.dispatch(requestSignup({}));
+      await store.dispatch(requestSignup({ signupFields }));
 
       const actions = store.getActions();
       expect(actions[0]).toEqual(setUser({}));
@@ -243,7 +196,7 @@ describe('actions', () => {
       );
 
       try {
-        await store.dispatch(requestSignup());
+        await store.dispatch(requestSignup({ signupFields }));
       } catch {
         const actions = store.getActions();
         expect(actions[0].payload.error).toEqual('Something bad happened');
