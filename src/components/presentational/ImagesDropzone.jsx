@@ -21,7 +21,7 @@ export default function ImagesDropzone({
               color="primary"
               align="center"
             >
-              Drag and drop some files here, or click to select files
+              상품 이미지를 드래그해서 올려주세요! 또는 클릭해서 파일을 선택해주세요!
             </Typography>
           </div>
         </section>

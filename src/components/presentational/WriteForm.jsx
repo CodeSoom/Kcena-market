@@ -25,6 +25,13 @@ const validationSchema = yup.object({
     .required('필수 항목입니다'),
 });
 
+const initialValues = {
+  title: '',
+  description: '',
+  price: 0,
+  region: '',
+};
+
 export default function WriteForm({ onSubmit }) {
   const classes = useStyles();
 
@@ -34,12 +41,7 @@ export default function WriteForm({ onSubmit }) {
 
   return (
     <Formik
-      initialValues={{
-        title: '',
-        description: '',
-        price: 0,
-        region: '',
-      }}
+      initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
