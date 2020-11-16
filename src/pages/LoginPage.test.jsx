@@ -25,13 +25,10 @@ describe('LoginPage', () => {
   }
 
   beforeEach(() => {
+    dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       authReducer: {
-        loginFields: {
-          email: 'test@test',
-          password: '1234',
-        },
         user: {
           displayName: '',
           uid: '',
