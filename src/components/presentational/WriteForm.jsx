@@ -65,7 +65,7 @@ export default function WriteForm({ onSubmit }) {
                   label="상품 가격"
                   id="write-price"
                   name="price"
-                  error={touched.description && Boolean(errors.description)}
+                  error={touched.price && Boolean(errors.price)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
