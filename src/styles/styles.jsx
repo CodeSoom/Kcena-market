@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     left: '-30%',
     zIndex: 10,
   },
+  productDetail: {
+    padding: '20px 80px',
+  },
 }));
 
 export default useStyles;
