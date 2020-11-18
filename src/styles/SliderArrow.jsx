@@ -1,39 +1,52 @@
 import React from 'react';
+
+import styled from '@emotion/styled';
+
 import {
-  FaChevronLeft,
-  FaChevronRight,
+  FaArrowRight,
+  FaArrowLeft,
 } from 'react-icons/fa';
 
-export function NextArrow(props) {
-  const { className, onClick } = props;
+const Arrow = styled.button({
+  position: 'absolute',
+  cursor: 'pointer',
+  zIndex: 10,
+  '&.next': {
+    right: '0%',
+    top: '50%',
+  },
+  '&.prev': {
+    left: '0%',
+    top: '50%',
+  },
+});
+
+export function NextArrow({ onClick }) {
   return (
-    <button
+    <Arrow
       data-testid="nextArrow"
-      type="button"
-      className={className}
+      className="arrow next"
       onClick={onClick}
     >
-      <FaChevronRight
+      <FaArrowRight
         color="#000"
-        size="3.5rem"
+        size="2rem"
       />
-    </button>
+    </Arrow>
   );
 }
 
-export function PrevArrow(props) {
-  const { className, onClick } = props;
+export function PrevArrow({ onClick }) {
   return (
-    <button
+    <Arrow
       data-testid="prevArrow"
-      type="button"
-      className={className}
+      className="arrow prev"
       onClick={onClick}
     >
-      <FaChevronLeft
+      <FaArrowLeft
         color="#000"
-        size="3.5rem"
+        size="2rem"
       />
-    </button>
+    </Arrow>
   );
 }

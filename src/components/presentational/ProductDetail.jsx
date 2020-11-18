@@ -2,88 +2,139 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Slider from 'react-slick';
 
+import Container from '@material-ui/core/Container';
+
 import {
-  NextArrow,
   PrevArrow,
+  NextArrow,
 } from '../../styles/SliderArrow';
 
-const Article = styled.article({
-});
-
-const ArticleImages = styled.section({
-  padding: '3em',
-  '& img': {
-    margin: 'auto',
-  },
-  '& .slick-prev:before, .slick-next:before': {
-    display: 'none',
-  },
-  '& .slick-arrow': {
-    zIndex: 10,
-    width: '60px',
-    height: '60px',
-  },
-  '& .slick-dots li': {
-    margin: '0 0.5em',
-  },
-  '& .slick-dots li button:before': {
-    fontFamily: 'none',
-    left: '-10px',
-    fontSize: '3rem',
-  },
-});
-
-const ArticleProfile = styled.section({
-  padding: '0 32px',
-});
-
-const ArticleDescription = styled.section({
-  padding: '32px',
-  '& h1': {
-    fontSize: '2rem',
-  },
-  '& pre': {
-    margin: '32px 0',
-  },
-});
+import useStyles from '../../styles/styles';
 
 export default function ProductDetail({ product }) {
   const {
     title, productImages, region, price, description,
   } = product;
 
+  const classes = useStyles();
+
   return (
-    <Article>
-      <ArticleImages>
+    <Container
+      component="article"
+      maxWidth="md"
+      className={classes.productDetail}
+    >
+      <SliderWrap>
         <Slider
           dots
-          fade
-          infinite
+          lazyLoad
           speed={500}
           slidesToShow={1}
           slidesToScroll={1}
-          nextArrow={<NextArrow />}
           prevArrow={<PrevArrow />}
+          nextArrow={<NextArrow />}
         >
           {productImages.map((imageUrl) => (
-            <div key={imageUrl}>
-              <img src={imageUrl} alt={imageUrl} />
-            </div>
+            <a href={imageUrl} key={imageUrl}>
+              <ImageWrap>
+                <Image src={imageUrl} alt={imageUrl} />
+              </ImageWrap>
+            </a>
           ))}
         </Slider>
-      </ArticleImages>
-      <ArticleProfile>
-        <div>{`지역 : ${region}`}</div>
-      </ArticleProfile>
+      </SliderWrap>
+      <ArticleProfile>{`지역 : ${region}`}</ArticleProfile>
       <ArticleDescription>
-        <h1>{title}</h1>
-        <div>{`가격 : ${price}원`}</div>
-        <div>
-          <pre>
-            {description}
-          </pre>
-        </div>
+        <h1 className="article article-title">{title}</h1>
+        <p className="article article-price">{`${price}원`}</p>
+        <p className="article article-description">{description}</p>
       </ArticleDescription>
-    </Article>
+    </Container>
   );
 }
+
+const ImageWrap = styled.div({
+  position: 'relative',
+  overflow: 'hidden',
+  width: '677px',
+  margin: '0 auto',
+  height: '500px',
+  borderRadius: '8px',
+});
+
+const SliderWrap = styled.div({
+  '& .slick-slider': {
+    height: '500px',
+  },
+  '& .slick-dots': {
+    position: 'relative',
+    margin: '0 auto',
+    backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
+    backgroundBlendMode: 'multiply',
+    width: '677px',
+    padding: '12px 0',
+    bottom: '57px',
+    borderRadius: '8px',
+    '& li': {
+      listStyle: 'none',
+      cursor: 'pointer',
+    },
+    '& li button': {
+      border: 'none',
+      background: '#212529',
+      color: 'transparent',
+      cursor: 'pointer',
+      display: 'block',
+      height: '15px',
+      width: '15px',
+      borderRadius: '7.5px',
+    },
+    '& li.slick-active button': {
+      backgroundColor: '#fff',
+    },
+    '& li button:before': {
+      content: 'none',
+    },
+  },
+});
+
+const Image = styled.img({
+  position: 'absolute',
+  minWidth: '100%',
+  left: '50%',
+  top: '50%',
+  transform: 'translate(-50%, -50%)',
+  color: 'transparent',
+});
+
+const ArticleProfile = styled.section({
+  padding: '32px 0',
+  width: '677px',
+  margin: '0 auto',
+  borderBottom: '1px solid #e9ecef',
+});
+
+const ArticleDescription = styled.section({
+  padding: '32px 0',
+  width: '677px',
+  margin: '0 auto',
+  borderBottom: '1px solid #e9ecef',
+  '& .article': {
+    marginTop: '5px',
+  },
+  '& .article-title': {
+    marginTop: 0,
+    fontSize: '20px',
+    fontWeight: '600',
+    lineHeight: '1.5',
+  },
+  '& .article-price': {
+    fontSize: '18px',
+    fontWeight: 'bold',
+  },
+  '& .article-description': {
+    fontSize: '17px',
+    whiteSpace: 'pre-wrap',
+    margin: '10px 0',
+  },
+});

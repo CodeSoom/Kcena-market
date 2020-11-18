@@ -26,15 +26,15 @@ describe('ProductDetail', () => {
     it('renders next image', () => {
       const { productImages } = products[0];
 
-      const { getByTestId, getByAltText } = renderProductDetail();
+      const { getByTestId, getAllByAltText } = renderProductDetail();
 
-      const currentImage = getByAltText(productImages[0]);
-      expect(currentImage).toHaveAttribute('src', productImages[0]);
+      const currentImage = getAllByAltText(productImages[0]);
+      expect(currentImage[0]).toHaveAttribute('src', productImages[0]);
 
       fireEvent.click(getByTestId('nextArrow'));
 
-      const nextImage = getByAltText(productImages[1]);
-      expect(nextImage).toHaveAttribute('src', productImages[1]);
+      const nextImage = getAllByAltText(productImages[1]);
+      expect(nextImage[0]).toHaveAttribute('src', productImages[1]);
     });
   });
 
@@ -42,15 +42,15 @@ describe('ProductDetail', () => {
     it('renders prev image', () => {
       const { productImages } = products[0];
 
-      const { getByTestId, getByAltText } = renderProductDetail();
+      const { getByTestId, getAllByAltText } = renderProductDetail();
 
-      const currentImage = getByAltText(productImages[0]);
-      expect(currentImage).toHaveAttribute('src', productImages[0]);
+      const currentImage = getAllByAltText(productImages[0]);
+      expect(currentImage[0]).toHaveAttribute('src', productImages[0]);
 
       fireEvent.click(getByTestId('prevArrow'));
 
-      const prevImage = getByAltText(productImages[2]);
-      expect(prevImage).toHaveAttribute('src', productImages[2]);
+      const prevImage = getAllByAltText(productImages[2]);
+      expect(prevImage[0]).toHaveAttribute('src', productImages[2]);
     });
   });
 });
