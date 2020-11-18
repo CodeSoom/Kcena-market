@@ -24,6 +24,7 @@ const Arrow = styled.button({
 export function NextArrow({ onClick }) {
   return (
     <Arrow
+      data-testid="nextArrow"
       className="arrow next"
       onClick={onClick}
     >
@@ -38,6 +39,7 @@ export function NextArrow({ onClick }) {
 export function PrevArrow({ onClick }) {
   return (
     <Arrow
+      data-testid="prevArrow"
       className="arrow prev"
       onClick={onClick}
     >

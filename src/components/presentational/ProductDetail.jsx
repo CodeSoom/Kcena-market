@@ -11,9 +11,6 @@ import {
 
 import useStyles from '../../styles/styles';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
 export default function ProductDetail({ product }) {
   const {
     title, productImages, region, price, description,
@@ -30,7 +27,6 @@ export default function ProductDetail({ product }) {
       <SliderWrap>
         <Slider
           dots
-          infinite
           lazyLoad
           speed={500}
           slidesToShow={1}
