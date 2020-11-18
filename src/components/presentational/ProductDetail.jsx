@@ -31,6 +31,7 @@ export default function ProductDetail({ product }) {
         <Slider
           dots
           infinite
+          lazyLoad
           speed={500}
           slidesToShow={1}
           slidesToScroll={1}
@@ -39,23 +40,19 @@ export default function ProductDetail({ product }) {
         >
           {productImages.map((imageUrl) => (
             <a href={imageUrl} key={imageUrl}>
-              <div>
-                <ImageWrap>
-                  <Image src={imageUrl} alt={imageUrl} />
-                </ImageWrap>
-              </div>
+              <ImageWrap>
+                <Image src={imageUrl} alt={imageUrl} />
+              </ImageWrap>
             </a>
           ))}
         </Slider>
       </SliderWrap>
-      <div>{`지역 : ${region}`}</div>
-      <h1>{title}</h1>
-      <div>{`가격 : ${price}원`}</div>
-      <div>
-        <pre>
-          {description}
-        </pre>
-      </div>
+      <ArticleProfile>{`지역 : ${region}`}</ArticleProfile>
+      <ArticleDescription>
+        <h1 className="article article-title">{title}</h1>
+        <p className="article article-price">{`${price}원`}</p>
+        <p className="article article-description">{description}</p>
+      </ArticleDescription>
     </Container>
   );
 }
@@ -66,34 +63,82 @@ const ImageWrap = styled.div({
   width: '677px',
   margin: '0 auto',
   height: '500px',
+  borderRadius: '8px',
 });
 
 const SliderWrap = styled.div({
-  position: 'relative',
+  '& .slick-slider': {
+    height: '500px',
+  },
   '& .slick-dots': {
-    position: 'absolute',
-    bottom: '3px',
-    left: '49px',
-    width: '677px',
-    paddingTop: '16px',
-    paddingBottom: '16px',
-    borderRadius: '8px',
-    listStyle: 'none',
-    textAlign: 'center',
+    position: 'relative',
+    margin: '0 auto',
     backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
     backgroundBlendMode: 'multiply',
-  },
-  '& .slick-dots li button:before': {
-    fontSize: '40px',
+    width: '677px',
+    padding: '12px 0',
+    bottom: '57px',
+    borderRadius: '8px',
+    '& li': {
+      listStyle: 'none',
+      cursor: 'pointer',
+    },
+    '& li button': {
+      border: 'none',
+      background: '#212529',
+      color: 'transparent',
+      cursor: 'pointer',
+      display: 'block',
+      height: '15px',
+      width: '15px',
+      borderRadius: '7.5px',
+    },
+    '& li.slick-active button': {
+      backgroundColor: '#fff',
+    },
+    '& li button:before': {
+      content: 'none',
+    },
   },
 });
 
 const Image = styled.img({
   position: 'absolute',
-  borderRadius: '8px',
   minWidth: '100%',
   left: '50%',
   top: '50%',
   transform: 'translate(-50%, -50%)',
   color: 'transparent',
+});
+
+const ArticleProfile = styled.section({
+  padding: '32px 0',
+  width: '677px',
+  margin: '0 auto',
+  borderBottom: '1px solid #e9ecef',
+});
+
+const ArticleDescription = styled.section({
+  padding: '32px 0',
+  width: '677px',
+  margin: '0 auto',
+  borderBottom: '1px solid #e9ecef',
+  '& .article': {
+    marginTop: '5px',
+  },
+  '& .article-title': {
+    marginTop: 0,
+    fontSize: '20px',
+    fontWeight: '600',
+    lineHeight: '1.5',
+  },
+  '& .article-price': {
+    fontSize: '18px',
+    fontWeight: 'bold',
+  },
+  '& .article-description': {
+    fontSize: '17px',
+    whiteSpace: 'pre-wrap',
+    margin: '10px 0',
+  },
 });

@@ -5,6 +5,7 @@ html {
 	color: #555;
 	line-height: 1.2;
 	word-wrap: break-word;
+	min-width: 1024px;
 }
 body {
 	background: #eee;

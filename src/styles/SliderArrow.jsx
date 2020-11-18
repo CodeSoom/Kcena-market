@@ -7,7 +7,7 @@ import {
   FaArrowLeft,
 } from 'react-icons/fa';
 
-const Arrow = styled.div({
+const Arrow = styled.button({
   position: 'absolute',
   cursor: 'pointer',
   zIndex: 10,
@@ -29,6 +29,7 @@ export function NextArrow({ onClick }) {
     >
       <FaArrowRight
         color="#000"
+        size="2rem"
       />
     </Arrow>
   );
@@ -42,6 +43,7 @@ export function PrevArrow({ onClick }) {
     >
       <FaArrowLeft
         color="#000"
+        size="2rem"
       />
     </Arrow>
   );
