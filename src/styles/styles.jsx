@@ -12,10 +12,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '1.1rem',
     },
   },
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  page: {
     paddingTop: theme.spacing(8),
   },
   form: {

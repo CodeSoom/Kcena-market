@@ -81,7 +81,7 @@ const SliderWrap = styled.div({
     },
     '& li button': {
       border: 'none',
-      background: '#212529',
+      background: '#4f5052',
       color: 'transparent',
       cursor: 'pointer',
       display: 'block',
