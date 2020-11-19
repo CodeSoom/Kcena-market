@@ -16,11 +16,17 @@ import TextError from './TextError';
 import useStyles from '../../styles/styles';
 
 const initialValues = {
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
 };
 
 const validationSchema = yup.object({
+  firstName: yup.string()
+    .required('필수 항목입니다.'),
+  lastName: yup.string()
+    .required('필수 항목입니다.'),
   email: yup.string()
     .email('잘못된 이메일 형식입니다.')
     .required('필수 항목입니다.'),
@@ -51,6 +57,26 @@ export default function SignupForm({ onSubmit, signupError }) {
               spacing={3}
               className={classes.form}
             >
+              <Grid item xs={6}>
+                <FormikField
+                  type="firstName"
+                  label="First name"
+                  id="signup-firstName"
+                  name="firstName"
+                  variant="outlined"
+                  error={touched.firstName && Boolean(errors.firstName)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormikField
+                  type="lastName"
+                  label="Last name"
+                  id="signup-lastName"
+                  name="lastName"
+                  variant="outlined"
+                  error={touched.lastName && Boolean(errors.lastName)}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <FormikField
                   type="email"

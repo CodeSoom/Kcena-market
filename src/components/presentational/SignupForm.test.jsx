@@ -8,6 +8,8 @@ describe('SignupForm', () => {
   const handleSubmit = jest.fn();
 
   const controls = [
+    { control: 'input', name: 'firstName', text: '홍' },
+    { control: 'input', name: 'lastName', text: '길동' },
     { control: 'input', name: 'email', text: 'tester@example.com' },
     { control: 'input', name: 'password', text: '1234abcd' },
   ];
@@ -39,20 +41,20 @@ describe('SignupForm', () => {
     it('possible submit event', async () => {
       const { container } = renderSignupForm();
 
+      const firstName = container.querySelector('input[name="firstName"]');
+      const lastName = container.querySelector('input[name="lastName"]');
       const email = container.querySelector('input[name="email"]');
       const password = container.querySelector('input[name="password"]');
 
       await waitFor(() => {
-        fireEvent.change(email, {
-          target: {
-            value: 'tester@example.com',
-          },
-        });
-        fireEvent.change(password, {
-          target: {
-            value: '1234abcd',
-          },
-        });
+        fireEvent.change(firstName,
+          { target: { value: '홍' } });
+        fireEvent.change(lastName,
+          { target: { value: '길동' } });
+        fireEvent.change(email,
+          { target: { value: 'tester@example.com' } });
+        fireEvent.change(password,
+          { target: { value: '1234abcd' } });
       });
 
       const submit = container.querySelector('button[type="submit"]');
@@ -63,6 +65,8 @@ describe('SignupForm', () => {
 
       expect(handleSubmit).toHaveBeenCalledWith({
         signupFields: {
+          firstName: '홍',
+          lastName: '길동',
           email: 'tester@example.com',
           password: '1234abcd',
         },
