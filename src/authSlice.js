@@ -90,13 +90,19 @@ export function requestGoogleSignIn() {
 }
 
 export function requestSignup({ signupFields }) {
-  const { email, password } = signupFields;
+  const {
+    email, password, firstName, lastName,
+  } = signupFields;
+  const userNickname = `${firstName} ${lastName}`;
 
   return async (dispatch) => {
     try {
       const { user } = await postSignup({ email, password });
-      const { displayName, uid } = user;
+      user.updateProfile({
+        displayName: userNickname,
+      });
 
+      const { displayName, uid } = user;
       dispatch(setUser({ displayName, uid }));
       saveItem('user', { displayName, uid });
       dispatch(push('/'));

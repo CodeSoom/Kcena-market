@@ -55,10 +55,16 @@ describe('SignupFormContainer', () => {
     it('possible submit event and call dispatch', async () => {
       const { container } = renderSignupFormContainer();
 
+      const firstName = container.querySelector('input[name="firstName"]');
+      const lastName = container.querySelector('input[name="lastName"]');
       const email = container.querySelector('input[name="email"]');
       const password = container.querySelector('input[name="password"]');
 
       await waitFor(() => {
+        fireEvent.change(firstName,
+          { target: { value: '홍' } });
+        fireEvent.change(lastName,
+          { target: { value: '길동' } });
         fireEvent.change(email,
           { target: { value: 'tester@example.com' } });
         fireEvent.change(password,

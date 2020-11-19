@@ -169,6 +169,8 @@ describe('actions', () => {
 
   describe('requestSignup', () => {
     const signupFields = {
+      firstName: '홍',
+      lastName: '길동',
       email: 'tester@example.com',
       password: '1234abcd',
     };
@@ -179,7 +181,9 @@ describe('actions', () => {
 
     it('dispatches requestSignup action and returns user', async () => {
       postSignup.mockImplementationOnce(() => ({
-        user: {},
+        user: {
+          updateProfile: jest.fn(),
+        },
       }));
 
       await store.dispatch(requestSignup({ signupFields }));
