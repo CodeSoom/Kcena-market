@@ -93,12 +93,13 @@ export function requestSignup({ signupFields }) {
   const {
     email, password, firstName, lastName,
   } = signupFields;
+  const userNickname = `${firstName} ${lastName}`;
 
   return async (dispatch) => {
     try {
       const { user } = await postSignup({ email, password });
       user.updateProfile({
-        displayName: `${firstName} ${lastName}`,
+        displayName: userNickname,
       });
 
       const { displayName, uid } = user;
