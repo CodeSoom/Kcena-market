@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import { loadItem } from '../services/storage';
 
 import SignupFormContainer from '../components/container/SignupFormContainer';
+
 import useStyles from '../styles/styles';
 
 export default function SignupPage() {
@@ -22,11 +23,12 @@ export default function SignupPage() {
     <Container
       component="section"
       maxWidth="xs"
-      className={classes.paper}
+      className={classes.page}
     >
       <Typography
         component="h2"
         variant="h4"
+        align="center"
       >
         Sign up
       </Typography>

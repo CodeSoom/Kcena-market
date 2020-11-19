@@ -7,7 +7,11 @@ import { loadItem } from '../services/storage';
 
 import WriteFormContainer from '../components/container/WriteFormContainer';
 
+import useStyles from '../styles/styles';
+
 export default function WritePage() {
+  const classes = useStyles();
+
   const user = loadItem('user');
   if (user === null) {
     return <Redirect to="/login" />;
@@ -17,6 +21,7 @@ export default function WritePage() {
     <Container
       component="section"
       maxWidth="md"
+      className={classes.page}
     >
       <Typography
         component="h2"

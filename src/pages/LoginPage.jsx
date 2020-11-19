@@ -7,9 +7,9 @@ import Container from '@material-ui/core/Container';
 
 import { loadItem } from '../services/storage';
 
-import useStyles from '../styles/styles';
-
 import LoginFormContainer from '../components/container/LoginFormContainer';
+
+import useStyles from '../styles/styles';
 
 export default function LoginPage() {
   const classes = useStyles();
@@ -23,9 +23,13 @@ export default function LoginPage() {
     <Container
       component="section"
       maxWidth="xs"
-      className={classes.paper}
+      className={classes.page}
     >
-      <Typography component="h2" variant="h4">
+      <Typography
+        component="h2"
+        variant="h4"
+        align="center"
+      >
         Log In
       </Typography>
       <LoginFormContainer />

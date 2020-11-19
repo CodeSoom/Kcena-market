@@ -28,7 +28,7 @@ const validationSchema = yup.object({
 const initialValues = {
   title: '',
   description: '',
-  price: 0,
+  price: '',
   region: '',
 };
 
