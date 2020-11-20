@@ -24,6 +24,22 @@ export async function fetchProduct(productId) {
   return product;
 }
 
+export async function fetchMyProducts({ user }) {
+  const { uid } = user;
+  const response = await firebase
+    .firestore()
+    .collection('products')
+    .where('user.uid', '==', uid)
+    .get();
+
+  const myProducts = response.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return myProducts;
+}
+
 export async function uploadProductImages({ uid, files }) {
   async function uploadProductImage(file) {
     const uploadTask = firebase.storage()

@@ -6,6 +6,10 @@ export async function fetchProduct() {
   return {};
 }
 
+export async function fetchMyProducts() {
+  return [];
+}
+
 export const postLogin = jest.fn();
 
 export const postGoogleSignIn = jest.fn();
