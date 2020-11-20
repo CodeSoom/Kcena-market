@@ -54,20 +54,18 @@ export function postProduct({ files, newProduct }) {
   return async (_, getState) => {
     const {
       authReducer: {
-        user: {
-          uid,
-        },
+        user,
       },
     } = getState();
 
     const productImages = await uploadProductImages({
-      uid, files,
+      uid: user.uid, files,
     });
 
     await postProductFireStore({
       ...newProduct,
       productImages,
-      creatorId: uid,
+      user,
       createAt: Date.now(),
     });
   };

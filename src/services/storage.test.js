@@ -3,6 +3,7 @@ import { saveItem, loadItem, deleteItem } from './storage';
 describe('localStorage', () => {
   const KEY = 'user';
   const VALUE = {
+    email: 'tester@example.com',
     displayName: 'tester',
     uid: '123456',
   };

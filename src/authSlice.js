@@ -12,6 +12,7 @@ import {
 } from './services/api';
 
 const initialUser = {
+  email: '',
   displayName: '',
   uid: '',
 };
@@ -25,10 +26,11 @@ const { actions, reducer: authReducer } = createSlice({
     error: '',
   },
   reducers: {
-    setUser(state, { payload: { displayName, uid } }) {
+    setUser(state, { payload: { email, displayName, uid } }) {
       return {
         ...state,
         user: {
+          email,
           displayName,
           uid,
         },
@@ -65,8 +67,8 @@ export function requestLogin({ loginFields }) {
       const { user } = await postLogin({ email, password });
       const { displayName, uid } = user;
 
-      dispatch(setUser({ displayName, uid }));
-      saveItem('user', { displayName, uid });
+      dispatch(setUser({ email, displayName, uid }));
+      saveItem('user', { email, displayName, uid });
       dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
@@ -78,10 +80,10 @@ export function requestGoogleSignIn() {
   return async (dispatch) => {
     try {
       const { user } = await postGoogleSignIn();
-      const { displayName, uid } = user;
+      const { email, displayName, uid } = user;
 
-      dispatch(setUser({ displayName, uid }));
-      saveItem('user', { displayName, uid });
+      dispatch(setUser({ email, displayName, uid }));
+      saveItem('user', { email, displayName, uid });
       dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
@@ -99,12 +101,12 @@ export function requestSignup({ signupFields }) {
     try {
       const { user } = await postSignup({ email, password });
       user.updateProfile({
-        displayName: userNickname,
+        displayName: userNickname || 'unknown',
       });
 
       const { displayName, uid } = user;
-      dispatch(setUser({ displayName, uid }));
-      saveItem('user', { displayName, uid });
+      dispatch(setUser({ email, displayName, uid }));
+      saveItem('user', { email, displayName, uid });
       dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
