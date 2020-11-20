@@ -7,6 +7,7 @@ import productReducer, {
   postProduct,
   setProduct,
   setProducts,
+  setMyProducts,
 } from './productSlice';
 
 import products from '../fixtures/products';
@@ -22,6 +23,7 @@ describe('productReducer', () => {
     const initialState = {
       product: null,
       products: [],
+      userProducts: [],
     };
 
     it('returns initialState', () => {
@@ -54,6 +56,16 @@ describe('productReducer', () => {
 
     expect(state.product.id).toBe(1);
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
+  });
+
+  describe('setMyProducts', () => {
+    const initialState = {
+      myProducts: [],
+    };
+
+    const state = productReducer(initialState, setMyProducts(products));
+
+    expect(state.myProducts).toEqual(products);
   });
 });
 

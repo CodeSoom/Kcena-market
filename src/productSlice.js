@@ -5,6 +5,7 @@ import {
   fetchProduct,
   postProductFireStore,
   uploadProductImages,
+  fetchMyProducts,
 } from './services/api';
 
 const { actions, reducer: productReducer } = createSlice({
@@ -12,6 +13,7 @@ const { actions, reducer: productReducer } = createSlice({
   initialState: {
     product: null,
     products: [],
+    userProducts: [],
   },
   reducers: {
     setProducts(state, { payload: products }) {
@@ -26,12 +28,19 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
+    setMyProducts(state, { payload: myProducts }) {
+      return {
+        ...state,
+        myProducts,
+      };
+    },
   },
 });
 
 export const {
   setProducts,
   setProduct,
+  setMyProducts,
   writeNewProduct,
   initialNewProduct,
 } = actions;
@@ -47,6 +56,13 @@ export function loadProduct({ productId }) {
   return async (dispatch) => {
     const product = await fetchProduct(productId);
     dispatch(setProduct(product));
+  };
+}
+
+export function loadMyProducts({ user }) {
+  return async (dispatch) => {
+    const myProducts = await fetchMyProducts({ user });
+    dispatch(setMyProducts(myProducts));
   };
 }
 
