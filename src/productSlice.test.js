@@ -11,6 +11,7 @@ import productReducer, {
 } from './productSlice';
 
 import products from '../fixtures/products';
+import myProducts from '../fixtures/myProducts';
 import newProduct from '../fixtures/newProduct';
 
 const middlewares = [...getDefaultMiddleware()];
@@ -63,9 +64,9 @@ describe('productReducer', () => {
       myProducts: [],
     };
 
-    const state = productReducer(initialState, setMyProducts(products));
+    const state = productReducer(initialState, setMyProducts(myProducts));
 
-    expect(state.myProducts).toEqual(products);
+    expect(state.myProducts).toEqual(myProducts);
   });
 });
 
