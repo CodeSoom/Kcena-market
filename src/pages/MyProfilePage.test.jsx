@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import { MemoryRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import MyProfilePage from './MyProfilePage';
 
@@ -10,7 +11,10 @@ import { loadItem } from '../services/storage';
 
 jest.mock('../services/storage');
 
+jest.mock('react-redux');
 describe('MyProfilePage', () => {
+  const dispatch = jest.fn();
+
   function renderWritePage() {
     return render((
       <MemoryRouter>
@@ -20,6 +24,13 @@ describe('MyProfilePage', () => {
   }
 
   beforeEach(() => {
+    dispatch.mockClear();
+    useDispatch.mockImplementation(() => dispatch);
+    useSelector.mockImplementation((selector) => selector({
+      productReducer: {
+        myProducts: [],
+      },
+    }));
     loadItem.mockImplementation(() => given.mockUser);
   });
 

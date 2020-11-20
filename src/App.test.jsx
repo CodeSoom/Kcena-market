@@ -31,17 +31,10 @@ describe('App', () => {
         products,
       },
       authReducer: {
-        loginFields: {
-          email: '',
-          password: '',
-        },
-        signupFields: {
-          email: '',
-          password: '',
-        },
         user: {
           uid: '',
           displayName: '',
+          email: '',
         },
       },
     }));
@@ -72,18 +65,31 @@ describe('App', () => {
     expect(container).toHaveTextContent(products[0].title);
   });
 
-  it('navigates log in when you click the "log in"', () => {
+  it('render log in page', () => {
     const { getByLabelText } = renderApp({ path: '/login' });
 
     expect(getByLabelText(/E-mail/)).not.toBeNull();
     expect(getByLabelText(/Password/)).not.toBeNull();
   });
 
-  it('navigates Sign up when you click the "Sign up"', () => {
+  it('render sign up page', () => {
     const { getByLabelText } = renderApp({ path: '/signup' });
 
     expect(getByLabelText(/E-mail/)).not.toBeNull();
     expect(getByLabelText(/Password/)).not.toBeNull();
+  });
+
+  it('render write new product page', () => {
+    const { container } = renderApp({ path: '/newproduct' });
+
+    expect(container).toHaveTextContent('Write new product');
+    expect(container).toHaveTextContent('상품 이미지를 드래그해서 올려주세요! 또는 클릭해서 파일을 선택해주세요!');
+  });
+
+  it('render MyProfile page', () => {
+    const { container } = renderApp({ path: '/myprofile' });
+
+    expect(container).toHaveTextContent('내 정보');
   });
 
   context('with invalid path', () => {
@@ -96,6 +102,7 @@ describe('App', () => {
 
   context('with logged in', () => {
     const mockUser = {
+      email: 'tester@example.com',
       displayName: 'tester',
       uid: '123456',
     };
