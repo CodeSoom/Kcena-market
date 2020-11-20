@@ -15,7 +15,7 @@ export default function ArticleProfile({ user, region }) {
             <MoodIcon fontSize="large" />
           </ProfilePhoto>
           <ProfileDescription>
-            <h2 className="nickname">{`${displayName}`}</h2>
+            <h2 className="profile-nickname">{`${displayName}`}</h2>
             <p>{`${region}`}</p>
             <p className="profile-email">{`${email}`}</p>
           </ProfileDescription>
@@ -53,7 +53,7 @@ const ProfileDescription = styled.div({
   display: 'flex',
   flexDirection: 'column',
   marginLeft: '8px',
-  '& .nickname': {
+  '& .profile-nickname': {
     lineHeight: '1.5',
   },
   '& .profile-email': {
