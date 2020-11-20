@@ -110,7 +110,11 @@ describe('firebase services', () => {
         description: 'test description',
         productImages: [],
         createdAt: Date.now(),
-        creatorId: 'abc123',
+        user: {
+          uid: 'test1234',
+          displayName: '홍 길동',
+          email: 'tester@example.com',
+        },
       };
 
       await postProductFireStore(newProduct);
