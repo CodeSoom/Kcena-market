@@ -11,11 +11,12 @@ import {
 
 import useStyles from '../../styles/styles';
 
+import ArticleProfile from './ArticleProfile';
+
 export default function ProductDetail({ product }) {
   const {
-    title, productImages, region, price, description,
+    productImages, title, region, price, description, user,
   } = product;
-
   const classes = useStyles();
 
   return (
@@ -43,7 +44,7 @@ export default function ProductDetail({ product }) {
           ))}
         </Slider>
       </SliderWrap>
-      <ArticleProfile>{`지역 : ${region}`}</ArticleProfile>
+      <ArticleProfile user={user} region={region} />
       <ArticleDescription>
         <h1 className="article article-title">{title}</h1>
         <p className="article article-price">{`${price}원`}</p>
@@ -105,13 +106,6 @@ const Image = styled.img({
   top: '50%',
   transform: 'translate(-50%, -50%)',
   color: 'transparent',
-});
-
-const ArticleProfile = styled.section({
-  padding: '32px 0',
-  width: '677px',
-  margin: '0 auto',
-  borderBottom: '1px solid #e9ecef',
 });
 
 const ArticleDescription = styled.section({
