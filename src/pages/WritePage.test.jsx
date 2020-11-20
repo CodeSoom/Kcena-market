@@ -35,6 +35,7 @@ describe('WritePage', () => {
 
   context('with user', () => {
     given('mockUser', () => ({
+      email: 'tester@example.com',
       displayName: 'tester',
       uid: '123456',
     }));

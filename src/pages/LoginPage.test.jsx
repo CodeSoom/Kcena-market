@@ -30,6 +30,7 @@ describe('LoginPage', () => {
     useSelector.mockImplementation((selector) => selector({
       authReducer: {
         user: {
+          email: '',
           displayName: '',
           uid: '',
         },
@@ -40,6 +41,7 @@ describe('LoginPage', () => {
 
   context('with user', () => {
     given('mockUser', () => ({
+      email: 'tester@example.com',
       displayName: 'tester',
       uid: '1234',
     }));
