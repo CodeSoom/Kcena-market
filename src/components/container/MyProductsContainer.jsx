@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loadMyProducts } from '../../productSlice';
+import {
+  loadMyProducts,
+  deleteProduct,
+} from '../../productSlice';
 
 import TableForm from '../presentational/TableForm';
 
@@ -18,8 +21,8 @@ export default function MyProductsContainer({ user }) {
     dispatch(loadMyProducts({ user }));
   }, []);
 
-  function handleDeleteProduct(productId) {
-    dispatch(() => console.log(productId));
+  function handleDeleteProduct(product) {
+    dispatch(deleteProduct({ product }));
   }
 
   const myProducts = useSelector((state) => state.productReducer.myProducts);

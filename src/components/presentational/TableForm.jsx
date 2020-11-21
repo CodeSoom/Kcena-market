@@ -49,7 +49,7 @@ export default function TableForm(
                   size="small"
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleDeleteProduct(product.id)}
+                  onClick={() => handleDeleteProduct(product)}
                 >
                   Delete
                 </Button>
