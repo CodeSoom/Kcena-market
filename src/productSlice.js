@@ -6,6 +6,7 @@ import {
   postProductFireStore,
   uploadProductImages,
   fetchMyProducts,
+  deleteProductFireStore,
 } from './services/api';
 
 const { actions, reducer: productReducer } = createSlice({
@@ -84,6 +85,23 @@ export function postProduct({ files, newProduct }) {
       user,
       createAt: Date.now(),
     });
+  };
+}
+
+export function deleteProduct({ product }) {
+  return async (dispatch, getState) => {
+    const {
+      productReducer: {
+        myProducts,
+      },
+    } = getState();
+
+    await deleteProductFireStore({ product });
+    dispatch(setMyProducts(
+      myProducts.filter(
+        (myProduct) => myProduct.id !== product.id,
+      ),
+    ));
   };
 }
 

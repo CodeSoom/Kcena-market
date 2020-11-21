@@ -8,6 +8,7 @@ import productReducer, {
   setProduct,
   setProducts,
   setMyProducts,
+  deleteProduct,
 } from './productSlice';
 
 import products from '../fixtures/products';
@@ -116,6 +117,28 @@ describe('actions', () => {
       const files = [];
 
       await store.dispatch(postProduct({ files, newProduct }));
+    });
+  });
+
+  describe('deleteProduct', () => {
+    const productWillDeleted = myProducts[0];
+
+    beforeEach(() => {
+      store = mockStore({
+        productReducer: {
+          myProducts,
+        },
+      });
+    });
+
+    it('dispatch setMyProducts', async () => {
+      await store.dispatch(deleteProduct({ product: productWillDeleted }));
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setMyProducts(
+        myProducts.filter((product) => product.id !== productWillDeleted.id),
+      ));
     });
   });
 });
