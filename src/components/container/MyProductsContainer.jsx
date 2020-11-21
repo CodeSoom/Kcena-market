@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { loadMyProducts } from '../../productSlice';
 
+import TableForm from '../presentational/TableForm';
+
 export default function MyProductsContainer({ user }) {
   const dispatch = useDispatch();
 
@@ -15,21 +17,12 @@ export default function MyProductsContainer({ user }) {
     dispatch(() => console.log(productId));
   }
 
-  const myProducts = useSelector((state) => state.productReducer.myProducts) || [];
+  const myProducts = useSelector((state) => state.productReducer.myProducts);
 
   return (
-    <ul>
-      {myProducts.map(({ id, title }) => (
-        <li key={id}>
-          {title}
-          <button
-            type="button"
-            onClick={() => handleDeleteProduct(id)}
-          >
-            Delete
-          </button>
-        </li>
-      ))}
-    </ul>
+    <TableForm
+      products={myProducts}
+      handleDeleteProduct={handleDeleteProduct}
+    />
   );
 }
