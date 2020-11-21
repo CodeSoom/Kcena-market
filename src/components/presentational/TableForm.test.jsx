@@ -8,10 +8,15 @@ import myProducts from '../../../fixtures/myProducts';
 
 describe('TableForm', () => {
   const handleDeleteProducts = jest.fn();
+  const columns = [
+    { id: 1, name: 'title', label: '상품 이름' },
+    { id: 2, name: 'price', label: '가격' },
+  ];
 
   function renderTableForm({ products }) {
     return render((
       <TableForm
+        columns={columns}
         products={products}
         handleDeleteProduct={handleDeleteProducts}
       />

@@ -6,6 +6,11 @@ import { loadMyProducts } from '../../productSlice';
 
 import TableForm from '../presentational/TableForm';
 
+const columns = [
+  { id: 1, name: 'title', label: '상품 이름' },
+  { id: 2, name: 'price', label: '가격' },
+];
+
 export default function MyProductsContainer({ user }) {
   const dispatch = useDispatch();
 
@@ -21,6 +26,7 @@ export default function MyProductsContainer({ user }) {
 
   return (
     <TableForm
+      columns={columns}
       products={myProducts}
       handleDeleteProduct={handleDeleteProduct}
     />
