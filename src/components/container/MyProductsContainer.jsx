@@ -11,11 +11,13 @@ export default function MyProductsContainer({ user }) {
     dispatch(loadMyProducts({ user }));
   }, []);
 
-  const myProducts = useSelector((state) => state.productReducer.myProducts);
+  const myProducts = useSelector((state) => state.productReducer.myProducts) || [];
 
   return (
-    <div>
-      {/* TODO : 판매 상품을 보여주는 Form 작성 */}
-    </div>
+    <ul>
+      {myProducts.map(({ id, title }) => (
+        <li key={id}>{title}</li>
+      ))}
+    </ul>
   );
 }

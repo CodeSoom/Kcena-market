@@ -12,6 +12,7 @@ import App from './App';
 import { loadItem } from './services/storage';
 
 import products from '../fixtures/products';
+import myProducts from '../fixtures/myProducts';
 
 jest.mock('react-redux');
 jest.mock('./services/storage');
@@ -29,6 +30,7 @@ describe('App', () => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         products,
+        myProducts,
       },
       authReducer: {
         user: {
