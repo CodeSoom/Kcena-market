@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import firebase from '../../plugin/firebase';
+import { isEmpty } from '../utils';
 
 export async function fetchProducts() {
   const response = await firebase
@@ -59,6 +60,23 @@ export async function postProductFireStore(newProduct) {
     .firestore().collection('products').add(newProduct);
 
   return response;
+}
+
+export async function deleteProductFireStore({ product }) {
+  const { id, productImages } = product;
+  await firebase
+    .firestore().doc(`products/${id}`).delete();
+
+  if (isEmpty(productImages || [])) {
+    return;
+  }
+
+  async function deleteImageInStorage(productImage) {
+    await firebase.storage().refFromURL(productImage).delete();
+  }
+
+  const promises = productImages.map(deleteImageInStorage);
+  await Promise.all(promises);
 }
 
 export async function postLogin({ email, password }) {
