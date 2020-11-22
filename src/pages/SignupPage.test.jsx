@@ -2,13 +2,15 @@ import React from 'react';
 
 import { MemoryRouter } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { render } from '@testing-library/react';
 
 import { loadItem } from '../services/storage';
 
 import SignupPage from './SignupPage';
+
+import { logInUser } from '../../fixtures/user';
 
 jest.mock('react-redux');
 jest.mock('../services/storage');
@@ -27,22 +29,11 @@ describe('SignupPage', () => {
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
-    useSelector.mockImplementation((selector) => selector({
-      authReducer: {
-        user: {
-          displayName: '',
-          uid: '',
-        },
-      },
-    }));
-    loadItem.mockImplementation(() => given.mockUser);
+    loadItem.mockImplementation(() => given.user);
   });
 
   context('with user', () => {
-    given('mockUser', () => ({
-      displayName: 'tester',
-      uid: '1234',
-    }));
+    given('user', () => logInUser);
     it('doesn\'t render signup page', () => {
       const { container } = renderSignupPage();
 
@@ -51,7 +42,7 @@ describe('SignupPage', () => {
   });
 
   context('without user', () => {
-    given('mockUser', () => null);
+    given('user', () => null);
     it('render signup page', () => {
       const { container } = renderSignupPage();
 

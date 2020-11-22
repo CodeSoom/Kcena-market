@@ -9,6 +9,8 @@ import AboutMePage from './AboutMePage';
 
 import { loadItem } from '../services/storage';
 
+import { logInUser } from '../../fixtures/user';
+
 jest.mock('../services/storage');
 
 jest.mock('react-redux');
@@ -31,15 +33,11 @@ describe('AboutMePage', () => {
         loggedInUserSellProducts: [],
       },
     }));
-    loadItem.mockImplementation(() => given.mockUser);
+    loadItem.mockImplementation(() => given.user);
   });
 
   context('with user', () => {
-    given('mockUser', () => ({
-      email: 'tester@example.com',
-      displayName: 'tester',
-      uid: '123456',
-    }));
+    given('user', () => logInUser);
 
     it('render AboutMePage', () => {
       const { container } = renderAboutMePage();
@@ -57,7 +55,7 @@ describe('AboutMePage', () => {
   });
 
   context('without user', () => {
-    given('mockUser', () => null);
+    given('user', () => null);
     it('render login page', () => {
       const { container } = renderAboutMePage();
 

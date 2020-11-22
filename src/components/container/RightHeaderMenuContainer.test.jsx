@@ -8,6 +8,8 @@ import { MemoryRouter } from 'react-router-dom';
 
 import RightHeaderMenuContainer from './RightHeaderMenuContainer';
 
+import { logInUser } from '../../../fixtures/user';
+
 jest.mock('react-redux');
 describe('RightHeaderMenuContainer', () => {
   const dispatch = jest.fn();
@@ -31,10 +33,7 @@ describe('RightHeaderMenuContainer', () => {
   });
 
   context('with user', () => {
-    given('user', () => ({
-      displayName: 'tester',
-      uid: 'abc1234',
-    }));
+    given('user', () => logInUser);
 
     it('render 판매하기, Log out', () => {
       const { getByText } = renderRightHeaderMenuContainer();

@@ -14,6 +14,8 @@ import { loadItem } from './services/storage';
 import products from '../fixtures/products';
 import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
 
+import { logInUser } from '../fixtures/user';
+
 jest.mock('react-redux');
 jest.mock('./services/storage');
 jest.mock('./services/api');
@@ -103,14 +105,8 @@ describe('App', () => {
   });
 
   context('with logged in', () => {
-    const mockUser = {
-      email: 'tester@example.com',
-      displayName: 'tester',
-      uid: '123456',
-    };
-
     beforeEach(() => {
-      loadItem.mockImplementation(() => mockUser);
+      loadItem.mockImplementation(() => logInUser);
     });
 
     it('dispatchs call with user', () => {
@@ -120,7 +116,7 @@ describe('App', () => {
 
       expect(actions[0]).toEqual({
         type: 'authentication/setUser',
-        payload: mockUser,
+        payload: logInUser,
       });
     });
   });

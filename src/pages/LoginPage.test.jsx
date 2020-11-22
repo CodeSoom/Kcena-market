@@ -2,13 +2,15 @@ import React from 'react';
 
 import { MemoryRouter } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { render } from '@testing-library/react';
 
 import { loadItem } from '../services/storage';
 
 import LoginPage from './LoginPage';
+
+import { logInUser } from '../../fixtures/user';
 
 jest.mock('react-redux');
 jest.mock('../services/storage');
@@ -27,24 +29,11 @@ describe('LoginPage', () => {
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
-    useSelector.mockImplementation((selector) => selector({
-      authReducer: {
-        user: {
-          email: '',
-          displayName: '',
-          uid: '',
-        },
-      },
-    }));
-    loadItem.mockImplementation(() => given.mockUser);
+    loadItem.mockImplementation(() => given.user);
   });
 
   context('with user', () => {
-    given('mockUser', () => ({
-      email: 'tester@example.com',
-      displayName: 'tester',
-      uid: '1234',
-    }));
+    given('user', () => logInUser);
     it('doesn\'t render login page', () => {
       const { container } = renderLoginPage();
 
@@ -53,7 +42,7 @@ describe('LoginPage', () => {
   });
 
   context('without user', () => {
-    given('mockUser', () => null);
+    given('user', () => null);
     it('render login page', () => {
       const { container } = renderLoginPage();
 

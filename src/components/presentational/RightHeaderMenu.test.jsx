@@ -6,6 +6,8 @@ import { MemoryRouter } from 'react-router-dom';
 
 import RightHeaderMenu from './RightHeaderMenu';
 
+import { logInUser, logOutUser } from '../../../fixtures/user';
+
 describe('RightHeaderMenu', () => {
   const handleClickLogout = jest.fn();
 
@@ -21,20 +23,15 @@ describe('RightHeaderMenu', () => {
   }
 
   context('with user uid', () => {
-    const user = {
-      displayName: 'tester',
-      uid: 'abc1234',
-    };
-
     it('render 판매하기, Log out', () => {
-      const { getByText } = renderRightHeaderMenu({ user });
+      const { getByText } = renderRightHeaderMenu({ user: logInUser });
 
       expect(getByText('판매하기')).not.toBeNull();
       expect(getByText('Log out')).not.toBeNull();
     });
 
     it('listen logout event', () => {
-      const { getByText } = renderRightHeaderMenu({ user });
+      const { getByText } = renderRightHeaderMenu({ user: logInUser });
 
       fireEvent.click(getByText('Log out'));
 
@@ -43,13 +40,8 @@ describe('RightHeaderMenu', () => {
   });
 
   context('without user uid', () => {
-    const user = {
-      displayName: '',
-      uid: '',
-    };
-
     it('render Log In, Sign up', () => {
-      const { getByText } = renderRightHeaderMenu({ user });
+      const { getByText } = renderRightHeaderMenu({ user: logOutUser });
 
       expect(getByText('Log In')).not.toBeNull();
       expect(getByText('Sign up')).not.toBeNull();
