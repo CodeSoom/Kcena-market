@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import LoggedInUserSellProductsContainer from './LoggedInUserSellProductsContainer';
 
-import myProducts from '../../../fixtures/myProducts';
+import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
 
 jest.mock('react-redux');
 
@@ -24,7 +24,7 @@ describe('LoggedInUserSellProductsContainer', () => {
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
-        myProducts,
+        loggedInUserSellProducts,
       },
     }));
   });
@@ -32,7 +32,7 @@ describe('LoggedInUserSellProductsContainer', () => {
   it('render products', () => {
     const { getByText } = renderLoggedInUserSellProductsContainer();
 
-    myProducts.forEach(({ title }) => {
+    loggedInUserSellProducts.forEach(({ title }) => {
       expect(getByText(title)).not.toBeNull();
     });
   });

@@ -7,12 +7,12 @@ import productReducer, {
   postProduct,
   setProduct,
   setProducts,
-  setMyProducts,
+  setloggedInUserSellProducts,
   deleteProduct,
 } from './productSlice';
 
 import products from '../fixtures/products';
-import myProducts from '../fixtures/myProducts';
+import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
 import newProduct from '../fixtures/newProduct';
 
 const middlewares = [...getDefaultMiddleware()];
@@ -60,14 +60,14 @@ describe('productReducer', () => {
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
   });
 
-  describe('setMyProducts', () => {
+  describe('setloggedInUserSellProducts', () => {
     const initialState = {
-      myProducts: [],
+      loggedInUserSellProducts: [],
     };
 
-    const state = productReducer(initialState, setMyProducts(myProducts));
+    const state = productReducer(initialState, setloggedInUserSellProducts(loggedInUserSellProducts));
 
-    expect(state.myProducts).toEqual(myProducts);
+    expect(state.loggedInUserSellProducts).toEqual(loggedInUserSellProducts);
   });
 });
 
@@ -121,23 +121,23 @@ describe('actions', () => {
   });
 
   describe('deleteProduct', () => {
-    const productWillDeleted = myProducts[0];
+    const productWillDeleted = loggedInUserSellProducts[0];
 
     beforeEach(() => {
       store = mockStore({
         productReducer: {
-          myProducts,
+          loggedInUserSellProducts,
         },
       });
     });
 
-    it('dispatch setMyProducts', async () => {
+    it('dispatch setloggedInUserSellProducts', async () => {
       await store.dispatch(deleteProduct({ product: productWillDeleted }));
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setMyProducts(
-        myProducts.filter((product) => product.id !== productWillDeleted.id),
+      expect(actions[0]).toEqual(setloggedInUserSellProducts(
+        loggedInUserSellProducts.filter((product) => product.id !== productWillDeleted.id),
       ));
     });
   });

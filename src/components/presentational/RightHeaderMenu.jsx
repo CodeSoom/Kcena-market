@@ -17,7 +17,7 @@ export default function RightHeaderMenu({
             <Link to="/newproduct">판매하기</Link>
           </Button>
           <Button color="inherit">
-            <Link to="/myprofile">내 정보</Link>
+            <Link to="/aboutme">내 정보</Link>
           </Button>
           <LogoutForm onClick={handleClickLogout} />
         </>

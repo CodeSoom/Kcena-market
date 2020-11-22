@@ -6,7 +6,7 @@ export async function fetchProduct() {
   return {};
 }
 
-export async function fetchMyProducts() {
+export async function fetchloggedInUserSellProducts() {
   return [];
 }
 

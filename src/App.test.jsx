@@ -12,7 +12,7 @@ import App from './App';
 import { loadItem } from './services/storage';
 
 import products from '../fixtures/products';
-import myProducts from '../fixtures/myProducts';
+import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
 
 jest.mock('react-redux');
 jest.mock('./services/storage');
@@ -30,7 +30,7 @@ describe('App', () => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         products,
-        myProducts,
+        loggedInUserSellProducts,
       },
       authReducer: {
         user: {
@@ -88,8 +88,8 @@ describe('App', () => {
     expect(container).toHaveTextContent('상품 이미지를 드래그해서 올려주세요! 또는 클릭해서 파일을 선택해주세요!');
   });
 
-  it('render MyProfile page', () => {
-    const { container } = renderApp({ path: '/myprofile' });
+  it('render About me page', () => {
+    const { container } = renderApp({ path: '/aboutme' });
 
     expect(container).toHaveTextContent('내 정보');
   });

@@ -25,7 +25,7 @@ export async function fetchProduct(productId) {
   return product;
 }
 
-export async function fetchMyProducts({ user }) {
+export async function fetchloggedInUserSellProducts({ user }) {
   const { uid } = user;
   const response = await firebase
     .firestore()
@@ -33,12 +33,12 @@ export async function fetchMyProducts({ user }) {
     .where('user.uid', '==', uid)
     .get();
 
-  const myProducts = response.docs.map((doc) => ({
+  const loggedInUserSellProducts = response.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
 
-  return myProducts;
+  return loggedInUserSellProducts;
 }
 
 export async function uploadProductImages({ uid, files }) {

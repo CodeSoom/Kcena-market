@@ -5,7 +5,7 @@ import {
   fetchProduct,
   postProductFireStore,
   uploadProductImages,
-  fetchMyProducts,
+  fetchloggedInUserSellProducts,
   deleteProductFireStore,
 } from './services/api';
 
@@ -29,10 +29,10 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
-    setMyProducts(state, { payload: myProducts }) {
+    setloggedInUserSellProducts(state, { payload: loggedInUserSellProducts }) {
       return {
         ...state,
-        myProducts,
+        loggedInUserSellProducts,
       };
     },
   },
@@ -41,7 +41,7 @@ const { actions, reducer: productReducer } = createSlice({
 export const {
   setProducts,
   setProduct,
-  setMyProducts,
+  setloggedInUserSellProducts,
   writeNewProduct,
   initialNewProduct,
 } = actions;
@@ -62,8 +62,8 @@ export function loadProduct({ productId }) {
 
 export function loadLoggedInUserSellProducts({ user }) {
   return async (dispatch) => {
-    const myProducts = await fetchMyProducts({ user });
-    dispatch(setMyProducts(myProducts));
+    const loggedInUserSellProducts = await fetchloggedInUserSellProducts({ user });
+    dispatch(setloggedInUserSellProducts(loggedInUserSellProducts));
   };
 }
 
@@ -92,13 +92,13 @@ export function deleteProduct({ product }) {
   return async (dispatch, getState) => {
     const {
       productReducer: {
-        myProducts,
+        loggedInUserSellProducts,
       },
     } = getState();
 
     await deleteProductFireStore({ product });
-    dispatch(setMyProducts(
-      myProducts.filter(
+    dispatch(setloggedInUserSellProducts(
+      loggedInUserSellProducts.filter(
         (myProduct) => myProduct.id !== product.id,
       ),
     ));

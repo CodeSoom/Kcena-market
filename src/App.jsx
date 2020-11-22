@@ -39,7 +39,7 @@ export default function App() {
           <Route exact path="/signup" component={SignupPage} />
           <Route path="/products/:id" component={ProductPage} />
           <Route path="/newproduct" component={WritePage} />
-          <Route path="/myprofile" component={AboutMePage} />
+          <Route path="/aboutme" component={AboutMePage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Container>

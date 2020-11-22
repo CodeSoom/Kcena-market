@@ -25,12 +25,12 @@ export default function LoggedInUserSellProductsContainer({ user }) {
     dispatch(deleteProduct({ product }));
   }
 
-  const myProducts = useSelector((state) => state.productReducer.myProducts);
+  const userProducts = useSelector((state) => state.productReducer.loggedInUserSellProducts);
 
   return (
     <TableForm
       columns={columns}
-      products={myProducts}
+      products={userProducts}
       handleDeleteProduct={handleDeleteProduct}
     />
   );

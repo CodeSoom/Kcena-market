@@ -4,7 +4,7 @@ import { fireEvent, render } from '@testing-library/react';
 
 import TableForm from './TableForm';
 
-import myProducts from '../../../fixtures/myProducts';
+import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
 
 describe('TableForm', () => {
   const handleDeleteProducts = jest.fn();
@@ -35,15 +35,15 @@ describe('TableForm', () => {
 
   context('with products', () => {
     it('render current user selling products', () => {
-      const { getByText } = renderTableForm({ products: myProducts });
+      const { getByText } = renderTableForm({ products: loggedInUserSellProducts });
 
-      myProducts.forEach(({ title }) => {
+      loggedInUserSellProducts.forEach(({ title }) => {
         expect(getByText(title)).not.toBeNull();
       });
     });
 
     it('listens click event for delete product', () => {
-      const { getAllByText } = renderTableForm({ products: myProducts });
+      const { getAllByText } = renderTableForm({ products: loggedInUserSellProducts });
 
       const buttons = getAllByText('Delete');
 

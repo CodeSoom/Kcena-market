@@ -14,7 +14,7 @@ import { loadItem } from '../services/storage';
 
 import useStyles from '../styles/styles';
 
-export default function MyProfilePage() {
+export default function AboutMePage() {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
 
