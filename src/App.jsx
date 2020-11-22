@@ -13,7 +13,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductPage from './pages/ProductPage';
-import MyProfilePage from './pages/MyProfilePage';
+import AboutMePage from './pages/AboutMePage';
 
 import { setUser } from './authSlice';
 
@@ -39,7 +39,7 @@ export default function App() {
           <Route exact path="/signup" component={SignupPage} />
           <Route path="/products/:id" component={ProductPage} />
           <Route path="/newproduct" component={WritePage} />
-          <Route path="/myprofile" component={MyProfilePage} />
+          <Route path="/myprofile" component={AboutMePage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Container>

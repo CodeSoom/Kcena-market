@@ -5,20 +5,20 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import MyProfilePage from './MyProfilePage';
+import AboutMePage from './AboutMePage';
 
 import { loadItem } from '../services/storage';
 
 jest.mock('../services/storage');
 
 jest.mock('react-redux');
-describe('MyProfilePage', () => {
+describe('AboutMePage', () => {
   const dispatch = jest.fn();
 
   function renderWritePage() {
     return render((
       <MemoryRouter>
-        <MyProfilePage />
+        <AboutMePage />
       </MemoryRouter>
     ));
   }
@@ -40,7 +40,7 @@ describe('MyProfilePage', () => {
       displayName: 'tester',
       uid: '123456',
     }));
-    it('render MyProfilePaga', () => {
+    it('render AboutMePage', () => {
       const { container } = renderWritePage();
 
       expect(container).toHaveTextContent('내 정보');
