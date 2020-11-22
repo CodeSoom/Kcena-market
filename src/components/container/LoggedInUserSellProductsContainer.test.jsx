@@ -4,18 +4,18 @@ import { fireEvent, render } from '@testing-library/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import MyProductsContainer from './MyProductsContainer';
+import LoggedInUserSellProductsContainer from './LoggedInUserSellProductsContainer';
 
 import myProducts from '../../../fixtures/myProducts';
 
 jest.mock('react-redux');
 
-describe('MyProductsContainer', () => {
+describe('LoggedInUserSellProductsContainer', () => {
   const dispatch = jest.fn();
 
-  function renderMyProductsContainer() {
+  function renderLoggedInUserSellProductsContainer() {
     return render((
-      <MyProductsContainer />
+      <LoggedInUserSellProductsContainer />
     ));
   }
 
@@ -30,7 +30,7 @@ describe('MyProductsContainer', () => {
   });
 
   it('render products', () => {
-    const { getByText } = renderMyProductsContainer();
+    const { getByText } = renderLoggedInUserSellProductsContainer();
 
     myProducts.forEach(({ title }) => {
       expect(getByText(title)).not.toBeNull();
@@ -38,7 +38,7 @@ describe('MyProductsContainer', () => {
   });
 
   it('listens click event and then call dispatch', () => {
-    const { getAllByText } = renderMyProductsContainer();
+    const { getAllByText } = renderLoggedInUserSellProductsContainer();
 
     const deleteButton = getAllByText('Delete');
 

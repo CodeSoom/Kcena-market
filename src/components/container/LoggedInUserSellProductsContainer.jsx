@@ -14,7 +14,7 @@ const columns = [
   { id: 2, name: 'price', label: '가격' },
 ];
 
-export default function MyProductsContainer({ user }) {
+export default function LoggedInUserSellProductsContainer({ user }) {
   const dispatch = useDispatch();
 
   useEffect(() => {

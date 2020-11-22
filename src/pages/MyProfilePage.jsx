@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-import MyProductsContainer from '../components/container/MyProductsContainer';
+import LoggedInUserSellProductsContainer from '../components/container/LoggedInUserSellProductsContainer';
 
 import { loadItem } from '../services/storage';
 
@@ -48,7 +48,7 @@ export default function MyProfilePage() {
         <Tab label="판매중인 상품" />
         <Tab label="찜한 상품" />
       </Tabs>
-      {selectedTab === 0 && <MyProductsContainer user={user} />}
+      {selectedTab === 0 && <LoggedInUserSellProductsContainer user={user} />}
       {/* TODO : 찜한 상품 리스트 추가 {selectedTab === 1 && <MyWishListContainer />} */}
     </Container>
   );
