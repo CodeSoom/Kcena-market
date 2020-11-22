@@ -60,7 +60,7 @@ export function loadProduct({ productId }) {
   };
 }
 
-export function loadMyProducts({ user }) {
+export function loadLoggedInUserSellProducts({ user }) {
   return async (dispatch) => {
     const myProducts = await fetchMyProducts({ user });
     dispatch(setMyProducts(myProducts));

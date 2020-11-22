@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  loadMyProducts,
+  loadLoggedInUserSellProducts,
   deleteProduct,
 } from '../../productSlice';
 
@@ -18,7 +18,7 @@ export default function LoggedInUserSellProductsContainer({ user }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadMyProducts({ user }));
+    dispatch(loadLoggedInUserSellProducts({ user }));
   }, []);
 
   function handleDeleteProduct(product) {
