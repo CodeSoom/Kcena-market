@@ -12,6 +12,8 @@ import newProduct from '../../fixtures/newProduct';
 
 import { loadItem } from '../services/storage';
 
+import { logInUser } from '../../fixtures/user';
+
 jest.mock('react-redux');
 jest.mock('../services/storage');
 
@@ -30,15 +32,11 @@ describe('WritePage', () => {
         newProduct,
       },
     }));
-    loadItem.mockImplementation(() => given.mockUser);
+    loadItem.mockImplementation(() => given.user);
   });
 
   context('with user', () => {
-    given('mockUser', () => ({
-      email: 'tester@example.com',
-      displayName: 'tester',
-      uid: '123456',
-    }));
+    given('user', () => logInUser);
     it('render write page', () => {
       const { container } = renderWritePage();
 
@@ -47,7 +45,7 @@ describe('WritePage', () => {
   });
 
   context('without user', () => {
-    given('mockUser', () => null);
+    given('user', () => null);
     it('render login page', () => {
       const { container } = renderWritePage();
 

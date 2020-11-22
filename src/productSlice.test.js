@@ -14,6 +14,7 @@ import productReducer, {
 import products from '../fixtures/products';
 import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
 import newProduct from '../fixtures/newProduct';
+import { logInUser } from '../fixtures/user';
 
 const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
@@ -65,7 +66,10 @@ describe('productReducer', () => {
       loggedInUserSellProducts: [],
     };
 
-    const state = productReducer(initialState, setloggedInUserSellProducts(loggedInUserSellProducts));
+    const state = productReducer(
+      initialState,
+      setloggedInUserSellProducts(loggedInUserSellProducts),
+    );
 
     expect(state.loggedInUserSellProducts).toEqual(loggedInUserSellProducts);
   });
@@ -106,9 +110,7 @@ describe('actions', () => {
     beforeEach(() => {
       store = mockStore({
         authReducer: {
-          user: {
-            uid: '1234',
-          },
+          user: logInUser,
         },
       });
     });

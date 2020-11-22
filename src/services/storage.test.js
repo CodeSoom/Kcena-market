@@ -1,12 +1,10 @@
 import { saveItem, loadItem, deleteItem } from './storage';
 
+import { logInUser } from '../../fixtures/user';
+
 describe('localStorage', () => {
   const KEY = 'user';
-  const VALUE = {
-    email: 'tester@example.com',
-    displayName: 'tester',
-    uid: '123456',
-  };
+  const VALUE = logInUser;
 
   beforeEach(() => {
     localStorage.clear();

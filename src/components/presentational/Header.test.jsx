@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 
 import Header from './Header';
 
+import { logInUser, logOutUser } from '../../../fixtures/user';
+
 jest.mock('react-redux');
 
 describe('Header', () => {
@@ -26,10 +28,7 @@ describe('Header', () => {
   }
 
   context('with user uid', () => {
-    given('user', () => ({
-      displayName: 'tester',
-      uid: 'test1234',
-    }));
+    given('user', () => logInUser);
 
     it('render title, Log In and Sign up', () => {
       const controls = ['Kcena Market', '판매하기', 'Log out'];
@@ -42,10 +41,7 @@ describe('Header', () => {
   });
 
   context('without user uid', () => {
-    given('user', () => ({
-      displayName: '',
-      uid: '',
-    }));
+    given('user', () => logOutUser);
 
     it('render title, Log In and Sign up', () => {
       const controls = ['Kcena Market', 'Log In', 'Sign up'];

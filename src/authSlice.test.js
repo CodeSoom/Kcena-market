@@ -17,6 +17,8 @@ import {
   postSignup,
 } from './services/api';
 
+import { logInUser, logOutUser } from '../fixtures/user';
+
 const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
 
@@ -26,11 +28,7 @@ jest.mock('connected-react-router');
 describe('reducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
-      user: {
-        email: '',
-        displayName: '',
-        uid: '',
-      },
+      user: logOutUser,
       error: '',
     };
 
@@ -43,34 +41,22 @@ describe('reducer', () => {
 
   describe('setUser', () => {
     const initialState = {
-      user: {
-        email: '',
-        displayName: '',
-        uid: '',
-      },
+      user: logOutUser,
     };
 
     it('save log in user', () => {
-      const state = authReducer(initialState, setUser({
-        email: 'tester@example.com',
-        displayName: 'tester',
-        uid: 'testuid12345',
-      }));
+      const state = authReducer(initialState, setUser(logInUser));
 
-      expect(state.user.email).toBe('tester@example.com');
-      expect(state.user.displayName).toBe('tester');
-      expect(state.user.uid).toBe('testuid12345');
+      expect(state.user.email).toBe(logInUser.email);
+      expect(state.user.displayName).toBe(logInUser.displayName);
+      expect(state.user.uid).toBe(logInUser.uid);
     });
   });
 
   describe('logout', () => {
     it('clears user', () => {
       const initialState = {
-        user: {
-          email: 'tester@example.com',
-          displayName: 'tester',
-          uid: '123456',
-        },
+        user: logInUser,
       };
 
       const state = authReducer(initialState, logout());
@@ -106,12 +92,6 @@ describe('actions', () => {
     password: '1234abcd',
   };
 
-  const mockUser = {
-    email: 'tester@example.com',
-    displayName: '홍 길동',
-    uid: 'test1234',
-  };
-
   describe('requestLogin', () => {
     beforeEach(() => {
       store = mockStore({});
@@ -119,18 +99,14 @@ describe('actions', () => {
 
     it('dispatches requestLogin action and returns user', async () => {
       postLogin.mockImplementationOnce(() => ({
-        user: {
-          ...mockUser,
-        },
+        user: logInUser,
       }));
 
       await store.dispatch(requestLogin({ loginFields }));
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setUser({
-        ...mockUser,
-      }));
+      expect(actions[0]).toEqual(setUser(logInUser));
     });
 
     it('dispatches requestLogin action and returns an error', async () => {
@@ -157,18 +133,14 @@ describe('actions', () => {
 
     it('dispatches requestGoogleSignIn action and returns user', async () => {
       postGoogleSignIn.mockImplementationOnce(() => ({
-        user: {
-          ...mockUser,
-        },
+        user: logInUser,
       }));
 
       await store.dispatch(requestGoogleSignIn());
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setUser({
-        ...mockUser,
-      }));
+      expect(actions[0]).toEqual(setUser(logInUser));
     });
 
     it('dispatches requestGoogleSignIn action and returns an error', async () => {
@@ -202,7 +174,7 @@ describe('actions', () => {
     it('dispatches requestSignup action and returns user', async () => {
       postSignup.mockImplementationOnce(() => ({
         user: {
-          ...mockUser,
+          ...logInUser,
           updateProfile: jest.fn(),
         },
       }));
@@ -210,9 +182,7 @@ describe('actions', () => {
       await store.dispatch(requestSignup({ signupFields }));
 
       const actions = store.getActions();
-      expect(actions[0]).toEqual(setUser({
-        ...mockUser,
-      }));
+      expect(actions[0]).toEqual(setUser(logInUser));
     });
 
     it('dispatches requestSignup action and returns an error', async () => {
