@@ -6,23 +6,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function ConfirmDialog({
-  confirmDialog, setConfirmDialog,
+  isOpen, title, content, onConfirm, onCancel,
 }) {
-  const {
-    isOpen, title, content, onConfirm,
-  } = confirmDialog;
-
-  function onClose() {
-    setConfirmDialog({
-      ...confirmDialog,
-      isOpen: false,
-    });
-  }
-
   return (
     <Dialog
       open={isOpen}
-      onClose={onClose}
+      onClose={onCancel}
       aria-labelledby="confirm-dialog"
     >
       <DialogTitle id="confirm-dialog">{title}</DialogTitle>
@@ -30,17 +19,14 @@ export default function ConfirmDialog({
       <DialogActions>
         <Button
           variant="contained"
-          onClick={onClose}
+          onClick={onCancel}
           color="default"
         >
           NO
         </Button>
         <Button
           variant="contained"
-          onClick={() => {
-            onConfirm();
-            onClose();
-          }}
+          onClick={onConfirm}
           color="secondary"
         >
           YES
