@@ -6,12 +6,17 @@ import * as yup from 'yup';
 import {
   Button, Grid, InputAdornment,
 } from '@material-ui/core';
+
 import FormikField from './FormikField';
+import FormikSelect from './FormikSelect';
 
 import useStyles from '../../styles/styles';
 
 const validationSchema = yup.object({
   title: yup
+    .string()
+    .required('필수 항목입니다.'),
+  categories: yup
     .string()
     .required('필수 항목입니다.'),
   description: yup
@@ -27,10 +32,42 @@ const validationSchema = yup.object({
 
 const initialValues = {
   title: '',
+  categories: '',
   description: '',
   price: '',
   region: '',
 };
+
+const categories = [
+  {
+    label: '디지털/가전',
+    value: '디지털/가전',
+  },
+  {
+    label: '가구/인테리어',
+    value: '가구/인테리어',
+  },
+  {
+    label: '남성패션/잡화',
+    value: '남성패션/잡화',
+  },
+  {
+    label: '여성의류',
+    value: '여성의류',
+  },
+  {
+    label: '생활/가공식품',
+    value: '생활/가공식품',
+  },
+  {
+    label: '스포츠/레저',
+    value: '스포츠/레저',
+  },
+  {
+    label: '기타 중고물품',
+    value: '기타 중고물품',
+  },
+];
 
 export default function WriteForm({ onSubmit }) {
   const classes = useStyles();
@@ -53,12 +90,21 @@ export default function WriteForm({ onSubmit }) {
               spacing={3}
               className={classes.form}
             >
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <FormikField
                   label="글 제목"
                   id="write-title"
                   name="title"
                   error={touched.title && Boolean(errors.title)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormikSelect
+                  label="카테고리"
+                  id="product-categories"
+                  items={categories}
+                  name="categories"
+                  error={touched.categories && Boolean(errors.categories)}
                 />
               </Grid>
               <Grid item xs={6}>
