@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  render, fireEvent, waitFor,
+  render, fireEvent, waitFor, within,
 } from '@testing-library/react';
 
 import WriteForm from './WriteForm';
@@ -11,6 +11,7 @@ describe('WriteForm', () => {
 
   const controls = [
     { control: 'input', name: 'title', text: '아이패드' },
+    { control: 'input', name: 'category', text: '디지털/가전' },
     { control: 'input', name: 'region', text: '인천' },
     { control: 'input', name: 'price', text: '200000' },
     { control: 'textarea', name: 'description', text: '중고 팝니다.' },
@@ -38,10 +39,13 @@ describe('WriteForm', () => {
 
   context('when all forms are filled', () => {
     it('possible submit event', async () => {
-      const { container } = renderWriteForm();
+      const {
+        container, getAllByRole, getByRole,
+      } = renderWriteForm();
 
       const title = container.querySelector('input[name="title"]');
       const description = container.querySelector('textarea[name="description"]');
+      const category = getAllByRole('button')[0];
       const price = container.querySelector('input[name="price"]');
       const region = container.querySelector('input[name="region"]');
 
@@ -52,6 +56,10 @@ describe('WriteForm', () => {
           },
         });
       });
+
+      fireEvent.mouseDown(category);
+      const listbox = within(getByRole('listbox'));
+      fireEvent.click(listbox.getByText(/디지털\/가전/i));
 
       await waitFor(() => {
         fireEvent.change(description, {
@@ -85,7 +93,11 @@ describe('WriteForm', () => {
 
       expect(handleSubmit).toHaveBeenCalledWith({
         newProduct: {
-          description: '중고 아이패드 팝니다.', price: 1234, region: '인천', title: '아이패드',
+          title: '아이패드',
+          category: '디지털/가전',
+          description: '중고 아이패드 팝니다.',
+          price: 1234,
+          region: '인천',
         },
       });
     });

@@ -11,7 +11,8 @@ import TableForm from '../presentational/TableForm';
 
 const columns = [
   { id: 1, name: 'title', label: '상품 이름' },
-  { id: 2, name: 'price', label: '가격' },
+  { id: 2, name: 'category', label: '카테고리' },
+  { id: 3, name: 'price', label: '가격' },
 ];
 
 export default function LoggedInUserSellProductsContainer({ user }) {
