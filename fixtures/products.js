@@ -7,6 +7,7 @@ const products = [
     },
     id: 1,
     title: '크리넥스 KF-AD 소형 마스크 팝니다.',
+    category: '기타 중고물품',
     productImages: [
       'testImage1',
       'testImage2',
@@ -24,6 +25,7 @@ const products = [
     },
     id: 2,
     title: '알레르망 범퍼침대',
+    category: '가구/인테리어',
     productImages: [
       'testImage4',
       'testImage5',
@@ -41,6 +43,7 @@ const products = [
     },
     id: 3,
     title: '청바지',
+    category: '남성패션/잡화',
     productImages: [
       'testImage7',
       'testImage8',
@@ -60,6 +63,7 @@ const products = [
     },
     id: 4,
     title: '아이패드 에어3',
+    category: '디지털/가전',
     productImages: [
       'https://via.placeholder.com/600/197d29',
       'https://via.placeholder.com/600/24f355',
@@ -77,6 +81,7 @@ const products = [
     },
     id: 5,
     title: '겔럭시S7 핑크블로썸 팝니다.',
+    category: '디지털/가전',
     productImages: [
       'https://via.placeholder.com/600/f9cee5',
       'https://via.placeholder.com/600/51aa97',

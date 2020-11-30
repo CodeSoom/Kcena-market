@@ -15,7 +15,13 @@ import ArticleProfile from './ArticleProfile';
 
 export default function ProductDetail({ product }) {
   const {
-    productImages, title, region, price, description, user,
+    productImages,
+    title,
+    categories,
+    region,
+    price,
+    description,
+    user,
   } = product;
   const classes = useStyles();
 
@@ -47,6 +53,7 @@ export default function ProductDetail({ product }) {
       <ArticleProfile user={user} region={region} />
       <ArticleDescription>
         <h1 className="article article-title">{title}</h1>
+        <p className="article article-category">{`${categories}`}</p>
         <p className="article article-price">{`${price}원`}</p>
         <p className="article article-description">{description}</p>
       </ArticleDescription>
@@ -122,6 +129,10 @@ const ArticleDescription = styled.section({
     fontSize: '20px',
     fontWeight: '600',
     lineHeight: '1.5',
+  },
+  '& .article-category': {
+    marginTop: 0,
+    color: '#868e96',
   },
   '& .article-price': {
     fontSize: '18px',
