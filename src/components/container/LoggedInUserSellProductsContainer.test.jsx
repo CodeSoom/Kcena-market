@@ -7,15 +7,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoggedInUserSellProductsContainer from './LoggedInUserSellProductsContainer';
 
 import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
+import ConfirmationContext from '../../contexts/ConfirmationContext';
 
 jest.mock('react-redux');
 
 describe('LoggedInUserSellProductsContainer', () => {
   const dispatch = jest.fn();
+  const showConfirmation = jest.fn();
+  const setConfirmForm = jest.fn();
 
   function renderLoggedInUserSellProductsContainer() {
     return render((
-      <LoggedInUserSellProductsContainer />
+      <ConfirmationContext.Provider
+        value={{
+          showConfirmation,
+          setConfirmForm,
+        }}
+      >
+        <LoggedInUserSellProductsContainer />
+      </ConfirmationContext.Provider>
     ));
   }
 
@@ -27,6 +37,7 @@ describe('LoggedInUserSellProductsContainer', () => {
         loggedInUserSellProducts,
       },
     }));
+    showConfirmation.mockResolvedValue(() => true);
   });
 
   it('render products', () => {

@@ -1,13 +1,18 @@
 import React from 'react';
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import TableForm from './TableForm';
+
+import ConfirmationContext from '../../contexts/ConfirmationContext';
 
 import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
 
 describe('TableForm', () => {
   const handleDeleteProducts = jest.fn();
+  const showConfirmation = jest.fn();
+  const setConfirmForm = jest.fn();
+
   const columns = [
     { id: 1, name: 'title', label: '상품 이름' },
     { id: 2, name: 'price', label: '가격' },
@@ -15,11 +20,18 @@ describe('TableForm', () => {
 
   function renderTableForm({ products }) {
     return render((
-      <TableForm
-        columns={columns}
-        products={products}
-        handleDeleteProduct={handleDeleteProducts}
-      />
+      <ConfirmationContext.Provider
+        value={{
+          showConfirmation,
+          setConfirmForm,
+        }}
+      >
+        <TableForm
+          columns={columns}
+          products={products}
+          handleDeleteProduct={handleDeleteProducts}
+        />
+      </ConfirmationContext.Provider>
     ));
   }
 
@@ -34,6 +46,12 @@ describe('TableForm', () => {
   });
 
   context('with products', () => {
+    beforeEach(() => {
+      handleDeleteProducts.mockClear();
+      setConfirmForm.mockClear();
+      showConfirmation.mockResolvedValue(() => true);
+    });
+
     it('render current user selling products', () => {
       const { getByText } = renderTableForm({ products: loggedInUserSellProducts });
 
@@ -42,14 +60,14 @@ describe('TableForm', () => {
       });
     });
 
-    it('listens click event for delete product', () => {
+    it('render delete buttons', () => {
       const { getAllByText } = renderTableForm({ products: loggedInUserSellProducts });
 
       const buttons = getAllByText('Delete');
 
-      buttons.forEach((button) => {
+      buttons.forEach(async (button) => {
         fireEvent.click(button);
-        expect(handleDeleteProducts).toBeCalled();
+        await waitFor(() => expect(handleDeleteProducts).toBeCalled());
       });
     });
   });
