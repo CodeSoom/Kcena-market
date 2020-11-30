@@ -23,16 +23,12 @@ const ConfirmationProvider = ({ children }) => {
   };
 
   const handleOk = () => {
-    if (resolver.current) {
-      resolver.current(true);
-    }
+    resolver.current(true);
     setIsOpen(false);
   };
 
   const handleCancel = () => {
-    if (resolver.current) {
-      resolver.current(false);
-    }
+    resolver.current(false);
     setIsOpen(false);
   };
 
