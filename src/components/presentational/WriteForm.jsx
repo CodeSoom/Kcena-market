@@ -16,7 +16,7 @@ const validationSchema = yup.object({
   title: yup
     .string()
     .required('필수 항목입니다.'),
-  categories: yup
+  category: yup
     .string()
     .required('필수 항목입니다.'),
   description: yup
@@ -32,7 +32,7 @@ const validationSchema = yup.object({
 
 const initialValues = {
   title: '',
-  categories: '',
+  category: '',
   description: '',
   price: '',
   region: '',
@@ -101,10 +101,10 @@ export default function WriteForm({ onSubmit }) {
               <Grid item xs={6}>
                 <FormikSelect
                   label="카테고리"
-                  id="product-categories"
+                  id="product-category"
                   items={categories}
-                  name="categories"
-                  error={touched.categories && Boolean(errors.categories)}
+                  name="category"
+                  error={touched.category && Boolean(errors.category)}
                 />
               </Grid>
               <Grid item xs={6}>

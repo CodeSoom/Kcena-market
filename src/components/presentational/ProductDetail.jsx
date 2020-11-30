@@ -17,7 +17,7 @@ export default function ProductDetail({ product }) {
   const {
     productImages,
     title,
-    categories,
+    category,
     region,
     price,
     description,
@@ -53,7 +53,7 @@ export default function ProductDetail({ product }) {
       <ArticleProfile user={user} region={region} />
       <ArticleDescription>
         <h1 className="article article-title">{title}</h1>
-        <p className="article article-category">{`${categories}`}</p>
+        <p className="article article-category">{`${category}`}</p>
         <p className="article article-price">{`${price}원`}</p>
         <p className="article article-description">{description}</p>
       </ArticleDescription>

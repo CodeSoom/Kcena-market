@@ -28,7 +28,7 @@ describe('WriteFormContainer', () => {
 
       const title = container.querySelector('input[name="title"]');
       const description = container.querySelector('textarea[name="description"]');
-      const categories = getAllByRole('button')[0];
+      const category = getAllByRole('button')[0];
       const price = container.querySelector('input[name="price"]');
       const region = container.querySelector('input[name="region"]');
 
@@ -40,7 +40,7 @@ describe('WriteFormContainer', () => {
         });
       });
 
-      fireEvent.mouseDown(categories);
+      fireEvent.mouseDown(category);
       const listbox = within(getByRole('listbox'));
       fireEvent.click(listbox.getByText(/디지털\/가전/i));
 
