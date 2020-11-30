@@ -5,9 +5,6 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import ConfirmDialog from './ConfirmDialog';
 
 describe('ConfirmDialog', () => {
-  const onConfirm = jest.fn();
-  const onCancel = jest.fn();
-
   function renderConfirmDialog({
     isOpen, title, content, onConfirm, onCancel,
   }) {
@@ -21,6 +18,9 @@ describe('ConfirmDialog', () => {
       />
     ));
   }
+
+  const onConfirm = jest.fn();
+  const onCancel = jest.fn();
 
   beforeEach(() => {
     onConfirm.mockClear();
