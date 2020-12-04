@@ -48,13 +48,27 @@ describe('LoggedInUserSellProductsContainer', () => {
     });
   });
 
-  it('listens click event and then call dispatch', () => {
-    const { getAllByText } = renderLoggedInUserSellProductsContainer();
+  context('click delete button', () => {
+    it('call dispatch', () => {
+      const { getAllByText } = renderLoggedInUserSellProductsContainer();
 
-    const deleteButton = getAllByText('Delete');
+      const deleteButton = getAllByText('Delete')[0];
 
-    fireEvent.click(deleteButton[0]);
+      fireEvent.click(deleteButton);
 
-    expect(dispatch).toBeCalled();
+      expect(dispatch).toBeCalled();
+    });
+  });
+
+  context('click edit button', () => {
+    it('call dispatch', () => {
+      const { getAllByText } = renderLoggedInUserSellProductsContainer();
+
+      const editButton = getAllByText('Edit')[0];
+
+      fireEvent.click(editButton);
+
+      expect(dispatch).toBeCalled();
+    });
   });
 });

@@ -9,7 +9,8 @@ import ConfirmationContext from '../../contexts/ConfirmationContext';
 import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
 
 describe('TableForm', () => {
-  const handleDeleteProducts = jest.fn();
+  const handleDeleteProduct = jest.fn();
+  const handleEditProduct = jest.fn();
   const showConfirmation = jest.fn();
   const setConfirmForm = jest.fn();
 
@@ -30,7 +31,8 @@ describe('TableForm', () => {
         <TableForm
           columns={columns}
           products={products}
-          handleDeleteProduct={handleDeleteProducts}
+          handleDeleteProduct={handleDeleteProduct}
+          handleEditProduct={handleEditProduct}
         />
       </ConfirmationContext.Provider>
     ));
@@ -48,7 +50,7 @@ describe('TableForm', () => {
 
   context('with products', () => {
     beforeEach(() => {
-      handleDeleteProducts.mockClear();
+      handleDeleteProduct.mockClear();
       setConfirmForm.mockClear();
       showConfirmation.mockResolvedValue(() => true);
     });
@@ -61,15 +63,24 @@ describe('TableForm', () => {
       });
     });
 
-    it('render delete buttons', () => {
+    it('render delete buttons', async () => {
       const { getAllByText } = renderTableForm({ products: loggedInUserSellProducts });
 
-      const buttons = getAllByText('Delete');
+      const button = getAllByText('Delete')[0];
 
-      buttons.forEach(async (button) => {
-        fireEvent.click(button);
-        await waitFor(() => expect(handleDeleteProducts).toBeCalled());
-      });
+      fireEvent.click(button);
+
+      await waitFor(() => expect(handleDeleteProduct).toBeCalled());
+    });
+
+    it('render edit buttons', () => {
+      const { getAllByText } = renderTableForm({ products: loggedInUserSellProducts });
+
+      const button = getAllByText('Edit')[0];
+
+      fireEvent.click(button);
+
+      expect(handleEditProduct).toBeCalled();
     });
   });
 });

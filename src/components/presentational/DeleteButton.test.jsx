@@ -7,7 +7,7 @@ import ConfirmationContext from '../../contexts/ConfirmationContext';
 import DeleteButton from './DeleteButton';
 
 describe('DeleteButton', () => {
-  const onClickDelete = jest.fn();
+  const handleClickDelete = jest.fn();
   const setConfirmForm = jest.fn();
   const showConfirmation = jest.fn();
 
@@ -20,14 +20,14 @@ describe('DeleteButton', () => {
         }}
       >
         <DeleteButton
-          onClickDelete={onClickDelete}
+          handleClickDelete={handleClickDelete}
         />
       </ConfirmationContext.Provider>
     ));
   }
 
   beforeEach(() => {
-    onClickDelete.mockClear();
+    handleClickDelete.mockClear();
     setConfirmForm.mockClear();
   });
 
@@ -38,7 +38,7 @@ describe('DeleteButton', () => {
   });
 
   context('when user clicked "YES"', () => {
-    it('call onClickDelete', async () => {
+    it('call handleClickDelete', async () => {
       showConfirmation.mockImplementation(() => (
         Promise.resolve(true)
       ));
@@ -54,12 +54,12 @@ describe('DeleteButton', () => {
         content: '삭제하면 되돌릴 수 없습니다.',
       });
       expect(showConfirmation).toBeCalled();
-      await waitFor(() => expect(onClickDelete).toBeCalled());
+      await waitFor(() => expect(handleClickDelete).toBeCalled());
     });
   });
 
   context('when user clicked "NO"', () => {
-    it('doesn\'t call onClickDelete', async () => {
+    it('doesn\'t call handleClickDelete', async () => {
       showConfirmation.mockImplementation(() => (
         Promise.resolve(false)
       ));
@@ -75,7 +75,7 @@ describe('DeleteButton', () => {
         content: '삭제하면 되돌릴 수 없습니다.',
       });
       expect(showConfirmation).toBeCalled();
-      await waitFor(() => expect(onClickDelete).not.toBeCalled());
+      await waitFor(() => expect(handleClickDelete).not.toBeCalled());
     });
   });
 });
