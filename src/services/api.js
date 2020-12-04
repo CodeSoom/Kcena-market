@@ -41,10 +41,10 @@ export async function fetchloggedInUserSellProducts({ user }) {
   return loggedInUserSellProducts;
 }
 
-export async function uploadProductImages({ uid, files }) {
+export async function uploadProductImages({ files, path }) {
   async function uploadProductImage(file) {
     const uploadTask = firebase.storage()
-      .ref().child(`${uid}/${uuidv4()}`);
+      .ref().child(`${path}/${file.id}`);
     const response = await uploadTask.put(file);
     const imageUrl = await response.ref.getDownloadURL();
     return imageUrl;
