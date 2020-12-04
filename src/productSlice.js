@@ -75,9 +75,9 @@ export function postProduct({ files, newProduct }) {
       },
     } = getState();
 
-    const productImages = await uploadProductImages({
-      uid: user.uid, files,
-    });
+    const createAt = Date.now();
+    const path = `${user.email}/${newProduct.title}${createAt}`;
+    const productImages = await uploadProductImages({ files, path });
 
     await postProductFireStore({
       ...newProduct,
