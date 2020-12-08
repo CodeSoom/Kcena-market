@@ -14,11 +14,12 @@ import SignupPage from './pages/SignupPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductPage from './pages/ProductPage';
 import AboutMePage from './pages/AboutMePage';
+import WritePage from './pages/WritePage';
+import EditPage from './pages/EditPage';
 
 import { setUser } from './authSlice';
 
 import { loadItem } from './services/storage';
-import WritePage from './pages/WritePage';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export default function App() {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/signup" component={SignupPage} />
           <Route path="/products/:id" component={ProductPage} />
+          <Route path="/edit/:id" component={EditPage} />
           <Route path="/newproduct" component={WritePage} />
           <Route path="/aboutme" component={AboutMePage} />
           <Route component={NotFoundPage} />

@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+
+import { MemoryRouter } from 'react-router-dom';
 
 import EditButton from './EditButton';
 
 describe('EditButton', () => {
-  const handleClickEdit = jest.fn();
-
   function renderEditButton() {
     return render((
-      <EditButton handleClickEdit={handleClickEdit} />
+      <MemoryRouter initialEntries={['/aboutme']}>
+        <EditButton productId="1" />
+      </MemoryRouter>
     ));
   }
 
@@ -17,13 +19,5 @@ describe('EditButton', () => {
     const { queryByText } = renderEditButton();
 
     expect(queryByText('Edit')).toBeInTheDocument();
-  });
-
-  it('listen click event', () => {
-    const { getByText } = renderEditButton();
-
-    fireEvent.click(getByText('Edit'));
-
-    expect(handleClickEdit).toBeCalled();
   });
 });

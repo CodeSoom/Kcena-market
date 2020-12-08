@@ -14,7 +14,7 @@ import EditButton from './EditButton';
 import { isEmpty } from '../../utils';
 
 export default function TableForm({
-  columns, products, handleDeleteProduct, handleEditProduct,
+  columns, products, handleDeleteProduct,
 }) {
   if (isEmpty(products || [])) {
     return (
@@ -47,9 +47,7 @@ export default function TableForm({
                 <DeleteButton
                   handleClickDelete={() => handleDeleteProduct(product)}
                 />
-                <EditButton
-                  handleClickEdit={() => handleEditProduct(product)}
-                />
+                <EditButton productId={product.id} />
               </TableCell>
             </TableRow>
           ))}

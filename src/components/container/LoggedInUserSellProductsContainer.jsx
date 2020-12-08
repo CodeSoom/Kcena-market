@@ -26,10 +26,6 @@ export default function LoggedInUserSellProductsContainer({ user }) {
     dispatch(deleteProduct({ product }));
   }
 
-  function handleEditProduct(product) {
-    dispatch(() => console.log(product));
-  }
-
   const userProducts = useSelector((state) => state.productReducer.loggedInUserSellProducts);
 
   return (
@@ -37,7 +33,6 @@ export default function LoggedInUserSellProductsContainer({ user }) {
       columns={columns}
       products={userProducts}
       handleDeleteProduct={handleDeleteProduct}
-      handleEditProduct={handleEditProduct}
     />
   );
 }

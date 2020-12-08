@@ -2,6 +2,8 @@ import React from 'react';
 
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
+import { MemoryRouter } from 'react-router-dom';
+
 import TableForm from './TableForm';
 
 import ConfirmationContext from '../../contexts/ConfirmationContext';
@@ -10,7 +12,6 @@ import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts
 
 describe('TableForm', () => {
   const handleDeleteProduct = jest.fn();
-  const handleEditProduct = jest.fn();
   const showConfirmation = jest.fn();
   const setConfirmForm = jest.fn();
 
@@ -28,12 +29,13 @@ describe('TableForm', () => {
           setConfirmForm,
         }}
       >
-        <TableForm
-          columns={columns}
-          products={products}
-          handleDeleteProduct={handleDeleteProduct}
-          handleEditProduct={handleEditProduct}
-        />
+        <MemoryRouter>
+          <TableForm
+            columns={columns}
+            products={products}
+            handleDeleteProduct={handleDeleteProduct}
+          />
+        </MemoryRouter>
       </ConfirmationContext.Provider>
     ));
   }
@@ -71,16 +73,6 @@ describe('TableForm', () => {
       fireEvent.click(button);
 
       await waitFor(() => expect(handleDeleteProduct).toBeCalled());
-    });
-
-    it('render edit buttons', () => {
-      const { getAllByText } = renderTableForm({ products: loggedInUserSellProducts });
-
-      const button = getAllByText('Edit')[0];
-
-      fireEvent.click(button);
-
-      expect(handleEditProduct).toBeCalled();
     });
   });
 });
