@@ -2,6 +2,8 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import { MemoryRouter } from 'react-router-dom';
 
 import EditPage from './EditPage';
@@ -10,9 +12,14 @@ import { loadItem } from '../services/storage';
 
 import { logInUser } from '../../fixtures/user';
 
+import products from '../../fixtures/products';
+
 jest.mock('../services/storage');
+jest.mock('react-redux');
 
 describe('EditPage', () => {
+  const dispatch = jest.fn();
+
   function renderEditPage({ path }) {
     return render((
       <MemoryRouter initialEntries={[path]}>
@@ -22,6 +29,12 @@ describe('EditPage', () => {
   }
 
   beforeEach(() => {
+    useDispatch.mockImplementation(() => dispatch);
+    useSelector.mockImplementation((selector) => selector({
+      productReducer: {
+        product: products[0],
+      },
+    }));
     loadItem.mockImplementation(() => given.user);
   });
 

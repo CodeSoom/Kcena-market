@@ -6,6 +6,7 @@ import { Container, Typography } from '@material-ui/core';
 import { loadItem } from '../services/storage';
 
 import useStyles from '../styles/styles';
+import EditProductContainer from '../components/container/EditProductContainer';
 
 export default function EditPage({ params }) {
   const classes = useStyles();
@@ -30,7 +31,7 @@ export default function EditPage({ params }) {
       >
         Edit product
       </Typography>
-      {id}
+      <EditProductContainer productId={id} />
     </Container>
   );
 }
