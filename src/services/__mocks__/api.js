@@ -23,3 +23,7 @@ export const postLogout = jest.fn();
 export const uploadProductImages = jest.fn();
 
 export const deleteProductFireStore = jest.fn();
+
+export const deleteImageInStorage = jest.fn();
+
+export const deleteAllImageInStorage = jest.fn();

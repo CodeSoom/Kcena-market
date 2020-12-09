@@ -13,7 +13,7 @@ export default function Product({ product, onClickProduct }) {
     id, title, productImages, region, price,
   } = product;
 
-  const thumbnailUrl = productImages[0];
+  const { name, imageUrl } = productImages[0];
 
   function handleClick(selectedProduct) {
     return (event) => {
@@ -26,8 +26,8 @@ export default function Product({ product, onClickProduct }) {
     <CardItem>
       <CardArticle>
         <CardLink href={`/products/${id}`} onClick={handleClick(product)}>
-          <CardImage url={thumbnailUrl}>
-            <img src={thumbnailUrl} alt={title} />
+          <CardImage url={imageUrl}>
+            <img src={imageUrl} alt={name} />
           </CardImage>
           <CardDescription>
             <CardDescription.Title>{title}</CardDescription.Title>

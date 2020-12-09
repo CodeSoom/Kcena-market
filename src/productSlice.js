@@ -4,15 +4,29 @@ import {
   fetchProducts,
   fetchProduct,
   postProductFireStore,
-  uploadProductImages,
   fetchloggedInUserSellProducts,
   deleteProductFireStore,
+  deleteImageInStorage,
+  deleteAllImageInStorage,
 } from './services/api';
+
+import { isEmpty } from './utils';
+
+const initialProduct = {
+  title: '',
+  description: '',
+  category: '',
+  region: '',
+  price: '',
+  productImages: [],
+  user: {},
+  createAt: '',
+};
 
 const { actions, reducer: productReducer } = createSlice({
   name: 'productSlice',
   initialState: {
-    product: null,
+    product: initialProduct,
     products: [],
     userProducts: [],
   },
@@ -29,6 +43,34 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
+    addProductImages(state, { payload: productImages }) {
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          productImages: [
+            ...state.product.productImages,
+            ...productImages,
+          ],
+        },
+      };
+    },
+    deleteProductImage(state, { payload: selectedImageUrl }) {
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          productImages: state.product.productImages
+            .filter(({ imageUrl }) => imageUrl !== selectedImageUrl),
+        },
+      };
+    },
+    setInitialProduct(state) {
+      return {
+        ...state,
+        product: initialProduct,
+      };
+    },
     setloggedInUserSellProducts(state, { payload: loggedInUserSellProducts }) {
       return {
         ...state,
@@ -41,6 +83,9 @@ const { actions, reducer: productReducer } = createSlice({
 export const {
   setProducts,
   setProduct,
+  setInitialProduct,
+  addProductImages,
+  deleteProductImage,
   setloggedInUserSellProducts,
   writeNewProduct,
   initialNewProduct,
@@ -67,23 +112,24 @@ export function loadLoggedInUserSellProducts({ user }) {
   };
 }
 
-export function postProduct({ files, newProduct }) {
+export function postProduct({ newProduct }) {
   return async (_, getState) => {
     const {
       authReducer: {
         user,
       },
+      productReducer: {
+        product: { productImages },
+      },
     } = getState();
 
     const createAt = Date.now();
-    const path = `${user.email}/${newProduct.title}${createAt}`;
-    const productImages = await uploadProductImages({ files, path });
 
     await postProductFireStore({
       ...newProduct,
       productImages,
       user,
-      createAt: Date.now(),
+      createAt,
     });
   };
 }
@@ -102,6 +148,29 @@ export function deleteProduct({ product }) {
         (myProduct) => myProduct.id !== product.id,
       ),
     ));
+  };
+}
+
+export function deleteImage({ imageUrl }) {
+  return async (dispatch) => {
+    await deleteImageInStorage({ imageUrl });
+    dispatch(deleteProductImage(imageUrl));
+  };
+}
+
+export function deleteAllImageInDropzone() {
+  return async (dispatch, getState) => {
+    const {
+      productReducer: {
+        product: { productImages },
+      },
+    } = getState();
+
+    if (isEmpty(productImages)) {
+      return;
+    }
+    await deleteAllImageInStorage(productImages);
+    dispatch(setInitialProduct());
   };
 }
 

@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
-
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 
 import WriteForm from '../presentational/WriteForm';
 import ImagesDropzone from '../presentational/ImagesDropzone';
@@ -10,48 +8,47 @@ import ImagePreview from '../presentational/ImagePreview';
 
 import {
   postProduct,
+  addProductImages,
+  deleteImage,
+  deleteAllImageInDropzone,
+  setInitialProduct,
 } from '../../productSlice';
 
-export default function WriteFormContainer() {
-  const [files, setFiles] = useState([]);
+import { uploadProductImages } from '../../services/api';
 
+export default function WriteFormContainer() {
   const dispatch = useDispatch();
 
-  function handleSubmit({ newProduct }) {
-    dispatch(postProduct({ files, newProduct }));
-    setFiles([]);
-  }
-
-  function handleOnDrop(acceptedFiles) {
-    setFiles([
-      ...files,
-      ...acceptedFiles.map((file) => Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        id: uuidv4(),
-      })),
-    ]);
-  }
-
-  function handleDeleteImage(selectedFile) {
-    setFiles(files.filter((file) => file !== selectedFile));
-  }
-
-  function handleDeleteAll() {
-    setFiles([]);
-  }
+  const { productImages } = useSelector((state) => state.productReducer.product);
 
   useEffect(() => () => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [files]);
+    dispatch(deleteAllImageInDropzone());
+  }, []);
+
+  function handleSubmit({ newProduct }) {
+    dispatch(postProduct({ newProduct }));
+    dispatch(setInitialProduct());
+  }
+
+  async function handleOnDrop(files) {
+    const urls = await uploadProductImages({ files });
+    const productImages = files.map((file, index) => ({
+      name: file.name,
+      imageUrl: urls[index],
+    }));
+    dispatch(addProductImages(productImages));
+  }
+
+  function handleDeleteImage(imageUrl) {
+    dispatch(deleteImage({ imageUrl }));
+  }
 
   return (
     <div>
       <ImagesDropzone onDrop={handleOnDrop} />
       <ImagePreview
-        files={files}
+        productImages={productImages}
         handleClickDeleteImage={handleDeleteImage}
-        handleClickDeleteAllImage={handleDeleteAll}
       />
       <WriteForm
         onSubmit={handleSubmit}

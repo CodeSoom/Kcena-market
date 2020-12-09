@@ -39,27 +39,27 @@ const img = {
 };
 
 export default function ImagePreview({
-  files, handleClickDeleteImage,
+  productImages, handleClickDeleteImage,
 }) {
   const classes = useStyles();
-  if (files.length === 0) {
+  if (productImages.length === 0) {
     return null;
   }
 
   return (
     <aside style={thumbsContainer}>
-      {files.map((file) => (
-        <div style={thumb} key={file.id}>
+      {productImages.map(({ name, imageUrl }) => (
+        <div style={thumb} key={imageUrl}>
           <div style={thumbInner}>
             <img
-              alt={file.name}
-              src={file.preview}
+              alt={name}
+              src={imageUrl}
               style={img}
             />
             <IconButton
               aria-label="delete"
               className={classes.deleteButton}
-              onClick={() => handleClickDeleteImage(file)}
+              onClick={() => handleClickDeleteImage(imageUrl)}
               variant="contained"
               color="secondary"
             >
@@ -67,7 +67,6 @@ export default function ImagePreview({
                 fontSize="small"
               />
             </IconButton>
-
           </div>
         </div>
       ))}
