@@ -6,6 +6,7 @@ import productReducer, {
   loadProduct,
   postProduct,
   setProduct,
+  setInitialProduct,
   setProducts,
   setloggedInUserSellProducts,
   deleteProduct,
@@ -18,13 +19,23 @@ import { logInUser } from '../fixtures/user';
 
 const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
+const initialProduct = {
+  title: '',
+  description: '',
+  category: '',
+  region: '',
+  price: '',
+  productImages: [],
+  user: {},
+  createAt: '',
+};
 
 jest.mock('./services/api');
 
 describe('productReducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
-      product: null,
+      product: initialProduct,
       products: [],
       userProducts: [],
     };
@@ -50,7 +61,7 @@ describe('productReducer', () => {
 
   describe('setProduct', () => {
     const initialState = {
-      product: null,
+      product: initialProduct,
     };
 
     const product = products[0];
@@ -59,6 +70,16 @@ describe('productReducer', () => {
 
     expect(state.product.id).toBe(1);
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
+  });
+
+  describe('setInitialProduct', () => {
+    const initialState = {
+      product: products[0],
+    };
+
+    const state = productReducer(initialState, setInitialProduct());
+
+    expect(state.product).toEqual(initialProduct);
   });
 
   describe('setloggedInUserSellProducts', () => {

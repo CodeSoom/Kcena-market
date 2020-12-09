@@ -9,10 +9,21 @@ import {
   deleteProductFireStore,
 } from './services/api';
 
+const initialProduct = {
+  title: '',
+  description: '',
+  category: '',
+  region: '',
+  price: '',
+  productImages: [],
+  user: {},
+  createAt: '',
+};
+
 const { actions, reducer: productReducer } = createSlice({
   name: 'productSlice',
   initialState: {
-    product: null,
+    product: initialProduct,
     products: [],
     userProducts: [],
   },
@@ -29,6 +40,12 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
+    setInitialProduct(state) {
+      return {
+        ...state,
+        product: initialProduct,
+      };
+    },
     setloggedInUserSellProducts(state, { payload: loggedInUserSellProducts }) {
       return {
         ...state,
@@ -41,6 +58,7 @@ const { actions, reducer: productReducer } = createSlice({
 export const {
   setProducts,
   setProduct,
+  setInitialProduct,
   setloggedInUserSellProducts,
   writeNewProduct,
   initialNewProduct,
