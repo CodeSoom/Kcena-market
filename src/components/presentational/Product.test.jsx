@@ -21,7 +21,7 @@ describe('Product', () => {
   const {
     title, region, price, productImages,
   } = products[0];
-  const thumbnailUrl = productImages[0];
+  const { name, imageUrl } = productImages[0];
 
   it('renders product', () => {
     const { getByText, getByAltText } = renderProduct();
@@ -29,7 +29,7 @@ describe('Product', () => {
     expect(getByText(title)).not.toBeNull();
     expect(getByText(region)).not.toBeNull();
     expect(getByText(`${price}원`)).not.toBeNull();
-    expect(getByAltText(title)).toHaveAttribute('src', thumbnailUrl);
+    expect(getByAltText(name)).toHaveAttribute('src', imageUrl);
   });
 
   it('listens click event', () => {

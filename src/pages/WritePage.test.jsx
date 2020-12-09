@@ -9,6 +9,7 @@ import { MemoryRouter } from 'react-router-dom';
 import WritePage from './WritePage';
 
 import newProduct from '../../fixtures/newProduct';
+import products from '../../fixtures/products';
 
 import { loadItem } from '../services/storage';
 
@@ -30,6 +31,7 @@ describe('WritePage', () => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         newProduct,
+        product: products[0],
       },
     }));
     loadItem.mockImplementation(() => given.user);

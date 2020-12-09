@@ -4,7 +4,7 @@ import {
   fireEvent, render, waitFor, within,
 } from '@testing-library/react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import WriteFormContainer from './WriteFormContainer';
 
@@ -12,6 +12,16 @@ jest.mock('react-redux');
 
 describe('WriteFormContainer', () => {
   const dispatch = jest.fn();
+  const initialProduct = {
+    title: '',
+    description: '',
+    category: '',
+    region: '',
+    price: '',
+    productImages: [],
+    user: {},
+    createAt: '',
+  };
 
   function renderWriteFormContainer() {
     return render(<WriteFormContainer />);
@@ -20,6 +30,11 @@ describe('WriteFormContainer', () => {
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
+    useSelector.mockImplementation((selector) => selector({
+      productReducer: {
+        product: initialProduct,
+      },
+    }));
   });
 
   context('when all forms are filled', () => {

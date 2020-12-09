@@ -28,13 +28,13 @@ describe('ProductDetail', () => {
 
       const { getByTestId, getAllByAltText } = renderProductDetail();
 
-      const currentImage = getAllByAltText(productImages[0]);
-      expect(currentImage[0]).toHaveAttribute('src', productImages[0]);
+      const currentImage = getAllByAltText(productImages[0].name)[0];
+      expect(currentImage).toHaveAttribute('src', productImages[0].imageUrl);
 
       fireEvent.click(getByTestId('nextArrow'));
 
-      const nextImage = getAllByAltText(productImages[1]);
-      expect(nextImage[0]).toHaveAttribute('src', productImages[1]);
+      const nextImage = getAllByAltText(productImages[1].name)[0];
+      expect(nextImage).toHaveAttribute('src', productImages[1].imageUrl);
     });
   });
 
@@ -44,13 +44,13 @@ describe('ProductDetail', () => {
 
       const { getByTestId, getAllByAltText } = renderProductDetail();
 
-      const currentImage = getAllByAltText(productImages[0]);
-      expect(currentImage[0]).toHaveAttribute('src', productImages[0]);
+      const currentImage = getAllByAltText(productImages[0].name)[0];
+      expect(currentImage).toHaveAttribute('src', productImages[0].imageUrl);
 
       fireEvent.click(getByTestId('prevArrow'));
 
-      const prevImage = getAllByAltText(productImages[2]);
-      expect(prevImage[0]).toHaveAttribute('src', productImages[2]);
+      const prevImage = getAllByAltText(productImages[2].name)[0];
+      expect(prevImage).toHaveAttribute('src', productImages[2].imageUrl);
     });
   });
 });

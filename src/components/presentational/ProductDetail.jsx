@@ -41,10 +41,10 @@ export default function ProductDetail({ product }) {
           prevArrow={<PrevArrow />}
           nextArrow={<NextArrow />}
         >
-          {productImages.map((imageUrl) => (
+          {productImages.map(({ name, imageUrl }) => (
             <a href={imageUrl} key={imageUrl}>
               <ImageWrap>
-                <Image src={imageUrl} alt={imageUrl} />
+                <Image src={imageUrl} alt={name} />
               </ImageWrap>
             </a>
           ))}

@@ -4,15 +4,15 @@ import { fireEvent, render } from '@testing-library/react';
 
 import ImagePreview from './ImagePreview';
 
-import { mockFiles } from '../../../fixtures/files';
+import productImages from '../../../fixtures/productImages';
 
 describe('ImagePreview', () => {
   const handleDeleteImage = jest.fn();
 
-  function renderImagePreview({ files }) {
+  function renderImagePreview() {
     return render((
       <ImagePreview
-        files={files}
+        productImages={productImages}
         handleClickDeleteImage={handleDeleteImage}
       />
     ));
@@ -24,15 +24,15 @@ describe('ImagePreview', () => {
 
   context('with images', () => {
     it('show images', () => {
-      const { getByAltText } = renderImagePreview({ files: mockFiles });
+      const { getByAltText } = renderImagePreview();
 
-      mockFiles.forEach((file) => {
-        expect(getByAltText(file.name)).toHaveAttribute('src', file.preview);
+      productImages.forEach(({ name, imageUrl }) => {
+        expect(getByAltText(name)).toHaveAttribute('src', imageUrl);
       });
     });
 
     it('listen delete product images event', () => {
-      const { getAllByLabelText } = renderImagePreview({ files: mockFiles });
+      const { getAllByLabelText } = renderImagePreview();
 
       const deleteButtons = getAllByLabelText('delete');
 

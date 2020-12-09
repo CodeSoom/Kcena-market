@@ -32,6 +32,7 @@ describe('App', () => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         products,
+        product: products[0],
         loggedInUserSellProducts,
       },
       authReducer: {
