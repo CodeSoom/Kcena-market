@@ -4,11 +4,13 @@ import {
   fetchProducts,
   fetchProduct,
   postProductFireStore,
-  uploadProductImages,
   fetchloggedInUserSellProducts,
   deleteProductFireStore,
   deleteImageInStorage,
+  deleteAllImageInStorage,
 } from './services/api';
+
+import { isEmpty } from './utils';
 
 const initialProduct = {
   title: '',
@@ -153,6 +155,22 @@ export function deleteImage({ imageUrl }) {
   return async (dispatch) => {
     await deleteImageInStorage({ imageUrl });
     dispatch(deleteProductImage(imageUrl));
+  };
+}
+
+export function deleteAllImageInDropzone() {
+  return async (dispatch, getState) => {
+    const {
+      productReducer: {
+        product: { productImages },
+      },
+    } = getState();
+
+    if (isEmpty(productImages)) {
+      return;
+    }
+    await deleteAllImageInStorage(productImages);
+    dispatch(setInitialProduct());
   };
 }
 

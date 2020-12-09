@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,6 +10,8 @@ import {
   postProduct,
   addProductImages,
   deleteImage,
+  deleteAllImageInDropzone,
+  setInitialProduct,
 } from '../../productSlice';
 
 import { uploadProductImages } from '../../services/api';
@@ -19,8 +21,13 @@ export default function WriteFormContainer() {
 
   const { productImages } = useSelector((state) => state.productReducer.product);
 
+  useEffect(() => () => {
+    dispatch(deleteAllImageInDropzone());
+  }, []);
+
   function handleSubmit({ newProduct }) {
     dispatch(postProduct({ newProduct }));
+    dispatch(setInitialProduct());
   }
 
   async function handleOnDrop(files) {

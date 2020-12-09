@@ -66,6 +66,11 @@ export async function deleteImageInStorage({ imageUrl }) {
   await firebase.storage().refFromURL(imageUrl).delete();
 }
 
+export async function deleteAllImageInStorage(productImages) {
+  const promises = productImages.map(deleteImageInStorage);
+  await Promise.all(promises);
+}
+
 export async function deleteProductFireStore({ product }) {
   const { id, productImages } = product;
   await firebase
@@ -74,9 +79,7 @@ export async function deleteProductFireStore({ product }) {
   if (isEmpty(productImages || [])) {
     return;
   }
-
-  const promises = productImages.map(deleteImageInStorage);
-  await Promise.all(promises);
+  await deleteAllImageInStorage(productImages);
 }
 
 export async function postLogin({ email, password }) {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { MemoryRouter } from 'react-router-dom';
 
@@ -19,6 +19,8 @@ jest.mock('react-redux');
 jest.mock('../services/storage');
 
 describe('WritePage', () => {
+  const dispatch = jest.fn();
+
   function renderWritePage() {
     return render((
       <MemoryRouter>
@@ -28,6 +30,7 @@ describe('WritePage', () => {
   }
 
   beforeEach(() => {
+    useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         newProduct,
