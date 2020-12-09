@@ -7,6 +7,7 @@ import {
   uploadProductImages,
   fetchloggedInUserSellProducts,
   deleteProductFireStore,
+  deleteImageInStorage,
 } from './services/api';
 
 const initialProduct = {
@@ -52,6 +53,16 @@ const { actions, reducer: productReducer } = createSlice({
         },
       };
     },
+    deleteProductImage(state, { payload: selectedImageUrl }) {
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          productImages: state.product.productImages
+            .filter(({ imageUrl }) => imageUrl !== selectedImageUrl),
+        },
+      };
+    },
     setInitialProduct(state) {
       return {
         ...state,
@@ -72,6 +83,7 @@ export const {
   setProduct,
   setInitialProduct,
   addProductImages,
+  deleteProductImage,
   setloggedInUserSellProducts,
   writeNewProduct,
   initialNewProduct,
@@ -132,6 +144,13 @@ export function deleteProduct({ product }) {
         (myProduct) => myProduct.id !== product.id,
       ),
     ));
+  };
+}
+
+export function deleteImage({ imageUrl }) {
+  return async (dispatch) => {
+    await deleteImageInStorage(imageUrl);
+    dispatch(deleteProductImage(imageUrl));
   };
 }
 

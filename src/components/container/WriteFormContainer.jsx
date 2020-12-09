@@ -9,6 +9,7 @@ import ImagePreview from '../presentational/ImagePreview';
 import {
   postProduct,
   addProductImages,
+  deleteImage,
 } from '../../productSlice';
 
 import { uploadProductImages } from '../../services/api';
@@ -34,8 +35,8 @@ export default function WriteFormContainer() {
     dispatch(addProductImages(productImages));
   }
 
-  function handleDeleteImage(selectedFile) {
-    setFiles(files.filter((file) => file !== selectedFile));
+  function handleDeleteImage(imageUrl) {
+    dispatch(deleteImage({ imageUrl }));
   }
 
   useEffect(() => () => {

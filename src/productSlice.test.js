@@ -8,6 +8,7 @@ import productReducer, {
   setProduct,
   setInitialProduct,
   addProductImages,
+  deleteProductImage,
   setProducts,
   setloggedInUserSellProducts,
   deleteProduct,
@@ -74,7 +75,7 @@ describe('productReducer', () => {
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
   });
 
-  describe('setProductImages', () => {
+  describe('addProductImages', () => {
     const initialState = {
       product: initialProduct,
     };
@@ -82,6 +83,23 @@ describe('productReducer', () => {
     const state = productReducer(initialState, addProductImages(productImages));
 
     expect(state.product.productImages).toEqual(productImages);
+  });
+
+  describe('deleteProductImage', () => {
+    const originProductImages = productImages;
+    const initialState = {
+      product: {
+        productImages: originProductImages,
+      },
+    };
+
+    const selectedImageUrl = 'testImageUrl1';
+    const state = productReducer(initialState, deleteProductImage(selectedImageUrl));
+
+    expect(state.product.productImages).toEqual([
+      { name: 'test2', imageUrl: 'testImageUrl2' },
+      { name: 'test3', imageUrl: 'testImageUrl3' },
+    ]);
   });
 
   describe('setInitialProduct', () => {
