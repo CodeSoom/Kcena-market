@@ -110,16 +110,18 @@ export function loadLoggedInUserSellProducts({ user }) {
   };
 }
 
-export function postProduct({ files, newProduct }) {
+export function postProduct({ newProduct }) {
   return async (_, getState) => {
     const {
       authReducer: {
         user,
       },
+      productReducer: {
+        product: { productImages },
+      },
     } = getState();
 
     const createAt = Date.now();
-    const productImages = await uploadProductImages({ files });
 
     await postProductFireStore({
       ...newProduct,
@@ -149,7 +151,7 @@ export function deleteProduct({ product }) {
 
 export function deleteImage({ imageUrl }) {
   return async (dispatch) => {
-    await deleteImageInStorage(imageUrl);
+    await deleteImageInStorage({ imageUrl });
     dispatch(deleteProductImage(imageUrl));
   };
 }

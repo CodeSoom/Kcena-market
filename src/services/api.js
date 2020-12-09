@@ -62,8 +62,8 @@ export async function postProductFireStore(newProduct) {
   return response;
 }
 
-export async function deleteImageInStorage(productImage) {
-  await firebase.storage().refFromURL(productImage).delete();
+export async function deleteImageInStorage({ imageUrl }) {
+  await firebase.storage().refFromURL(imageUrl).delete();
 }
 
 export async function deleteProductFireStore({ product }) {

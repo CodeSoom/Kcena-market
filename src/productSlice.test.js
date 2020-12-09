@@ -163,6 +163,9 @@ describe('actions', () => {
         authReducer: {
           user: logInUser,
         },
+        productReducer: {
+          product: { productImages },
+        },
       });
     });
 

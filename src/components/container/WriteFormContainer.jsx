@@ -15,15 +15,12 @@ import {
 import { uploadProductImages } from '../../services/api';
 
 export default function WriteFormContainer() {
-  const [files, setFiles] = useState([]);
-
   const dispatch = useDispatch();
 
   const { productImages } = useSelector((state) => state.productReducer.product);
 
   function handleSubmit({ newProduct }) {
-    dispatch(postProduct({ files, newProduct }));
-    setFiles([]);
+    dispatch(postProduct({ newProduct }));
   }
 
   async function handleOnDrop(files) {
@@ -38,11 +35,6 @@ export default function WriteFormContainer() {
   function handleDeleteImage(imageUrl) {
     dispatch(deleteImage({ imageUrl }));
   }
-
-  useEffect(() => () => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [files]);
 
   return (
     <div>
