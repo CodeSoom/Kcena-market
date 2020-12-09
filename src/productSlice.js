@@ -40,6 +40,18 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
+    addProductImages(state, { payload: productImages }) {
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          productImages: [
+            ...state.product.productImages,
+            ...productImages,
+          ],
+        },
+      };
+    },
     setInitialProduct(state) {
       return {
         ...state,
@@ -59,6 +71,7 @@ export const {
   setProducts,
   setProduct,
   setInitialProduct,
+  addProductImages,
   setloggedInUserSellProducts,
   writeNewProduct,
   initialNewProduct,
@@ -94,14 +107,13 @@ export function postProduct({ files, newProduct }) {
     } = getState();
 
     const createAt = Date.now();
-    const path = `${user.email}/${newProduct.title}${createAt}`;
-    const productImages = await uploadProductImages({ files, path });
+    const productImages = await uploadProductImages({ files });
 
     await postProductFireStore({
       ...newProduct,
       productImages,
       user,
-      createAt: Date.now(),
+      createAt,
     });
   };
 }

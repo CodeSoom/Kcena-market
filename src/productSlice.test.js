@@ -7,6 +7,7 @@ import productReducer, {
   postProduct,
   setProduct,
   setInitialProduct,
+  addProductImages,
   setProducts,
   setloggedInUserSellProducts,
   deleteProduct,
@@ -15,6 +16,7 @@ import productReducer, {
 import products from '../fixtures/products';
 import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
 import newProduct from '../fixtures/newProduct';
+import productImages from '../fixtures/productImages';
 import { logInUser } from '../fixtures/user';
 
 const middlewares = [...getDefaultMiddleware()];
@@ -70,6 +72,16 @@ describe('productReducer', () => {
 
     expect(state.product.id).toBe(1);
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
+  });
+
+  describe('setProductImages', () => {
+    const initialState = {
+      product: initialProduct,
+    };
+
+    const state = productReducer(initialState, addProductImages(productImages));
+
+    expect(state.product.productImages).toEqual(productImages);
   });
 
   describe('setInitialProduct', () => {

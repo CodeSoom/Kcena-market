@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import WriteForm from '../presentational/WriteForm';
 import ImagesDropzone from '../presentational/ImagesDropzone';
 import ImagePreview from '../presentational/ImagePreview';
 
 import {
   postProduct,
+  addProductImages,
 } from '../../productSlice';
+
+import { uploadProductImages } from '../../services/api';
 
 export default function WriteFormContainer() {
   const [files, setFiles] = useState([]);
@@ -22,14 +23,9 @@ export default function WriteFormContainer() {
     setFiles([]);
   }
 
-  function handleOnDrop(acceptedFiles) {
-    setFiles([
-      ...files,
-      ...acceptedFiles.map((file) => Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        id: uuidv4(),
-      })),
-    ]);
+  async function handleOnDrop(files) {
+    const productImages = await uploadProductImages({ files });
+    dispatch(addProductImages(productImages));
   }
 
   function handleDeleteImage(selectedFile) {
