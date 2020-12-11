@@ -15,7 +15,7 @@ export default function ImagesDropzone({
       {({ getRootProps, getInputProps }) => (
         <section>
           <div {...getRootProps()}>
-            <input {...getInputProps()} />
+            <input data-testid="drop-input" {...getInputProps()} />
             <Typography
               className={classes.dropzoneArea}
               color="primary"

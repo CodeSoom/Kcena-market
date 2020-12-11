@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import {
+  waitFor, fireEvent, render,
+} from '@testing-library/react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import EditProductContainer from './EditProductContainer';
@@ -51,14 +53,69 @@ describe('EditProductContainer', () => {
       expect(getByDisplayValue(category)).toBeInTheDocument();
       expect(getByDisplayValue(region)).toBeInTheDocument();
     });
+
+    it('listen click 수정하기 button and call dispatch', () => {
+      const { getByText } = renderEditProductContainer();
+
+      const button = getByText('수정하기');
+
+      fireEvent.click(button);
+
+      expect(dispatch).toBeCalled();
+    });
+
+    it('listen click delete button and call dispatch', () => {
+      const { getAllByLabelText } = renderEditProductContainer();
+
+      const deleteButtons = getAllByLabelText('delete');
+
+      deleteButtons.forEach((deleteButton) => {
+        fireEvent.click(deleteButton);
+
+        expect(dispatch).toBeCalled();
+      });
+    });
   });
 
-  context('without product', () => {
-    given('empty product', () => {});
-    it('renders loading message', () => {
-      const { container } = renderEditProductContainer();
+  context('without productImages', () => {
+    given('product', () => ({
+      title: '',
+      description: '',
+      category: '',
+      region: '',
+      price: '',
+      productImages: [],
+      user: {},
+      createAt: '',
+    }));
 
-      expect(container).toHaveTextContent('loading...');
+    beforeEach(() => {
+      window.URL.createObjectURL = jest.fn().mockImplementation(() => 'testImageUrl');
+      window.URL.revokeObjectURL = jest.fn();
+    });
+
+    it('can upload a file with drag-and-drop or delete files with button', async () => {
+      const { getByAltText, getByLabelText, getByTestId } = renderEditProductContainer();
+
+      const inputElement = getByTestId('drop-input');
+
+      const file = new File(['file'], 'testImage.png', {
+        type: 'application/json',
+      });
+
+      Object.defineProperty(inputElement, 'files', {
+        value: [file],
+      });
+
+      fireEvent.drop(inputElement);
+
+      const image = await waitFor(() => getByAltText('testImage.png'));
+
+      expect(image).toHaveAttribute('src', 'testImageUrl');
+
+      const deleteButton = getByLabelText('delete');
+
+      fireEvent.click(deleteButton);
     });
   });
 });

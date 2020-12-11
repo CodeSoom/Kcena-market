@@ -66,12 +66,6 @@ export default function EditProductContainer({ productId }) {
     );
   }
 
-  if (!product) {
-    return (
-      <p>loading...</p>
-    );
-  }
-
   return (
     <div>
       <ImagesDropzone onDrop={handleOnDrop} />
