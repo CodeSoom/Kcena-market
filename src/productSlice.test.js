@@ -7,7 +7,6 @@ import productReducer, {
   postProduct,
   setProduct,
   setInitialProduct,
-  addProductImages,
   deleteProductImage,
   setProducts,
   setloggedInUserSellProducts,
@@ -73,16 +72,6 @@ describe('productReducer', () => {
 
     expect(state.product.id).toBe(1);
     expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
-  });
-
-  describe('addProductImages', () => {
-    const initialState = {
-      product: initialProduct,
-    };
-
-    const state = productReducer(initialState, addProductImages(productImages));
-
-    expect(state.product.productImages).toEqual(productImages);
   });
 
   describe('deleteProductImage', () => {

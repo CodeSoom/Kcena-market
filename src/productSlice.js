@@ -8,6 +8,7 @@ import {
   deleteProductFireStore,
   deleteImageInStorage,
   deleteAllImageInStorage,
+  uploadProductImages,
 } from './services/api';
 
 import { isEmpty } from './utils';
@@ -43,18 +44,6 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
-    addProductImages(state, { payload: productImages }) {
-      return {
-        ...state,
-        product: {
-          ...state.product,
-          productImages: [
-            ...state.product.productImages,
-            ...productImages,
-          ],
-        },
-      };
-    },
     deleteProductImage(state, { payload: selectedImageUrl }) {
       return {
         ...state,
@@ -84,7 +73,6 @@ export const {
   setProducts,
   setProduct,
   setInitialProduct,
-  addProductImages,
   deleteProductImage,
   setloggedInUserSellProducts,
   writeNewProduct,
@@ -112,18 +100,20 @@ export function loadLoggedInUserSellProducts({ user }) {
   };
 }
 
-export function postProduct({ newProduct }) {
+export function postProduct({ files, newProduct }) {
   return async (_, getState) => {
     const {
       authReducer: {
         user,
       },
-      productReducer: {
-        product: { productImages },
-      },
     } = getState();
 
     const createAt = Date.now();
+    const urls = await uploadProductImages({ files });
+    const productImages = files.map((file, index) => ({
+      name: file.name,
+      imageUrl: urls[index],
+    }));
 
     await postProductFireStore({
       ...newProduct,

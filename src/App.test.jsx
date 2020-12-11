@@ -12,7 +12,6 @@ import App from './App';
 import { loadItem } from './services/storage';
 
 import products from '../fixtures/products';
-import productImages from '../fixtures/productImages';
 import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
 
 import { logInUser } from '../fixtures/user';
@@ -26,20 +25,13 @@ let store;
 
 describe('App', () => {
   beforeEach(() => {
-    store = mockStore({
-      productReducer: {
-        product: {
-          productImages,
-        },
-      },
-    });
+    store = mockStore({});
 
     useDispatch.mockImplementation(() => store.dispatch);
 
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         products,
-        product: products[0],
         loggedInUserSellProducts,
       },
       authReducer: {

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import WriteForm from '../presentational/WriteForm';
 import ImagesDropzone from '../presentational/ImagesDropzone';
@@ -8,46 +8,42 @@ import ImagePreview from '../presentational/ImagePreview';
 
 import {
   postProduct,
-  addProductImages,
-  deleteImage,
-  deleteAllImageInDropzone,
-  setInitialProduct,
 } from '../../productSlice';
 
-import { uploadProductImages } from '../../services/api';
-
 export default function WriteFormContainer() {
+  const [files, setFiles] = useState([]);
+
   const dispatch = useDispatch();
 
-  const { productImages } = useSelector((state) => state.productReducer.product);
-
   useEffect(() => () => {
-    dispatch(deleteAllImageInDropzone());
-  }, []);
+    files.forEach((file) => URL.revokeObjectURL(file.imageUrl));
+  }, [files]);
 
   function handleSubmit({ newProduct }) {
-    dispatch(postProduct({ newProduct }));
-    dispatch(setInitialProduct());
+    dispatch(postProduct({ files, newProduct }));
   }
 
-  async function handleOnDrop(files) {
-    const urls = await uploadProductImages({ files });
-    const productImages = files.map((file, index) => ({
-      name: file.name,
-      imageUrl: urls[index],
-    }));
-    dispatch(addProductImages(productImages));
+  async function handleOnDrop(acceptedFiles) {
+    setFiles([
+      ...files,
+      ...acceptedFiles.map((file) => Object.assign(file, {
+        imageUrl: URL.createObjectURL(file),
+      })),
+    ]);
   }
 
   function handleDeleteImage(imageUrl) {
-    dispatch(deleteImage({ imageUrl }));
+    URL.revokeObjectURL(imageUrl);
+    setFiles(
+      files.filter((file) => file.imageUrl !== imageUrl),
+    );
   }
 
   return (
     <div>
       <ImagesDropzone onDrop={handleOnDrop} />
       <ImagePreview
-        productImages={productImages}
+        productImages={files}
         handleClickDeleteImage={handleDeleteImage}
       />
       <WriteForm
