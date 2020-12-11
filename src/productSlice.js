@@ -108,18 +108,11 @@ export function postProduct({ files, newProduct }) {
       },
     } = getState();
 
-    const createAt = Date.now();
-    const urls = await uploadProductImages({ files });
-    const productImages = files.map((file, index) => ({
-      name: file.name,
-      imageUrl: urls[index],
-    }));
-
     await postProductFireStore({
       ...newProduct,
-      productImages,
+      productImages: await uploadProductImages({ files }),
       user,
-      createAt,
+      createAt: Date.now(),
     });
   };
 }
@@ -134,23 +127,15 @@ export function editProduct({
       },
     } = getState();
 
-    const createAt = Date.now();
-    const urls = await uploadProductImages({ files });
-    const addedProductImages = files.map((file, index) => ({
-      name: file.name,
-      imageUrl: urls[index],
-    }));
-
     const editedProduct = {
       ...newProduct,
       productImages: [
         ...product.productImages,
-        ...addedProductImages,
+        ...await uploadProductImages({ files }),
       ],
-      createAt,
+      createAt: Date.now(),
     };
 
-    console.log(toBeDeletedUrls);
     await editProductFireStore({ productId, editedProduct });
     await deleteAllImageInStorage(toBeDeletedUrls);
   };

@@ -9,10 +9,10 @@ import productImages from '../../../fixtures/productImages';
 describe('ImagePreview', () => {
   const handleDeleteImage = jest.fn();
 
-  function renderImagePreview() {
+  function renderImagePreview({ images }) {
     return render((
       <ImagePreview
-        productImages={productImages}
+        productImages={images}
         handleClickDeleteImage={handleDeleteImage}
       />
     ));
@@ -24,7 +24,9 @@ describe('ImagePreview', () => {
 
   context('with images', () => {
     it('show images', () => {
-      const { getByAltText } = renderImagePreview();
+      const { getByAltText } = renderImagePreview({
+        images: productImages,
+      });
 
       productImages.forEach(({ name, imageUrl }) => {
         expect(getByAltText(name)).toHaveAttribute('src', imageUrl);
@@ -32,7 +34,9 @@ describe('ImagePreview', () => {
     });
 
     it('listen delete product images event', () => {
-      const { getAllByLabelText } = renderImagePreview();
+      const { getAllByLabelText } = renderImagePreview({
+        images: productImages,
+      });
 
       const deleteButtons = getAllByLabelText('delete');
 

@@ -52,7 +52,13 @@ export async function uploadProductImages({ files }) {
 
   const uploadTasks = files.map(uploadProductImage);
   const imageUrls = await Promise.all(uploadTasks);
-  return imageUrls;
+
+  const productImages = files.map((file, index) => ({
+    name: file.name,
+    imageUrl: imageUrls[index],
+  }));
+
+  return productImages;
 }
 
 export async function postProductFireStore(newProduct) {

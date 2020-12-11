@@ -3,6 +3,7 @@ import React from 'react';
 import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useStyles from '../../styles/styles';
+import { isEmpty } from '../../utils';
 
 const thumbsContainer = {
   display: 'flex',
@@ -42,7 +43,7 @@ export default function ImagePreview({
   productImages, handleClickDeleteImage,
 }) {
   const classes = useStyles();
-  if (productImages.length === 0) {
+  if (isEmpty(productImages)) {
     return null;
   }
 
