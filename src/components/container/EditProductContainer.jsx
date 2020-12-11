@@ -7,13 +7,17 @@ import ImagesDropzone from '../presentational/ImagesDropzone';
 import ImagePreview from '../presentational/ImagePreview';
 
 import {
+  deleteProductImage,
   loadProduct,
+  editProduct,
+  setInitialProduct,
 } from '../../productSlice';
 
 import { get } from '../../utils';
 
 export default function EditProductContainer({ productId }) {
   const [files, setFiles] = useState([]);
+  const [toBeDeletedUrls, setToBeDeletedUrls] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -21,11 +25,20 @@ export default function EditProductContainer({ productId }) {
 
   useEffect(() => {
     dispatch(loadProduct({ productId }));
+    return () => {
+      dispatch(setInitialProduct());
+    };
   }, []);
 
   useEffect(() => () => {
     files.forEach((file) => URL.revokeObjectURL(file.imageUrl));
   }, [files]);
+
+  function handleSubmit({ newProduct }) {
+    dispatch(editProduct({
+      files, toBeDeletedUrls, productId, newProduct,
+    }));
+  }
 
   async function handleOnDrop(acceptedFiles) {
     setFiles([
@@ -37,6 +50,16 @@ export default function EditProductContainer({ productId }) {
   }
 
   function handleDeleteImage(imageUrl) {
+    if (product.productImages
+      .find((productImage) => (productImage.imageUrl === imageUrl))
+    ) {
+      setToBeDeletedUrls([
+        ...toBeDeletedUrls,
+        imageUrl,
+      ]);
+      dispatch(deleteProductImage(imageUrl));
+      return;
+    }
     URL.revokeObjectURL(imageUrl);
     setFiles(
       files.filter((file) => file.imageUrl !== imageUrl),
@@ -60,7 +83,7 @@ export default function EditProductContainer({ productId }) {
         handleClickDeleteImage={handleDeleteImage}
       />
       <WriteForm
-        onSubmit={() => {}}
+        onSubmit={handleSubmit}
         initialEditProduct={product}
       />
     </div>

@@ -4,9 +4,9 @@ import {
   fetchProducts,
   fetchProduct,
   postProductFireStore,
+  editProductFireStore,
   fetchloggedInUserSellProducts,
   deleteProductFireStore,
-  deleteImageInStorage,
   deleteAllImageInStorage,
   uploadProductImages,
 } from './services/api';
@@ -124,6 +124,38 @@ export function postProduct({ files, newProduct }) {
   };
 }
 
+export function editProduct({
+  files, toBeDeletedUrls, productId, newProduct,
+}) {
+  return async (_, getState) => {
+    const {
+      productReducer: {
+        product,
+      },
+    } = getState();
+
+    const createAt = Date.now();
+    const urls = await uploadProductImages({ files });
+    const addedProductImages = files.map((file, index) => ({
+      name: file.name,
+      imageUrl: urls[index],
+    }));
+
+    const editedProduct = {
+      ...newProduct,
+      productImages: [
+        ...product.productImages,
+        ...addedProductImages,
+      ],
+      createAt,
+    };
+
+    console.log(toBeDeletedUrls);
+    await editProductFireStore({ productId, editedProduct });
+    await deleteAllImageInStorage(toBeDeletedUrls);
+  };
+}
+
 export function deleteProduct({ product }) {
   return async (dispatch, getState) => {
     const {
@@ -138,13 +170,6 @@ export function deleteProduct({ product }) {
         (myProduct) => myProduct.id !== product.id,
       ),
     ));
-  };
-}
-
-export function deleteImage({ imageUrl }) {
-  return async (dispatch) => {
-    await deleteImageInStorage({ imageUrl });
-    dispatch(deleteProductImage(imageUrl));
   };
 }
 
