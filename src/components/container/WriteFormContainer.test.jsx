@@ -20,6 +20,8 @@ describe('WriteFormContainer', () => {
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
+    window.URL.createObjectURL = jest.fn().mockImplementation(() => 'testImageUrl');
+    window.URL.revokeObjectURL = jest.fn();
   });
 
   context('when all forms are filled', () => {
@@ -76,5 +78,29 @@ describe('WriteFormContainer', () => {
 
       expect(dispatch).toBeCalled();
     });
+  });
+
+  it('can upload a file with drag-and-drop or delete files with button', async () => {
+    const { getByAltText, getByLabelText, getByTestId } = renderWriteFormContainer();
+
+    const inputElement = getByTestId('drop-input');
+
+    const file = new File(['file'], 'testImage.png', {
+      type: 'application/json',
+    });
+
+    Object.defineProperty(inputElement, 'files', {
+      value: [file],
+    });
+
+    fireEvent.drop(inputElement);
+
+    const image = await waitFor(() => getByAltText('testImage.png'));
+
+    expect(image).toHaveAttribute('src', 'testImageUrl');
+
+    const deleteButton = getByLabelText('delete');
+
+    fireEvent.click(deleteButton);
   });
 });
