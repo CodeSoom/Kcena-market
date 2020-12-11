@@ -83,6 +83,7 @@ export default function WriteForm({
       initialValues={initialEditProduct || initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      enableReinitialize
     >
       {
         ({ touched, errors }) => (
