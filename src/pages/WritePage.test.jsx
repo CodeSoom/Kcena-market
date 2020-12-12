@@ -2,14 +2,11 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { MemoryRouter } from 'react-router-dom';
 
 import WritePage from './WritePage';
-
-import newProduct from '../../fixtures/newProduct';
-import products from '../../fixtures/products';
 
 import { loadItem } from '../services/storage';
 
@@ -31,12 +28,6 @@ describe('WritePage', () => {
 
   beforeEach(() => {
     useDispatch.mockImplementation(() => dispatch);
-    useSelector.mockImplementation((selector) => selector({
-      productReducer: {
-        newProduct,
-        product: products[0],
-      },
-    }));
     loadItem.mockImplementation(() => given.user);
   });
 

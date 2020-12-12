@@ -4,10 +4,11 @@ import {
   fetchProducts,
   fetchProduct,
   postProductFireStore,
+  editProductFireStore,
   fetchloggedInUserSellProducts,
   deleteProductFireStore,
-  deleteImageInStorage,
   deleteAllImageInStorage,
+  uploadProductImages,
 } from './services/api';
 
 import { isEmpty } from './utils';
@@ -43,18 +44,6 @@ const { actions, reducer: productReducer } = createSlice({
         product,
       };
     },
-    addProductImages(state, { payload: productImages }) {
-      return {
-        ...state,
-        product: {
-          ...state.product,
-          productImages: [
-            ...state.product.productImages,
-            ...productImages,
-          ],
-        },
-      };
-    },
     deleteProductImage(state, { payload: selectedImageUrl }) {
       return {
         ...state,
@@ -84,7 +73,6 @@ export const {
   setProducts,
   setProduct,
   setInitialProduct,
-  addProductImages,
   deleteProductImage,
   setloggedInUserSellProducts,
   writeNewProduct,
@@ -112,25 +100,44 @@ export function loadLoggedInUserSellProducts({ user }) {
   };
 }
 
-export function postProduct({ newProduct }) {
+export function postProduct({ files, newProduct }) {
   return async (_, getState) => {
     const {
       authReducer: {
         user,
       },
-      productReducer: {
-        product: { productImages },
-      },
     } = getState();
-
-    const createAt = Date.now();
 
     await postProductFireStore({
       ...newProduct,
-      productImages,
+      productImages: await uploadProductImages({ files }),
       user,
-      createAt,
+      createAt: Date.now(),
     });
+  };
+}
+
+export function editProduct({
+  files, toBeDeletedUrls, productId, newProduct,
+}) {
+  return async (_, getState) => {
+    const {
+      productReducer: {
+        product,
+      },
+    } = getState();
+
+    const editedProduct = {
+      ...newProduct,
+      productImages: [
+        ...product.productImages,
+        ...await uploadProductImages({ files }),
+      ],
+      createAt: Date.now(),
+    };
+
+    await editProductFireStore({ productId, editedProduct });
+    await deleteAllImageInStorage(toBeDeletedUrls);
   };
 }
 
@@ -148,13 +155,6 @@ export function deleteProduct({ product }) {
         (myProduct) => myProduct.id !== product.id,
       ),
     ));
-  };
-}
-
-export function deleteImage({ imageUrl }) {
-  return async (dispatch) => {
-    await deleteImageInStorage({ imageUrl });
-    dispatch(deleteProductImage(imageUrl));
   };
 }
 

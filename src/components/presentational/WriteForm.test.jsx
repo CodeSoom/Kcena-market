@@ -17,9 +17,12 @@ describe('WriteForm', () => {
     { control: 'textarea', name: 'description', text: '중고 팝니다.' },
   ];
 
-  function renderWriteForm() {
+  function renderWriteForm({ initialEditProduct } = {}) {
     return render((
-      <WriteForm onSubmit={handleSubmit} />
+      <WriteForm
+        onSubmit={handleSubmit}
+        initialEditProduct={initialEditProduct}
+      />
     ));
   }
 

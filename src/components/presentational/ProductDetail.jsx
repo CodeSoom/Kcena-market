@@ -12,6 +12,7 @@ import {
 import useStyles from '../../styles/styles';
 
 import ArticleProfile from './ArticleProfile';
+import { isEmpty } from '../../utils';
 
 export default function ProductDetail({ product }) {
   const {
@@ -41,13 +42,24 @@ export default function ProductDetail({ product }) {
           prevArrow={<PrevArrow />}
           nextArrow={<NextArrow />}
         >
-          {productImages.map(({ name, imageUrl }) => (
-            <a href={imageUrl} key={imageUrl}>
+          {isEmpty(productImages) ? (
+            <a href="https://via.placeholder.com/300">
               <ImageWrap>
-                <Image src={imageUrl} alt={name} />
+                <Image
+                  src="https://via.placeholder.com/300"
+                  alt="placeholder"
+                />
               </ImageWrap>
             </a>
-          ))}
+          ) : (
+            productImages.map(({ name, imageUrl }) => (
+              <a href={imageUrl} key={imageUrl}>
+                <ImageWrap>
+                  <Image src={imageUrl} alt={name} />
+                </ImageWrap>
+              </a>
+            ))
+          )}
         </Slider>
       </SliderWrap>
       <ArticleProfile user={user} region={region} />

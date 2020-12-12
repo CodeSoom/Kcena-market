@@ -13,7 +13,10 @@ export default function Product({ product, onClickProduct }) {
     id, title, productImages, region, price,
   } = product;
 
-  const { name, imageUrl } = productImages[0];
+  const { name, imageUrl } = productImages[0] || {
+    name: 'placeholder',
+    imageUrl: 'https://via.placeholder.com/300',
+  };
 
   function handleClick(selectedProduct) {
     return (event) => {

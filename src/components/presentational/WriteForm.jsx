@@ -69,7 +69,9 @@ const categories = [
   },
 ];
 
-export default function WriteForm({ onSubmit }) {
+export default function WriteForm({
+  onSubmit, initialEditProduct,
+}) {
   const classes = useStyles();
 
   function handleSubmit(values) {
@@ -78,9 +80,10 @@ export default function WriteForm({ onSubmit }) {
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={initialEditProduct || initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      enableReinitialize
     >
       {
         ({ touched, errors }) => (
@@ -146,9 +149,10 @@ export default function WriteForm({ onSubmit }) {
                 <Button
                   type="submit"
                   variant="contained"
+                  color={initialEditProduct ? 'primary' : 'default'}
                   fullWidth
                 >
-                  글쓰기
+                  {initialEditProduct ? '수정하기' : '글쓰기'}
                 </Button>
               </Grid>
             </Grid>

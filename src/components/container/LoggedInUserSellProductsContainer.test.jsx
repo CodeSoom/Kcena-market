@@ -4,6 +4,8 @@ import { fireEvent, render } from '@testing-library/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { MemoryRouter } from 'react-router-dom';
+
 import LoggedInUserSellProductsContainer from './LoggedInUserSellProductsContainer';
 
 import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
@@ -24,7 +26,9 @@ describe('LoggedInUserSellProductsContainer', () => {
           setConfirmForm,
         }}
       >
-        <LoggedInUserSellProductsContainer />
+        <MemoryRouter>
+          <LoggedInUserSellProductsContainer />
+        </MemoryRouter>
       </ConfirmationContext.Provider>
     ));
   }
@@ -48,13 +52,15 @@ describe('LoggedInUserSellProductsContainer', () => {
     });
   });
 
-  it('listens click event and then call dispatch', () => {
-    const { getAllByText } = renderLoggedInUserSellProductsContainer();
+  context('click delete button', () => {
+    it('call dispatch', () => {
+      const { getAllByText } = renderLoggedInUserSellProductsContainer();
 
-    const deleteButton = getAllByText('Delete');
+      const deleteButton = getAllByText('Delete')[0];
 
-    fireEvent.click(deleteButton[0]);
+      fireEvent.click(deleteButton);
 
-    expect(dispatch).toBeCalled();
+      expect(dispatch).toBeCalled();
+    });
   });
 });

@@ -7,26 +7,44 @@ import ProductDetail from './ProductDetail';
 import products from '../../../fixtures/products';
 
 describe('ProductDetail', () => {
-  function renderProductDetail() {
+  function renderProductDetail({ product }) {
     return render((
       <ProductDetail
-        product={products[0]}
+        product={product}
       />
     ));
   }
 
   it('renders product detail', () => {
-    const { container } = renderProductDetail();
+    const { container } = renderProductDetail({ product: products[0] });
 
     expect(container).toHaveTextContent('크리넥스 KF-AD 소형 마스크 팝니다.');
     expect(container).toHaveTextContent('미추홀구 용현5동');
+  });
+
+  context('without product images', () => {
+    it('render placcholder image', () => {
+      const { getByAltText } = renderProductDetail({
+        product: {
+          ...products[0],
+          productImages: [],
+        },
+      });
+
+      const image = getByAltText('placeholder');
+
+      expect(image).toHaveAttribute(
+        'src',
+        'https://via.placeholder.com/300',
+      );
+    });
   });
 
   context('when click next arrow', () => {
     it('renders next image', () => {
       const { productImages } = products[0];
 
-      const { getByTestId, getAllByAltText } = renderProductDetail();
+      const { getByTestId, getAllByAltText } = renderProductDetail({ product: products[0] });
 
       const currentImage = getAllByAltText(productImages[0].name)[0];
       expect(currentImage).toHaveAttribute('src', productImages[0].imageUrl);
@@ -42,7 +60,7 @@ describe('ProductDetail', () => {
     it('renders prev image', () => {
       const { productImages } = products[0];
 
-      const { getByTestId, getAllByAltText } = renderProductDetail();
+      const { getByTestId, getAllByAltText } = renderProductDetail({ product: products[0] });
 
       const currentImage = getAllByAltText(productImages[0].name)[0];
       expect(currentImage).toHaveAttribute('src', productImages[0].imageUrl);

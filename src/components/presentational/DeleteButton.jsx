@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 import ConfirmationContext from '../../contexts/ConfirmationContext';
 
-const DeleteButton = ({ onClickDelete }) => {
+const DeleteButton = ({ handleClickDelete }) => {
   const { showConfirmation, setConfirmForm } = useContext(ConfirmationContext);
 
   const handleOnClick = async () => {
@@ -16,7 +16,7 @@ const DeleteButton = ({ onClickDelete }) => {
     const result = await showConfirmation();
 
     if (result) {
-      onClickDelete();
+      handleClickDelete();
     }
   };
 

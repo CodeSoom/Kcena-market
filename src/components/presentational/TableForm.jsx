@@ -9,12 +9,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import DeleteButton from './DeleteButton';
+import EditButton from './EditButton';
 
 import { isEmpty } from '../../utils';
 
-export default function TableForm(
-  { columns, products, handleDeleteProduct },
-) {
+export default function TableForm({
+  columns, products, handleDeleteProduct,
+}) {
   if (isEmpty(products || [])) {
     return (
       <div>품목이 없습니다!</div>
@@ -31,9 +32,7 @@ export default function TableForm(
                 {label}
               </TableCell>
             ))}
-            <TableCell>
-              수정하기 / 삭제하기
-            </TableCell>
+            <TableCell>삭제하기 / 수정하기</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -46,8 +45,9 @@ export default function TableForm(
               ))}
               <TableCell>
                 <DeleteButton
-                  onClickDelete={() => handleDeleteProduct(product)}
+                  handleClickDelete={() => handleDeleteProduct(product)}
                 />
+                <EditButton productId={product.id} />
               </TableCell>
             </TableRow>
           ))}
