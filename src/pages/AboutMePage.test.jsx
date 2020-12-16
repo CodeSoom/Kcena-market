@@ -30,7 +30,7 @@ describe('AboutMePage', () => {
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
-        loggedInUserSellProducts: [],
+        userProducts: [],
       },
     }));
     loadItem.mockImplementation(() => given.user);

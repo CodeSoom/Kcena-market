@@ -8,7 +8,7 @@ import TableForm from './TableForm';
 
 import ConfirmationContext from '../../contexts/ConfirmationContext';
 
-import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
+import userProducts from '../../../fixtures/userProducts';
 
 describe('TableForm', () => {
   const handleDeleteProduct = jest.fn();
@@ -58,15 +58,15 @@ describe('TableForm', () => {
     });
 
     it('render current user selling products', () => {
-      const { getByText } = renderTableForm({ products: loggedInUserSellProducts });
+      const { getByText } = renderTableForm({ products: userProducts });
 
-      loggedInUserSellProducts.forEach(({ title }) => {
+      userProducts.forEach(({ title }) => {
         expect(getByText(title)).not.toBeNull();
       });
     });
 
     it('render delete buttons', async () => {
-      const { getAllByText } = renderTableForm({ products: loggedInUserSellProducts });
+      const { getAllByText } = renderTableForm({ products: userProducts });
 
       const button = getAllByText('Delete')[0];
 

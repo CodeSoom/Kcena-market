@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-import LoggedInUserSellProductsContainer from '../components/container/LoggedInUserSellProductsContainer';
+import UserProductsContainer from '../components/container/UserProductContainer';
 
 import { loadItem } from '../services/storage';
 
@@ -51,7 +51,7 @@ export default function AboutMePage() {
         <Tab label="찜한 상품" />
       </Tabs>
       <ConfirmationProvider>
-        {selectedTab === 0 && <LoggedInUserSellProductsContainer user={user} />}
+        {selectedTab === 0 && <UserProductsContainer user={user} />}
         {/* TODO : 찜한 상품 리스트 추가 {selectedTab === 1 && <MyWishListContainer />} */}
       </ConfirmationProvider>
     </Container>

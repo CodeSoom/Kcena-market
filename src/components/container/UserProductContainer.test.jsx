@@ -6,19 +6,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { MemoryRouter } from 'react-router-dom';
 
-import LoggedInUserSellProductsContainer from './LoggedInUserSellProductsContainer';
+import UserProductsContainer from './UserProductContainer';
 
-import loggedInUserSellProducts from '../../../fixtures/loggedInUserSellProducts';
+import userProducts from '../../../fixtures/userProducts';
 import ConfirmationContext from '../../contexts/ConfirmationContext';
 
 jest.mock('react-redux');
 
-describe('LoggedInUserSellProductsContainer', () => {
+describe('UserProductsContainer', () => {
   const dispatch = jest.fn();
   const showConfirmation = jest.fn();
   const setConfirmForm = jest.fn();
 
-  function renderLoggedInUserSellProductsContainer() {
+  function renderUserProductsContainer() {
     return render((
       <ConfirmationContext.Provider
         value={{
@@ -27,7 +27,7 @@ describe('LoggedInUserSellProductsContainer', () => {
         }}
       >
         <MemoryRouter>
-          <LoggedInUserSellProductsContainer />
+          <UserProductsContainer />
         </MemoryRouter>
       </ConfirmationContext.Provider>
     ));
@@ -38,23 +38,23 @@ describe('LoggedInUserSellProductsContainer', () => {
     useDispatch.mockImplementation(() => dispatch);
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
-        loggedInUserSellProducts,
+        userProducts,
       },
     }));
     showConfirmation.mockResolvedValue(() => true);
   });
 
   it('render products', () => {
-    const { getByText } = renderLoggedInUserSellProductsContainer();
+    const { getByText } = renderUserProductsContainer();
 
-    loggedInUserSellProducts.forEach(({ title }) => {
+    userProducts.forEach(({ title }) => {
       expect(getByText(title)).not.toBeNull();
     });
   });
 
   context('click delete button', () => {
     it('call dispatch', () => {
-      const { getAllByText } = renderLoggedInUserSellProductsContainer();
+      const { getAllByText } = renderUserProductsContainer();
 
       const deleteButton = getAllByText('Delete')[0];
 

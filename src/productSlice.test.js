@@ -9,12 +9,12 @@ import productReducer, {
   setInitialProduct,
   deleteProductImage,
   setProducts,
-  setloggedInUserSellProducts,
+  setUserProducts,
   deleteProduct,
 } from './productSlice';
 
 import products from '../fixtures/products';
-import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
+import userProducts from '../fixtures/userProducts';
 import newProduct from '../fixtures/newProduct';
 import productImages from '../fixtures/productImages';
 import { logInUser } from '../fixtures/user';
@@ -101,17 +101,17 @@ describe('productReducer', () => {
     expect(state.product).toEqual(initialProduct);
   });
 
-  describe('setloggedInUserSellProducts', () => {
+  describe('setUserProducts', () => {
     const initialState = {
-      loggedInUserSellProducts: [],
+      userProducts: [],
     };
 
     const state = productReducer(
       initialState,
-      setloggedInUserSellProducts(loggedInUserSellProducts),
+      setUserProducts(userProducts),
     );
 
-    expect(state.loggedInUserSellProducts).toEqual(loggedInUserSellProducts);
+    expect(state.userProducts).toEqual(userProducts);
   });
 });
 
@@ -166,23 +166,23 @@ describe('actions', () => {
   });
 
   describe('deleteProduct', () => {
-    const productWillDeleted = loggedInUserSellProducts[0];
+    const productWillDeleted = userProducts[0];
 
     beforeEach(() => {
       store = mockStore({
         productReducer: {
-          loggedInUserSellProducts,
+          userProducts,
         },
       });
     });
 
-    it('dispatch setloggedInUserSellProducts', async () => {
+    it('dispatch setUserProducts', async () => {
       await store.dispatch(deleteProduct({ product: productWillDeleted }));
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setloggedInUserSellProducts(
-        loggedInUserSellProducts.filter((product) => product.id !== productWillDeleted.id),
+      expect(actions[0]).toEqual(setUserProducts(
+        userProducts.filter((product) => product.id !== productWillDeleted.id),
       ));
     });
   });
