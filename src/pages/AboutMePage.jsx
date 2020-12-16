@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-import UserProductsContainer from '../components/container/UserProductContainer';
+import UserProductsContainer from '../components/container/UserProductsContainer';
 
 import { loadItem } from '../services/storage';
 
@@ -20,7 +20,7 @@ export default function AboutMePage() {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleChange = (event, newTab) => {
+  const handleChange = (_, newTab) => {
     setSelectedTab(newTab);
   };
 

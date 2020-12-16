@@ -92,7 +92,9 @@ export async function deleteProductFireStore({ product }) {
   if (isEmpty(productImages || [])) {
     return;
   }
-  await deleteAllImageInStorage(productImages);
+
+  const deleteUrls = productImages.map(({ imageUrl }) => imageUrl);
+  await deleteAllImageInStorage(deleteUrls);
 }
 
 export async function postLogin({ email, password }) {
