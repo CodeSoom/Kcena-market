@@ -12,7 +12,7 @@ import App from './App';
 import { loadItem } from './services/storage';
 
 import products from '../fixtures/products';
-import loggedInUserSellProducts from '../fixtures/loggedInUserSellProducts';
+import userProducts from '../fixtures/userProducts';
 
 import { logInUser } from '../fixtures/user';
 
@@ -32,7 +32,7 @@ describe('App', () => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         products,
-        loggedInUserSellProducts,
+        userProducts,
       },
       authReducer: {
         user: {

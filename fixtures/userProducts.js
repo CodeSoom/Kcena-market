@@ -1,4 +1,4 @@
-const loggedInUserSellProducts = [
+const userProducts = [
   {
     createAt: 1605686366816,
     description: '깨끗하게 사용해서 쓸만해요↵맨아래 살짝 찌그러진거말고는 다 괜찮습니다↵↵효자동 홍산초 부근입니다 받으러 오셔야해용^^!↵챗주시면 정확한 위치 알려드릴게용~',
@@ -43,4 +43,4 @@ const loggedInUserSellProducts = [
   },
 ];
 
-export default loggedInUserSellProducts;
+export default userProducts;

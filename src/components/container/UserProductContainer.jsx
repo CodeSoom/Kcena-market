@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  loadLoggedInUserSellProducts,
+  loadUserProducts,
   deleteProduct,
 } from '../../productSlice';
 
@@ -15,18 +15,18 @@ const columns = [
   { id: 3, name: 'price', label: '가격' },
 ];
 
-export default function LoggedInUserSellProductsContainer({ user }) {
+export default function UserProductsContainer({ user }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadLoggedInUserSellProducts({ user }));
+    dispatch(loadUserProducts({ user }));
   }, []);
 
   function handleDeleteProduct(product) {
     dispatch(deleteProduct({ product }));
   }
 
-  const userProducts = useSelector((state) => state.productReducer.loggedInUserSellProducts);
+  const userProducts = useSelector((state) => state.productReducer.userProducts);
 
   return (
     <TableForm
