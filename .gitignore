@@ -19,4 +19,3 @@ coverage
 dist/
 .firebase/
 .firebaserc
-firebase.json
