@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
+    "build": "webpack --mode production --config webpack.config.js",
+    "build:dev": "webpack --mode development --config webpack.config.js",
     "test:unit": "jest",
     "coverage": "npm run test:unit -- --coverage",
-    "test:e2e": "codeceptjs run --steps",
     "test": "npm run coverage && start-server-and-test start http://localhost:8080 test:e2e",
+    "test:e2e": "codeceptjs run --steps",
+    "test:watch": "npm run test:unit -- --watchAll --coverage --verbose",
     "lint": "eslint --ext js,jsx ."
   },
   "repository": {
@@ -33,6 +36,7 @@
     "@types/jest": "^26.0.7",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
     "codeceptjs": "^2.6.6",
     "css-loader": "^4.2.1",
     "eslint": "^7.5.0",
@@ -43,6 +47,7 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "file-loader": "^6.0.0",
     "given2": "^2.1.7",
+    "html-webpack-plugin": "^4.5.0",
     "jest": "^26.1.0",
     "jest-localstorage-mock": "^2.4.3",
     "jest-plugin-context": "^2.9.0",
