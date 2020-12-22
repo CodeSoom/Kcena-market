@@ -4,9 +4,9 @@
   "description": "Codesoom project",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --mode production --config webpack.config.js",
-    "build:dev": "webpack --mode development --config webpack.config.js",
+    "start": "webpack-dev-server --progress",
+    "build": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:dev": "webpack --config webpack.config.js",
     "test:unit": "jest",
     "coverage": "npm run test:unit -- --coverage",
     "test": "npm run coverage && start-server-and-test start http://localhost:8080 test:e2e",
@@ -57,7 +57,7 @@
     "start-server-and-test": "^1.11.2",
     "style-loader": "^1.2.1",
     "url-loader": "^4.1.0",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
