@@ -44,13 +44,4 @@ describe('ProductContainer', () => {
       expect(container).toHaveTextContent('미추홀구 용현5동');
     });
   });
-
-  context('without product', () => {
-    given('empty product', () => {});
-    it('renders loading message', () => {
-      const { container } = renderProductContainer();
-
-      expect(container).toHaveTextContent('loading...');
-    });
-  });
 });

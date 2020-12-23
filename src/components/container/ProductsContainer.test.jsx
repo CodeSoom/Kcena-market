@@ -24,6 +24,8 @@ describe('ProductsContainer', () => {
     useSelector.mockImplementation((selector) => selector({
       productReducer: {
         products: given.products,
+      },
+      commonReducer: {
         isLoading: given.isLoading,
       },
     }));

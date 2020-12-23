@@ -9,7 +9,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import App from './App';
 
-import { setIsLoading } from './productSlice';
+import { setIsLoading } from './commonSlice';
 
 import { loadItem } from './services/storage';
 
@@ -42,6 +42,9 @@ describe('App', () => {
           displayName: '',
           email: '',
         },
+      },
+      commonReducer: {
+        isLoading: false,
       },
     }));
   });

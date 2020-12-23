@@ -21,12 +21,6 @@ export default function ProductContainer({ productId }) {
 
   const { product } = useSelector(get('productReducer'));
 
-  if (!product) {
-    return (
-      <p>loading...</p>
-    );
-  }
-
   return (
     <ProductDetail product={product} />
   );

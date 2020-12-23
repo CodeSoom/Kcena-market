@@ -11,6 +11,8 @@ import {
   uploadProductImages,
 } from './services/api';
 
+import { setIsLoading } from './commonSlice';
+
 import { isEmpty } from './utils';
 
 const initialProduct = {
@@ -27,7 +29,6 @@ const initialProduct = {
 const { actions, reducer: productReducer } = createSlice({
   name: 'productSlice',
   initialState: {
-    isLoading: false,
     product: initialProduct,
     products: [],
     userProducts: [],
@@ -67,12 +68,6 @@ const { actions, reducer: productReducer } = createSlice({
         userProducts,
       };
     },
-    setIsLoading(state, { payload: isLoading }) {
-      return {
-        ...state,
-        isLoading,
-      };
-    },
   },
 });
 
@@ -82,7 +77,6 @@ export const {
   setInitialProduct,
   deleteProductImage,
   setUserProducts,
-  setIsLoading,
   writeNewProduct,
   initialNewProduct,
 } = actions;
