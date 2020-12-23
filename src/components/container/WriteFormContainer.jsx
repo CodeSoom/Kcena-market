@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import WriteForm from '../presentational/WriteForm';
 import ImagesDropzone from '../presentational/ImagesDropzone';
 import ImagePreview from '../presentational/ImagePreview';
+import Loading from '../presentational/Loading';
 
 import {
   postProduct,
@@ -14,6 +15,7 @@ export default function WriteFormContainer() {
   const [files, setFiles] = useState([]);
 
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.commonReducer.isLoading);
 
   useEffect(() => () => {
     files.forEach((file) => URL.revokeObjectURL(file.imageUrl));
@@ -49,6 +51,7 @@ export default function WriteFormContainer() {
       <WriteForm
         onSubmit={handleSubmit}
       />
+      {isLoading && <Loading isLoading />}
     </div>
   );
 }

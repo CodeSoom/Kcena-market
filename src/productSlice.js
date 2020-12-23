@@ -105,19 +105,21 @@ export function loadUserProducts({ user }) {
 }
 
 export function postProduct({ files, newProduct }) {
-  return async (_, getState) => {
+  return async (dispatch, getState) => {
     const {
       authReducer: {
         user,
       },
     } = getState();
 
+    dispatch(setIsLoading(true));
     await postProductFireStore({
       ...newProduct,
       productImages: await uploadProductImages({ files }),
       user,
       createAt: Date.now(),
     });
+    dispatch(setIsLoading(false));
   };
 }
 

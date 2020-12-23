@@ -166,6 +166,11 @@ describe('actions', () => {
       const files = [];
 
       await store.dispatch(postProduct({ files, newProduct }));
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setIsLoading(false));
     });
   });
 
