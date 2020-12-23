@@ -31,7 +31,7 @@ describe('ProductsContainer', () => {
     }));
   });
 
-  describe('when isLoading is true', () => {
+  describe('isLoading is true', () => {
     given('isLoading', () => true);
 
     it('render loading component', () => {
@@ -43,7 +43,7 @@ describe('ProductsContainer', () => {
     });
   });
 
-  describe('when isLoading is false', () => {
+  describe('isLoading is false', () => {
     context('with products', () => {
       given('products', () => products);
 

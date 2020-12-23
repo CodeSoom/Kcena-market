@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import SignupForm from '../presentational/SignupForm';
+import Loading from '../presentational/Loading';
 
 import {
   requestSignup,
@@ -13,6 +14,7 @@ export default function SignupFormContainer() {
   const dispatch = useDispatch();
 
   const error = useSelector((state) => state.authReducer.error);
+  const isLoading = useSelector((state) => state.commonReducer.isLoading);
 
   useEffect(() => {
     dispatch(setError(''));
@@ -23,9 +25,12 @@ export default function SignupFormContainer() {
   }
 
   return (
-    <SignupForm
-      signupError={error}
-      onSubmit={handleSubmit}
-    />
+    <>
+      <SignupForm
+        signupError={error}
+        onSubmit={handleSubmit}
+      />
+      {isLoading && <Loading isLoading />}
+    </>
   );
 }
