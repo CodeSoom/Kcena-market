@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
   productDetail: {
     padding: '20px 80px',
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 export default useStyles;

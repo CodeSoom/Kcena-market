@@ -33,9 +33,11 @@ describe('ProductsContainer', () => {
     given('isLoading', () => true);
 
     it('render loading component', () => {
-      const { getByText } = renderProductsContainer();
+      const { getByTestId } = renderProductsContainer();
 
-      expect(getByText('Loading...')).toBeInTheDocument();
+      const backdrop = getByTestId('backdrop');
+
+      expect(backdrop).not.toHaveStyle('visibility : hidden');
     });
   });
 
