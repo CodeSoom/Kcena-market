@@ -126,24 +126,27 @@ export function postProduct({ files, newProduct }) {
 export function editProduct({
   files, toBeDeletedUrls, productId, newProduct,
 }) {
-  return async (_, getState) => {
+  return async (dispatch, getState) => {
     const {
       productReducer: {
         product,
       },
     } = getState();
 
+    const newProductImages = await uploadProductImages({ files });
     const editedProduct = {
       ...newProduct,
       productImages: [
         ...product.productImages,
-        ...await uploadProductImages({ files }),
+        ...newProductImages,
       ],
       createAt: Date.now(),
     };
 
+    dispatch(setIsLoading(true));
     await editProductFireStore({ productId, editedProduct });
     await deleteAllImageInStorage(toBeDeletedUrls);
+    dispatch(setIsLoading(false));
   };
 }
 

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import WriteForm from '../presentational/WriteForm';
 import ImagesDropzone from '../presentational/ImagesDropzone';
 import ImagePreview from '../presentational/ImagePreview';
+import Loading from '../presentational/Loading';
 
 import {
   deleteProductImage,
@@ -22,6 +23,7 @@ export default function EditProductContainer({ productId }) {
   const dispatch = useDispatch();
 
   const { product } = useSelector(get('productReducer'));
+  const { isLoading } = useSelector(get('commonReducer'));
 
   useEffect(() => {
     dispatch(loadProduct({ productId }));
@@ -80,6 +82,7 @@ export default function EditProductContainer({ productId }) {
         onSubmit={handleSubmit}
         initialEditProduct={product}
       />
+      {isLoading && <Loading isLoading />}
     </div>
   );
 }

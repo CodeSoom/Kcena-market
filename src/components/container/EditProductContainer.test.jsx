@@ -21,6 +21,9 @@ describe('EditProductContainer', () => {
       productReducer: {
         product: given.product,
       },
+      commonReducer: {
+        isLoading: given.isLoading,
+      },
     }));
   });
 
@@ -30,8 +33,21 @@ describe('EditProductContainer', () => {
     ));
   }
 
+  context('isLoading is true', () => {
+    given('isLoading', () => true);
+    given('product', () => products[0]);
+    it('render loading component', () => {
+      const { getByTestId } = renderEditProductContainer();
+
+      const backdrop = getByTestId('backdrop');
+
+      expect(backdrop).not.toHaveStyle('visibility : hidden');
+    });
+  });
+
   context('with initial edit product', () => {
     given('product', () => products[0]);
+    given('isLoading', () => false);
 
     it('dispatchs called', () => {
       renderEditProductContainer();
