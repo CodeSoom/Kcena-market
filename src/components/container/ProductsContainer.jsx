@@ -17,9 +17,11 @@ export default function ProductsContainer({ onClickProduct }) {
     dispatch(loadInitProducts());
   }, []);
 
-  const { products } = useSelector(get('productReducer'));
+  const { products, isLoading } = useSelector(get('productReducer'));
 
-  return (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <Products
       products={products}
       onClickProduct={onClickProduct}

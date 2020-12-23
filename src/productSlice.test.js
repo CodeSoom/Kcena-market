@@ -10,6 +10,7 @@ import productReducer, {
   deleteProductImage,
   setProducts,
   setUserProducts,
+  setIsLoading,
   deleteProduct,
 } from './productSlice';
 
@@ -37,6 +38,7 @@ jest.mock('./services/api');
 describe('productReducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
+      isLoading: false,
       product: initialProduct,
       products: [],
       userProducts: [],
@@ -113,6 +115,19 @@ describe('productReducer', () => {
 
     expect(state.userProducts).toEqual(userProducts);
   });
+
+  describe('setIsLoading', () => {
+    const initialState = {
+      isLoading: false,
+    };
+
+    const state = productReducer(
+      initialState,
+      setIsLoading(true),
+    );
+
+    expect(state.isLoading).toBe(true);
+  });
 });
 
 describe('actions', () => {
@@ -128,7 +143,9 @@ describe('actions', () => {
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setProducts([]));
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setProducts([]));
+      expect(actions[2]).toEqual(setIsLoading(false));
     });
   });
 

@@ -27,6 +27,7 @@ const initialProduct = {
 const { actions, reducer: productReducer } = createSlice({
   name: 'productSlice',
   initialState: {
+    isLoading: false,
     product: initialProduct,
     products: [],
     userProducts: [],
@@ -66,6 +67,12 @@ const { actions, reducer: productReducer } = createSlice({
         userProducts,
       };
     },
+    setIsLoading(state, { payload: isLoading }) {
+      return {
+        ...state,
+        isLoading,
+      };
+    },
   },
 });
 
@@ -75,14 +82,17 @@ export const {
   setInitialProduct,
   deleteProductImage,
   setUserProducts,
+  setIsLoading,
   writeNewProduct,
   initialNewProduct,
 } = actions;
 
 export function loadInitProducts() {
   return async (dispatch) => {
+    dispatch(setIsLoading(true));
     const products = await fetchProducts();
     dispatch(setProducts(products));
+    dispatch(setIsLoading(false));
   };
 }
 
