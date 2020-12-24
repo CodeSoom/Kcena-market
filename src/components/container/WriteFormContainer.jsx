@@ -17,7 +17,7 @@ export default function WriteFormContainer() {
   const [files, setFiles] = useState([]);
 
   const dispatch = useDispatch();
-  const isLoading = useSelector(get('commonReducer'));
+  const { isLoading } = useSelector(get('commonReducer'));
 
   useEffect(() => () => {
     files.forEach((file) => URL.revokeObjectURL(file.imageUrl));
