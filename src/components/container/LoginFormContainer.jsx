@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from '../presentational/LoginForm';
 import Loading from '../presentational/Loading';
 
+import { get } from '../../utils';
+
 import {
   requestLogin,
   requestGoogleSignIn,
@@ -14,8 +16,8 @@ import {
 export default function LoginFormContainer() {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.authReducer.error);
-  const isLoading = useSelector((state) => state.commonReducer.isLoading);
+  const { error } = useSelector(get('authReducer'));
+  const { isLoading } = useSelector(get('commonReducer'));
 
   useEffect(() => {
     dispatch(setError(''));

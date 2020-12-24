@@ -10,11 +10,13 @@ import {
   setError,
 } from '../../authSlice';
 
+import { get } from '../../utils';
+
 export default function SignupFormContainer() {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.authReducer.error);
-  const isLoading = useSelector((state) => state.commonReducer.isLoading);
+  const { error } = useSelector(get('authReducer'));
+  const { isLoading } = useSelector(get('commonReducer'));
 
   useEffect(() => {
     dispatch(setError(''));

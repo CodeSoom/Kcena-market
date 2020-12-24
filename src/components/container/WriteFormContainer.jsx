@@ -11,11 +11,13 @@ import {
   postProduct,
 } from '../../productSlice';
 
+import { get } from '../../utils';
+
 export default function WriteFormContainer() {
   const [files, setFiles] = useState([]);
 
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.commonReducer.isLoading);
+  const isLoading = useSelector(get('commonReducer'));
 
   useEffect(() => () => {
     files.forEach((file) => URL.revokeObjectURL(file.imageUrl));

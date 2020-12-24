@@ -6,10 +6,12 @@ import { requestLogout } from '../../authSlice';
 
 import RightHeaderMenu from '../presentational/RightHeaderMenu';
 
+import { get } from '../../utils';
+
 export default function RightHeaderMenuContainer() {
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.authReducer.user);
+  const { user } = useSelector(get('authReducer'));
 
   function handleClickLogout() {
     dispatch(requestLogout());

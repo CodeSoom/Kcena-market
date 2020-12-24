@@ -10,6 +10,8 @@ import {
 
 import TableForm from '../presentational/TableForm';
 
+import { get } from '../../utils';
+
 const columns = [
   { id: 1, name: 'title', label: '상품 이름' },
   { id: 2, name: 'category', label: '카테고리' },
@@ -27,8 +29,8 @@ export default function UserProductsContainer({ user }) {
     dispatch(deleteProduct({ product }));
   }
 
-  const isLoading = useSelector((state) => state.commonReducer.isLoading);
-  const userProducts = useSelector((state) => state.productReducer.userProducts);
+  const { isLoading } = useSelector(get('commonReducer'));
+  const { userProducts } = useSelector(get('productReducer'));
 
   return isLoading ? (
     <LinearProgress data-testid="LinerProgress" />
