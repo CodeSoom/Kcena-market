@@ -2,7 +2,7 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { MemoryRouter } from 'react-router-dom';
 
@@ -28,6 +28,11 @@ describe('WritePage', () => {
 
   beforeEach(() => {
     useDispatch.mockImplementation(() => dispatch);
+    useSelector.mockImplementation((selector) => selector({
+      commonReducer: {
+        isLoading: false,
+      },
+    }));
     loadItem.mockImplementation(() => given.user);
   });
 
