@@ -32,6 +32,9 @@ describe('AboutMePage', () => {
       productReducer: {
         userProducts: [],
       },
+      commonReducer: {
+        isLoading: false,
+      },
     }));
     loadItem.mockImplementation(() => given.user);
   });

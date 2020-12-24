@@ -99,8 +99,10 @@ export function loadProduct({ productId }) {
 
 export function loadUserProducts({ user }) {
   return async (dispatch) => {
+    dispatch(setIsLoading(true));
     const userProducts = await fetchUserProducts({ user });
     dispatch(setUserProducts(userProducts));
+    dispatch(setIsLoading(false));
   };
 }
 
@@ -133,6 +135,7 @@ export function editProduct({
       },
     } = getState();
 
+    dispatch(setIsLoading(true));
     const newProductImages = await uploadProductImages({ files });
     const editedProduct = {
       ...newProduct,
@@ -142,8 +145,6 @@ export function editProduct({
       ],
       createAt: Date.now(),
     };
-
-    dispatch(setIsLoading(true));
     await editProductFireStore({ productId, editedProduct });
     await deleteAllImageInStorage(toBeDeletedUrls);
     dispatch(setIsLoading(false));

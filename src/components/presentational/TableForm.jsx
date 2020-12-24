@@ -1,5 +1,7 @@
 import React from 'react';
 
+import styled from '@emotion/styled';
+
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
@@ -18,7 +20,9 @@ export default function TableForm({
 }) {
   if (isEmpty(products || [])) {
     return (
-      <div>품목이 없습니다!</div>
+      <EmptyUserProducts>
+        품목이 없습니다!
+      </EmptyUserProducts>
     );
   }
 
@@ -56,3 +60,14 @@ export default function TableForm({
     </TableContainer>
   );
 }
+
+const EmptyUserProducts = styled.div({
+  backgroundColor: '#fff',
+  fontSize: '1.5rem',
+  boxShadow: '0px 2px 2px 2px #999',
+  width: '100%',
+  height: '200px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
