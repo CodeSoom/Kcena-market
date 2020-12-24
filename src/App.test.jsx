@@ -9,6 +9,8 @@ import { MemoryRouter } from 'react-router-dom';
 
 import App from './App';
 
+import { setIsLoading } from './commonSlice';
+
 import { loadItem } from './services/storage';
 
 import products from '../fixtures/products';
@@ -40,6 +42,9 @@ describe('App', () => {
           displayName: '',
           email: '',
         },
+      },
+      commonReducer: {
+        isLoading: false,
       },
     }));
   });
@@ -126,12 +131,12 @@ describe('App', () => {
       loadItem.mockImplementation(() => null);
     });
 
-    it('doesn\'t call dispatch', () => {
+    it('setIsLoading dispatch is called', () => {
       renderApp({ path: '/' });
 
       const actions = store.getActions();
 
-      expect(actions).toEqual([]);
+      expect(actions[0]).toEqual(setIsLoading(true));
     });
   });
 });

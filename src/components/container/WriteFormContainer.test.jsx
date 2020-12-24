@@ -4,7 +4,7 @@ import {
   fireEvent, render, waitFor, within,
 } from '@testing-library/react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import WriteFormContainer from './WriteFormContainer';
 
@@ -20,11 +20,28 @@ describe('WriteFormContainer', () => {
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
+    useSelector.mockImplementation((selector) => selector({
+      commonReducer: {
+        isLoading: given.isLoading,
+      },
+    }));
     window.URL.createObjectURL = jest.fn().mockImplementation(() => 'testImageUrl');
     window.URL.revokeObjectURL = jest.fn();
   });
 
+  context('isLoading is true', () => {
+    given('isLoading', () => true);
+    it('render loading component', () => {
+      const { getByTestId } = renderWriteFormContainer();
+
+      const backdrop = getByTestId('backdrop');
+
+      expect(backdrop).not.toHaveStyle('visibility : hidden');
+    });
+  });
+
   context('when all forms are filled', () => {
+    given('isLoading', () => false);
     it('possible submit event', async () => {
       const { container, getAllByRole, getByRole } = renderWriteFormContainer();
 

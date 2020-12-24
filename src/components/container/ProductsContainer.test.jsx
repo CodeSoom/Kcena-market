@@ -12,7 +12,7 @@ jest.mock('react-redux');
 describe('ProductsContainer', () => {
   const dispatch = jest.fn();
 
-  function renderListContainer() {
+  function renderProductsContainer() {
     return render((
       <ProductsContainer />
     ));
@@ -25,34 +25,51 @@ describe('ProductsContainer', () => {
       productReducer: {
         products: given.products,
       },
+      commonReducer: {
+        isLoading: given.isLoading,
+      },
     }));
   });
 
-  context('with products', () => {
-    given('products', () => products);
+  describe('isLoading is true', () => {
+    given('isLoading', () => true);
 
-    it('renders products', () => {
-      const { getByText } = renderListContainer();
+    it('render loading component', () => {
+      const { getByTestId } = renderProductsContainer();
 
-      products.forEach(({ title }) => {
-        expect(getByText(title)).toBeInTheDocument();
-      });
+      const backdrop = getByTestId('backdrop');
+
+      expect(backdrop).not.toHaveStyle('visibility : hidden');
     });
   });
 
-  context('without products', () => {
-    given('products', () => []);
+  describe('isLoading is false', () => {
+    context('with products', () => {
+      given('products', () => products);
 
-    it('load products', () => {
-      renderListContainer();
+      it('renders products', () => {
+        const { getByText } = renderProductsContainer();
 
-      expect(dispatch).toBeCalledTimes(1);
+        products.forEach(({ title }) => {
+          expect(getByText(title)).toBeInTheDocument();
+        });
+      });
     });
 
-    it('renders no products message', () => {
-      const { getByText } = renderListContainer();
+    context('without products', () => {
+      given('products', () => []);
 
-      expect(getByText('품목이 없습니다!')).not.toBeNull();
+      it('load products', () => {
+        renderProductsContainer();
+
+        expect(dispatch).toBeCalledTimes(1);
+      });
+
+      it('renders no products message', () => {
+        const { getByText } = renderProductsContainer();
+
+        expect(getByText('품목이 없습니다!')).not.toBeNull();
+      });
     });
   });
 });

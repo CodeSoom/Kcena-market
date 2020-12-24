@@ -18,6 +18,7 @@ import {
 } from './services/api';
 
 import { logInUser, logOutUser } from '../fixtures/user';
+import { setIsLoading } from './commonSlice';
 
 const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
@@ -106,7 +107,9 @@ describe('actions', () => {
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setUser(logInUser));
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setUser(logInUser));
+      expect(actions[2]).toEqual(setIsLoading(false));
     });
 
     it('dispatches requestLogin action and returns an error', async () => {
@@ -140,7 +143,9 @@ describe('actions', () => {
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setUser(logInUser));
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setUser(logInUser));
+      expect(actions[2]).toEqual(setIsLoading(false));
     });
 
     it('dispatches requestGoogleSignIn action and returns an error', async () => {
@@ -182,7 +187,10 @@ describe('actions', () => {
       await store.dispatch(requestSignup({ signupFields }));
 
       const actions = store.getActions();
-      expect(actions[0]).toEqual(setUser(logInUser));
+
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setUser(logInUser));
+      expect(actions[2]).toEqual(setIsLoading(false));
     });
 
     it('dispatches requestSignup action and returns an error', async () => {

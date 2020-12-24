@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import LinearProgress from '@material-ui/core/LinearProgress';
 import {
   loadUserProducts,
   deleteProduct,
 } from '../../productSlice';
 
 import TableForm from '../presentational/TableForm';
+
+import { get } from '../../utils';
 
 const columns = [
   { id: 1, name: 'title', label: '상품 이름' },
@@ -26,9 +29,12 @@ export default function UserProductsContainer({ user }) {
     dispatch(deleteProduct({ product }));
   }
 
-  const userProducts = useSelector((state) => state.productReducer.userProducts);
+  const { isLoading } = useSelector(get('commonReducer'));
+  const { userProducts } = useSelector(get('productReducer'));
 
-  return (
+  return isLoading ? (
+    <LinearProgress data-testid="LinerProgress" />
+  ) : (
     <TableForm
       columns={columns}
       products={userProducts}

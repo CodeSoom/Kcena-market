@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Products from '../presentational/Products';
+import Loading from '../presentational/Loading';
 
 import { get } from '../../utils';
 
@@ -18,8 +19,11 @@ export default function ProductsContainer({ onClickProduct }) {
   }, []);
 
   const { products } = useSelector(get('productReducer'));
+  const { isLoading } = useSelector(get('commonReducer'));
 
-  return (
+  return isLoading ? (
+    <Loading isLoading />
+  ) : (
     <Products
       products={products}
       onClickProduct={onClickProduct}

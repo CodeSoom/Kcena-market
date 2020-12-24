@@ -22,64 +22,83 @@ describe('LoginFormContainer', () => {
       authReducer: {
         error: given.error,
       },
+      commonReducer: {
+        isLoading: given.isLoading,
+      },
     }));
   });
 
-  context('when login request fail', () => {
-    it('render error message', () => {
-      given('error', () => 'Error message');
-      const { container } = renderLoginFormContainer();
+  describe('isLoading is true', () => {
+    given('isLoading', () => true);
 
-      expect(container).toHaveTextContent('Error message');
+    it('render loading component', () => {
+      const { getByTestId } = renderLoginFormContainer();
+
+      const backdrop = getByTestId('backdrop');
+
+      expect(backdrop).not.toHaveStyle('visibility : hidden');
     });
   });
 
-  context('when logged out', () => {
-    it('renders input controls', () => {
-      const { getByLabelText } = renderLoginFormContainer();
+  describe('isLoading is false', () => {
+    given('isLoading', () => false);
 
-      expect(getByLabelText(/E-mail/)).not.toBeNull();
-      expect(getByLabelText(/Password/)).not.toBeNull();
+    context('when login request fail', () => {
+      it('render error message', () => {
+        given('error', () => 'Error message');
+        const { container } = renderLoginFormContainer();
+
+        expect(container).toHaveTextContent('Error message');
+      });
     });
 
-    it('renders "Log In" button', async () => {
-      const { container } = renderLoginFormContainer();
+    context('when logged out', () => {
+      it('renders input controls', () => {
+        const { getByLabelText } = renderLoginFormContainer();
 
-      const submit = container.querySelector('button[type="submit"]');
-
-      expect(submit).not.toBeNull();
-    });
-
-    it('renders "Sign in with Google" button', () => {
-      const { getByText } = renderLoginFormContainer();
-
-      fireEvent.click(getByText('Sign in with Google'));
-
-      expect(dispatch).toBeCalled();
-    });
-  });
-
-  context('when all forms are filled', () => {
-    it('possible submit event and call dispatch', async () => {
-      const { container } = renderLoginFormContainer();
-
-      const email = container.querySelector('input[name="email"]');
-      const password = container.querySelector('input[name="password"]');
-
-      await waitFor(() => {
-        fireEvent.change(email,
-          { target: { value: 'tester@example.com' } });
-        fireEvent.change(password,
-          { target: { value: '1234abcd' } });
+        expect(getByLabelText(/E-mail/)).not.toBeNull();
+        expect(getByLabelText(/Password/)).not.toBeNull();
       });
 
-      const submit = container.querySelector('button[type="submit"]');
+      it('renders "Log In" button', async () => {
+        const { container } = renderLoginFormContainer();
 
-      await waitFor(() => {
-        fireEvent.click(submit);
+        const submit = container.querySelector('button[type="submit"]');
+
+        expect(submit).not.toBeNull();
       });
 
-      expect(dispatch).toBeCalled();
+      it('renders "Sign in with Google" button', () => {
+        const { getByText } = renderLoginFormContainer();
+
+        fireEvent.click(getByText('Sign in with Google'));
+
+        expect(dispatch).toBeCalled();
+      });
+    });
+
+    context('when all forms are filled', () => {
+      it('possible submit event and call dispatch', async () => {
+        const { container } = renderLoginFormContainer();
+
+        const email = container.querySelector('input[name="email"]');
+        const password = container.querySelector('input[name="password"]');
+
+        await waitFor(() => {
+          fireEvent.change(email,
+            { target: { value: 'tester@example.com' } });
+          fireEvent.change(password,
+            { target: { value: '1234abcd' } });
+        });
+
+        const submit = container.querySelector('button[type="submit"]');
+
+        await waitFor(() => {
+          fireEvent.click(submit);
+        });
+
+        expect(dispatch).toBeCalled();
+      });
     });
   });
 });

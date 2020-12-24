@@ -29,6 +29,9 @@ describe('HomePage', () => {
       productReducer: {
         products,
       },
+      commonReducer: {
+        isLoading: false,
+      },
     }));
   });
 

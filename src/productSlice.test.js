@@ -5,6 +5,7 @@ import productReducer, {
   loadInitProducts,
   loadProduct,
   postProduct,
+  editProduct,
   setProduct,
   setInitialProduct,
   deleteProductImage,
@@ -12,6 +13,8 @@ import productReducer, {
   setUserProducts,
   deleteProduct,
 } from './productSlice';
+
+import { setIsLoading } from './commonSlice';
 
 import products from '../fixtures/products';
 import userProducts from '../fixtures/userProducts';
@@ -128,7 +131,9 @@ describe('actions', () => {
 
       const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setProducts([]));
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setProducts([]));
+      expect(actions[2]).toEqual(setIsLoading(false));
     });
   });
 
@@ -162,6 +167,36 @@ describe('actions', () => {
       const files = [];
 
       await store.dispatch(postProduct({ files, newProduct }));
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setIsLoading(false));
+    });
+  });
+
+  describe('editProduct', () => {
+    beforeEach(() => {
+      store = mockStore({
+        productReducer: {
+          product: products[0],
+        },
+      });
+    });
+
+    it('dispatchs', async () => {
+      const files = ['newImage1', 'newImage2'];
+      const toBeDeletedUrls = [];
+      const productId = '1';
+
+      await store.dispatch(editProduct({
+        files, toBeDeletedUrls, productId, newProduct,
+      }));
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setIsLoading(false));
     });
   });
 

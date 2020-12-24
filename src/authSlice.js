@@ -4,6 +4,8 @@ import { push } from 'connected-react-router';
 
 import { saveItem, deleteItem } from './services/storage';
 
+import { setIsLoading } from './commonSlice';
+
 import {
   postLogin,
   postGoogleSignIn,
@@ -64,14 +66,18 @@ export function requestLogin({ loginFields }) {
 
   return async (dispatch) => {
     try {
+      dispatch(setIsLoading(true));
       const { user } = await postLogin({ email, password });
       const { displayName, uid } = user;
 
       dispatch(setUser({ email, displayName, uid }));
       saveItem('user', { email, displayName, uid });
+      dispatch(setIsLoading(false));
+
       dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
+      dispatch(setIsLoading(false));
     }
   };
 }
@@ -79,14 +85,18 @@ export function requestLogin({ loginFields }) {
 export function requestGoogleSignIn() {
   return async (dispatch) => {
     try {
+      dispatch(setIsLoading(true));
       const { user } = await postGoogleSignIn();
       const { email, displayName, uid } = user;
 
       dispatch(setUser({ email, displayName, uid }));
       saveItem('user', { email, displayName, uid });
+      dispatch(setIsLoading(false));
+
       dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
+      dispatch(setIsLoading(false));
     }
   };
 }
@@ -99,6 +109,7 @@ export function requestSignup({ signupFields }) {
 
   return async (dispatch) => {
     try {
+      dispatch(setIsLoading(true));
       const { user } = await postSignup({ email, password });
       user.updateProfile({
         displayName: userNickname || 'unknown',
@@ -107,9 +118,12 @@ export function requestSignup({ signupFields }) {
       const { displayName, uid } = user;
       dispatch(setUser({ email, displayName, uid }));
       saveItem('user', { email, displayName, uid });
+      dispatch(setIsLoading(false));
+
       dispatch(push('/'));
     } catch (error) {
       dispatch(setError(error.message));
+      dispatch(setIsLoading(false));
     }
   };
 }

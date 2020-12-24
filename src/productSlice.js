@@ -11,6 +11,8 @@ import {
   uploadProductImages,
 } from './services/api';
 
+import { setIsLoading } from './commonSlice';
+
 import { isEmpty } from './utils';
 
 const initialProduct = {
@@ -81,8 +83,10 @@ export const {
 
 export function loadInitProducts() {
   return async (dispatch) => {
+    dispatch(setIsLoading(true));
     const products = await fetchProducts();
     dispatch(setProducts(products));
+    dispatch(setIsLoading(false));
   };
 }
 
@@ -95,49 +99,55 @@ export function loadProduct({ productId }) {
 
 export function loadUserProducts({ user }) {
   return async (dispatch) => {
+    dispatch(setIsLoading(true));
     const userProducts = await fetchUserProducts({ user });
     dispatch(setUserProducts(userProducts));
+    dispatch(setIsLoading(false));
   };
 }
 
 export function postProduct({ files, newProduct }) {
-  return async (_, getState) => {
+  return async (dispatch, getState) => {
     const {
       authReducer: {
         user,
       },
     } = getState();
 
+    dispatch(setIsLoading(true));
     await postProductFireStore({
       ...newProduct,
       productImages: await uploadProductImages({ files }),
       user,
       createAt: Date.now(),
     });
+    dispatch(setIsLoading(false));
   };
 }
 
 export function editProduct({
   files, toBeDeletedUrls, productId, newProduct,
 }) {
-  return async (_, getState) => {
+  return async (dispatch, getState) => {
     const {
       productReducer: {
         product,
       },
     } = getState();
 
+    dispatch(setIsLoading(true));
+    const newProductImages = await uploadProductImages({ files });
     const editedProduct = {
       ...newProduct,
       productImages: [
         ...product.productImages,
-        ...await uploadProductImages({ files }),
+        ...newProductImages,
       ],
       createAt: Date.now(),
     };
-
     await editProductFireStore({ productId, editedProduct });
     await deleteAllImageInStorage(toBeDeletedUrls);
+    dispatch(setIsLoading(false));
   };
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MemoryRouter } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { render } from '@testing-library/react';
 
@@ -29,6 +29,14 @@ describe('SignupPage', () => {
   beforeEach(() => {
     dispatch.mockClear();
     useDispatch.mockImplementation(() => dispatch);
+    useSelector.mockImplementation((selector) => selector({
+      authReducer: {
+        error: '',
+      },
+      commonReducer: {
+        isLoading: false,
+      },
+    }));
     loadItem.mockImplementation(() => given.user);
   });
 

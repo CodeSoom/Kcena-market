@@ -40,20 +40,40 @@ describe('UserProductsContainer', () => {
       productReducer: {
         userProducts,
       },
+      commonReducer: {
+        isLoading: given.isLoading,
+      },
     }));
     showConfirmation.mockResolvedValue(() => true);
   });
 
-  it('render products', () => {
-    const { getByText } = renderUserProductsContainer();
-
-    userProducts.forEach(({ title }) => {
-      expect(getByText(title)).not.toBeNull();
+  context('isLoading is true', () => {
+    given('isLoading', () => true);
+    it('render LinerProgress', () => {
+      const { getByTestId } = renderUserProductsContainer();
+      const linerProgress = getByTestId('LinerProgress');
+      expect(linerProgress).toBeInTheDocument();
     });
   });
 
-  context('click delete button', () => {
-    it('call dispatch', () => {
+  context('isLoading is false', () => {
+    given('isLoading', () => false);
+
+    it('doesn\'t render LinerProgress', () => {
+      const { queryByTestId } = renderUserProductsContainer();
+
+      expect(queryByTestId('LinerProgress')).toBeNull();
+    });
+
+    it('render products', () => {
+      const { getByText } = renderUserProductsContainer();
+
+      userProducts.forEach(({ title }) => {
+        expect(getByText(title)).not.toBeNull();
+      });
+    });
+
+    it('listens click event and call dispatch', () => {
       const { getAllByText } = renderUserProductsContainer();
 
       const deleteButton = getAllByText('Delete')[0];

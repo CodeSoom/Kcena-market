@@ -22,62 +22,81 @@ describe('SignupFormContainer', () => {
       authReducer: {
         error: given.error,
       },
+      commonReducer: {
+        isLoading: given.isLoading,
+      },
     }));
   });
 
-  context('when sign up request fail', () => {
-    it('render error message', () => {
-      given('error', () => 'Error message');
-      const { container } = renderSignupFormContainer();
+  describe('isLoading is true', () => {
+    given('isLoading', () => true);
 
-      expect(container).toHaveTextContent('Error message');
+    it('render loading component', () => {
+      const { getByTestId } = renderSignupFormContainer();
+
+      const backdrop = getByTestId('backdrop');
+
+      expect(backdrop).not.toHaveStyle('visibility : hidden');
     });
   });
 
-  context('without user', () => {
-    it('renders input controls', () => {
-      const { getByLabelText } = renderSignupFormContainer();
+  describe('isLoading is false', () => {
+    given('isLoading', () => false);
 
-      expect(getByLabelText(/E-mail/)).not.toBeNull();
-      expect(getByLabelText(/Password/)).not.toBeNull();
+    context('when sign up request fail', () => {
+      it('render error message', () => {
+        given('error', () => 'Error message');
+        const { container } = renderSignupFormContainer();
+
+        expect(container).toHaveTextContent('Error message');
+      });
     });
 
-    it('renders "Sign up" button', async () => {
-      const { container } = renderSignupFormContainer();
+    context('without user', () => {
+      it('renders input controls', () => {
+        const { getByLabelText } = renderSignupFormContainer();
 
-      const submit = container.querySelector('button[type="submit"]');
+        expect(getByLabelText(/E-mail/)).not.toBeNull();
+        expect(getByLabelText(/Password/)).not.toBeNull();
+      });
 
-      expect(submit).not.toBeNull();
+      it('renders "Sign up" button', async () => {
+        const { container } = renderSignupFormContainer();
+
+        const submit = container.querySelector('button[type="submit"]');
+
+        expect(submit).not.toBeNull();
+      });
     });
-  });
 
-  context('when all forms are filled', () => {
-    it('possible submit event and call dispatch', async () => {
-      const { container } = renderSignupFormContainer();
+    context('when all forms are filled', () => {
+      it('possible submit event and call dispatch', async () => {
+        const { container } = renderSignupFormContainer();
 
-      const firstName = container.querySelector('input[name="firstName"]');
-      const lastName = container.querySelector('input[name="lastName"]');
-      const email = container.querySelector('input[name="email"]');
-      const password = container.querySelector('input[name="password"]');
+        const firstName = container.querySelector('input[name="firstName"]');
+        const lastName = container.querySelector('input[name="lastName"]');
+        const email = container.querySelector('input[name="email"]');
+        const password = container.querySelector('input[name="password"]');
 
-      await waitFor(() => {
-        fireEvent.change(firstName,
-          { target: { value: '홍' } });
-        fireEvent.change(lastName,
-          { target: { value: '길동' } });
-        fireEvent.change(email,
-          { target: { value: 'tester@example.com' } });
-        fireEvent.change(password,
-          { target: { value: '1234abcd' } });
+        await waitFor(() => {
+          fireEvent.change(firstName,
+            { target: { value: '홍' } });
+          fireEvent.change(lastName,
+            { target: { value: '길동' } });
+          fireEvent.change(email,
+            { target: { value: 'tester@example.com' } });
+          fireEvent.change(password,
+            { target: { value: '1234abcd' } });
+        });
+
+        const submit = container.querySelector('button[type="submit"]');
+
+        await waitFor(() => {
+          fireEvent.click(submit);
+        });
+
+        expect(dispatch).toBeCalled();
       });
-
-      const submit = container.querySelector('button[type="submit"]');
-
-      await waitFor(() => {
-        fireEvent.click(submit);
-      });
-
-      expect(dispatch).toBeCalled();
     });
   });
 });

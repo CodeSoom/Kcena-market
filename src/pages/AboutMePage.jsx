@@ -52,7 +52,6 @@ export default function AboutMePage() {
       </Tabs>
       <ConfirmationProvider>
         {selectedTab === 0 && <UserProductsContainer user={user} />}
-        {/* TODO : 찜한 상품 리스트 추가 {selectedTab === 1 && <MyWishListContainer />} */}
       </ConfirmationProvider>
     </Container>
   );

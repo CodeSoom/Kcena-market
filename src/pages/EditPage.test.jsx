@@ -34,6 +34,9 @@ describe('EditPage', () => {
       productReducer: {
         product: products[0],
       },
+      commonReducer: {
+        isLoading: false,
+      },
     }));
     loadItem.mockImplementation(() => given.user);
   });
