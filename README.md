@@ -1,3 +1,6 @@
+![CI](https://github.com/CodeSoom/project-react-1-Kwakcena/workflows/CI/badge.svg)
+![CD](https://github.com/CodeSoom/project-react-1-Kwakcena/workflows/CD/badge.svg)
+
 # 🏠 Kcena Market
 혹시 더 이상 사용하지 않는 물건이 있나요? 💁‍♂️ <br>
 아니면 새 제품을 구입하기에는 부담스러운 물건이 있나요? 🤔<br>
