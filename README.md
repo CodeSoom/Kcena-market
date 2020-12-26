@@ -5,11 +5,9 @@
 그렇다면 **Kcena Market**에서 물건을 찾고 중고 거래를 해 보세요! 😄
 
 ## 🎥 프로젝트 소개 영상
----
 youtube: https://youtu.be/4wGEzQhSZ7o
 
 ## 기술 스택
----
 ### Front-end
 - JavaScript
 - React
