@@ -8,14 +8,10 @@
 youtube: https://youtu.be/4wGEzQhSZ7o
 
 ## 기술 스택
-### Front-end
 - JavaScript
 - React
 - Redux, Redux Toolkit
 - Emotion(styled)
-- Material UI
-
-### Server
 - Firebase
 
 ## Install dependencies
