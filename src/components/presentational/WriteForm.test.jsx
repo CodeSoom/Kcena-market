@@ -95,7 +95,7 @@ describe('WriteForm', () => {
       });
 
       expect(handleSubmit).toHaveBeenCalledWith({
-        newProduct: {
+        product: {
           title: '아이패드',
           category: '디지털/가전',
           description: '중고 아이패드 팝니다.',

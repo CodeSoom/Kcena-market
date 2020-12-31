@@ -61,30 +61,30 @@ export async function uploadProductImages({ files }) {
   return productImages;
 }
 
-export async function postProductFireStore(newProduct) {
+export async function postProduct(product) {
   const response = await firebase
-    .firestore().collection('products').add(newProduct);
+    .firestore().collection('products').add(product);
 
-  return response;
+  return response.id;
 }
 
-export async function editProductFireStore({ productId, editedProduct }) {
+export async function postEditProduct({ productId, editedProduct }) {
   await firebase
     .firestore().collection('products').doc(productId).update({
       ...editedProduct,
     });
 }
 
-export async function deleteImageInStorage(imageUrl) {
+export async function deleteImage(imageUrl) {
   await firebase.storage().refFromURL(imageUrl).delete();
 }
 
-export async function deleteAllImageInStorage(productImages) {
-  const promises = productImages.map(deleteImageInStorage);
+export async function deleteAllImages(productImages) {
+  const promises = productImages.map(deleteImage);
   await Promise.all(promises);
 }
 
-export async function deleteProductFireStore({ product }) {
+export async function postDeleteProduct({ product }) {
   const { id, productImages } = product;
   await firebase
     .firestore().doc(`products/${id}`).delete();
@@ -94,7 +94,7 @@ export async function deleteProductFireStore({ product }) {
   }
 
   const deleteUrls = productImages.map(({ imageUrl }) => imageUrl);
-  await deleteAllImageInStorage(deleteUrls);
+  await deleteAllImages(deleteUrls);
 }
 
 export async function postLogin({ email, password }) {

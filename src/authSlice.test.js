@@ -74,6 +74,18 @@ describe('reducer', () => {
 describe('actions', () => {
   let store;
 
+  beforeEach(() => {
+    push.mockImplementation((pathname) => ({
+      type: 'LOCATION_CHANGE',
+      payload: {
+        location: {
+          pathname,
+        },
+        action: 'PUSH',
+      },
+    }));
+  });
+
   const loginFields = {
     email: 'tester@example.com',
     password: '1234abcd',

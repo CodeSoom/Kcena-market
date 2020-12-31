@@ -74,8 +74,8 @@ export default function WriteForm({
 }) {
   const classes = useStyles();
 
-  function handleSubmit(values) {
-    onSubmit({ newProduct: values });
+  function handleSubmit(product) {
+    onSubmit({ product });
   }
 
   return (

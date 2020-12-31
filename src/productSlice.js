@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { push } from 'connected-react-router';
+
 import {
   fetchProducts,
   fetchProduct,
-  postProductFireStore,
-  editProductFireStore,
+  postProduct,
+  postEditProduct,
   fetchUserProducts,
-  deleteProductFireStore,
-  deleteAllImageInStorage,
+  postDeleteProduct,
+  deleteAllImages,
   uploadProductImages,
 } from './services/api';
 
 import { setIsLoading } from './commonSlice';
-
-import { isEmpty } from './utils';
 
 const initialProduct = {
   title: '',
@@ -74,11 +74,9 @@ const { actions, reducer: productReducer } = createSlice({
 export const {
   setProducts,
   setProduct,
-  setInitialProduct,
   deleteProductImage,
+  setInitialProduct,
   setUserProducts,
-  writeNewProduct,
-  initialNewProduct,
 } = actions;
 
 export function loadInitProducts() {
@@ -106,7 +104,7 @@ export function loadUserProducts({ user }) {
   };
 }
 
-export function postProduct({ files, newProduct }) {
+export function createPost({ files, product }) {
   return async (dispatch, getState) => {
     const {
       authReducer: {
@@ -115,17 +113,18 @@ export function postProduct({ files, newProduct }) {
     } = getState();
 
     dispatch(setIsLoading(true));
-    await postProductFireStore({
-      ...newProduct,
+    const productId = await postProduct({
+      ...product,
       productImages: await uploadProductImages({ files }),
       user,
       createAt: Date.now(),
     });
     dispatch(setIsLoading(false));
+    dispatch(push(`/products/${productId}`));
   };
 }
 
-export function editProduct({
+export function editPost({
   files, toBeDeletedUrls, productId, newProduct,
 }) {
   return async (dispatch, getState) => {
@@ -145,13 +144,14 @@ export function editProduct({
       ],
       createAt: Date.now(),
     };
-    await editProductFireStore({ productId, editedProduct });
-    await deleteAllImageInStorage(toBeDeletedUrls);
+    await postEditProduct({ productId, editedProduct });
+    await deleteAllImages(toBeDeletedUrls);
     dispatch(setIsLoading(false));
+    dispatch(push(`/products/${productId}`));
   };
 }
 
-export function deleteProduct({ product }) {
+export function deletePost({ product }) {
   return async (dispatch, getState) => {
     const {
       productReducer: {
@@ -159,28 +159,12 @@ export function deleteProduct({ product }) {
       },
     } = getState();
 
-    await deleteProductFireStore({ product });
+    await postDeleteProduct({ product });
     dispatch(setUserProducts(
       userProducts.filter(
         (myProduct) => myProduct.id !== product.id,
       ),
     ));
-  };
-}
-
-export function deleteAllImageInDropzone() {
-  return async (dispatch, getState) => {
-    const {
-      productReducer: {
-        product: { productImages },
-      },
-    } = getState();
-
-    if (isEmpty(productImages)) {
-      return;
-    }
-    await deleteAllImageInStorage(productImages);
-    dispatch(setInitialProduct());
   };
 }
 

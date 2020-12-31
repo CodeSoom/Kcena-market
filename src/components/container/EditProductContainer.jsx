@@ -10,7 +10,7 @@ import Loading from '../presentational/Loading';
 import {
   deleteProductImage,
   loadProduct,
-  editProduct,
+  editPost,
   setInitialProduct,
 } from '../../productSlice';
 
@@ -37,7 +37,7 @@ export default function EditProductContainer({ productId }) {
   }, [files]);
 
   function handleSubmit({ newProduct }) {
-    dispatch(editProduct({
+    dispatch(editPost({
       files, toBeDeletedUrls, productId, newProduct,
     }));
   }
@@ -69,7 +69,7 @@ export default function EditProductContainer({ productId }) {
   }
 
   return (
-    <div>
+    <>
       <ImagesDropzone onDrop={handleOnDrop} />
       <ImagePreview
         productImages={[
@@ -83,6 +83,6 @@ export default function EditProductContainer({ productId }) {
         initialEditProduct={product}
       />
       {isLoading && <Loading isLoading />}
-    </div>
+    </>
   );
 }

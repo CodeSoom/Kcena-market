@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {
   loadUserProducts,
-  deleteProduct,
+  deletePost,
 } from '../../productSlice';
 
 import TableForm from '../presentational/TableForm';
@@ -26,7 +26,7 @@ export default function UserProductsContainer({ user }) {
   }, []);
 
   function handleDeleteProduct(product) {
-    dispatch(deleteProduct({ product }));
+    dispatch(deletePost({ product }));
   }
 
   const { isLoading } = useSelector(get('commonReducer'));
