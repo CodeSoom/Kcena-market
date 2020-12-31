@@ -55,10 +55,7 @@ export default function EditProductContainer({ productId }) {
     if (product.productImages
       .find((productImage) => (productImage.imageUrl === imageUrl))
     ) {
-      setToBeDeletedUrls([
-        ...toBeDeletedUrls,
-        imageUrl,
-      ]);
+      setToBeDeletedUrls([...toBeDeletedUrls, imageUrl]);
       dispatch(deleteProductImage(imageUrl));
       return;
     }

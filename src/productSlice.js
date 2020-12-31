@@ -113,9 +113,10 @@ export function createPost({ files, product }) {
     } = getState();
 
     dispatch(setIsLoading(true));
+    const productImages = await uploadProductImages({ files });
     const productId = await postProduct({
       ...product,
-      productImages: await uploadProductImages({ files }),
+      productImages,
       user,
       createAt: Date.now(),
     });
