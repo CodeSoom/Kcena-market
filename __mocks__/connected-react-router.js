@@ -1,3 +1,11 @@
-const push = jest.fn();
+export const push = jest.fn((pathname) => ({
+  type: 'LOCATION_CHANGE',
+  payload: {
+    location: {
+      pathname,
+    },
+    action: 'PUSH',
+  },
+}));
 
-export default push;
+export const xxx = jest.fn();

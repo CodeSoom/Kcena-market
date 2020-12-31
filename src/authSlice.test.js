@@ -1,13 +1,13 @@
 import configureStore from 'redux-mock-store';
+import { push } from 'connected-react-router';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import authReducer, {
   setUser,
   setError,
-  logout,
   requestLogin,
   requestGoogleSignIn,
-  // requestLogout,
+  requestLogout,
   requestSignup,
 } from './authSlice';
 
@@ -54,20 +54,6 @@ describe('reducer', () => {
     });
   });
 
-  describe('logout', () => {
-    it('clears user', () => {
-      const initialState = {
-        user: logInUser,
-      };
-
-      const state = authReducer(initialState, logout());
-
-      expect(state.user.email).toBe('');
-      expect(state.user.displayName).toBe('');
-      expect(state.user.uid).toBe('');
-    });
-  });
-
   describe('setError', () => {
     it('change error', () => {
       const initialState = {
@@ -110,6 +96,7 @@ describe('actions', () => {
       expect(actions[0]).toEqual(setIsLoading(true));
       expect(actions[1]).toEqual(setUser(logInUser));
       expect(actions[2]).toEqual(setIsLoading(false));
+      expect(actions[3]).toEqual(push('/'));
     });
 
     it('dispatches requestLogin action and returns an error', async () => {
@@ -134,33 +121,38 @@ describe('actions', () => {
       store = mockStore({});
     });
 
-    it('dispatches requestGoogleSignIn action and returns user', async () => {
-      postGoogleSignIn.mockImplementationOnce(() => ({
-        user: logInUser,
-      }));
+    context('when request success', () => {
+      it('returns user and change url path', async () => {
+        postGoogleSignIn.mockImplementationOnce(() => ({
+          user: logInUser,
+        }));
 
-      await store.dispatch(requestGoogleSignIn());
+        await store.dispatch(requestGoogleSignIn());
 
-      const actions = store.getActions();
+        const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setIsLoading(true));
-      expect(actions[1]).toEqual(setUser(logInUser));
-      expect(actions[2]).toEqual(setIsLoading(false));
+        expect(actions[0]).toEqual(setIsLoading(true));
+        expect(actions[1]).toEqual(setUser(logInUser));
+        expect(actions[2]).toEqual(setIsLoading(false));
+        expect(actions[3]).toEqual(push('/'));
+      });
     });
 
-    it('dispatches requestGoogleSignIn action and returns an error', async () => {
-      postGoogleSignIn.mockImplementationOnce(
-        () => Promise.reject(
-          new Error('something bad happened'),
-        ),
-      );
+    context('when request fail', () => {
+      it('returns an error', async () => {
+        postGoogleSignIn.mockImplementationOnce(
+          () => Promise.reject(
+            new Error('something bad happened'),
+          ),
+        );
 
-      try {
-        await store.dispatch(requestGoogleSignIn());
-      } catch {
-        const actions = store.getActions();
-        expect(actions[0].payload.error).toEqual('Something bad happened');
-      }
+        try {
+          await store.dispatch(requestGoogleSignIn());
+        } catch {
+          const actions = store.getActions();
+          expect(actions[0].payload.error).toEqual('Something bad happened');
+        }
+      });
     });
   });
 
@@ -176,58 +168,64 @@ describe('actions', () => {
       store = mockStore({});
     });
 
-    it('dispatches requestSignup action and returns user', async () => {
-      postSignup.mockImplementationOnce(() => ({
-        user: {
-          ...logInUser,
-          updateProfile: jest.fn(),
-        },
-      }));
+    context('when request success', () => {
+      it('returns user and change url path', async () => {
+        const updateProfile = jest.fn();
+        postSignup.mockImplementationOnce(() => ({
+          user: {
+            ...logInUser,
+            updateProfile,
+          },
+        }));
 
-      await store.dispatch(requestSignup({ signupFields }));
+        await store.dispatch(requestSignup({ signupFields }));
 
-      const actions = store.getActions();
+        const actions = store.getActions();
 
-      expect(actions[0]).toEqual(setIsLoading(true));
-      expect(actions[1]).toEqual(setUser(logInUser));
-      expect(actions[2]).toEqual(setIsLoading(false));
+        expect(updateProfile).toHaveBeenCalledWith({
+          displayName: logInUser.displayName,
+        });
+        expect(actions[0]).toEqual(setIsLoading(true));
+        expect(actions[1]).toEqual(setUser(logInUser));
+        expect(actions[2]).toEqual(setIsLoading(false));
+        expect(actions[3]).toEqual(push('/'));
+      });
     });
 
-    it('dispatches requestSignup action and returns an error', async () => {
-      postSignup.mockImplementationOnce(
-        () => Promise.reject(
-          new Error('something bad happened'),
-        ),
-      );
+    context('when request fail', () => {
+      it('returns an error', async () => {
+        postSignup.mockImplementationOnce(
+          () => Promise.reject(
+            new Error('something bad happened'),
+          ),
+        );
 
-      try {
-        await store.dispatch(requestSignup({ signupFields }));
-      } catch {
-        const actions = store.getActions();
-        expect(actions[0].payload.error).toEqual('Something bad happened');
-      }
+        try {
+          await store.dispatch(requestSignup({ signupFields }));
+        } catch {
+          const actions = store.getActions();
+          expect(actions[0].payload.error).toEqual('Something bad happened');
+        }
+      });
     });
   });
 
-  // TODO: connected-react-router push가 제대로 mocking이 안됨.
-  // describe('requestLogout', () => {
-  //   beforeEach(() => {
-  //     store = mockStore({
-  //       authReducer: {
-  //         user: {
-  //           displayName: 'tester',
-  //           uid: '123456',
-  //         },
-  //       },
-  //     });
-  //   });
+  describe('requestLogout', () => {
+    beforeEach(() => {
+      store = mockStore({
+        authReducer: {
+          user: logInUser,
+        },
+      });
+    });
 
-  //   it('dispatchs logout', async () => {
-  //     await store.dispatch(requestLogout());
+    it('dispatchs logout and change url path', async () => {
+      await store.dispatch(requestLogout());
 
-  //     const actions = store.getActions();
+      const actions = store.getActions();
 
-  //     expect(actions[0]).toEqual(logout());
-  //   });
-  // });
+      expect(actions[0]).toEqual(setUser(logOutUser));
+      expect(actions[1]).toEqual(push('/'));
+    });
+  });
 });

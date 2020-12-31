@@ -44,21 +44,12 @@ const { actions, reducer: authReducer } = createSlice({
         error,
       };
     },
-    logout(state) {
-      return {
-        ...state,
-        user: {
-          ...initialUser,
-        },
-      };
-    },
   },
 });
 
 export const {
   setUser,
   setError,
-  logout,
 } = actions;
 
 export function requestLogin({ loginFields }) {
@@ -111,9 +102,7 @@ export function requestSignup({ signupFields }) {
     try {
       dispatch(setIsLoading(true));
       const { user } = await postSignup({ email, password });
-      user.updateProfile({
-        displayName: userNickname || 'unknown',
-      });
+      user.updateProfile({ displayName: userNickname });
 
       const { displayName, uid } = user;
       dispatch(setUser({ email, displayName, uid }));
@@ -132,7 +121,7 @@ export function requestLogout() {
   return async (dispatch) => {
     await postLogout();
 
-    dispatch(logout());
+    dispatch(setUser(initialUser));
     dispatch(push('/'));
     deleteItem('user');
   };
