@@ -17,6 +17,8 @@ import AboutMePage from './pages/AboutMePage';
 import WritePage from './pages/WritePage';
 import EditPage from './pages/EditPage';
 
+import { ConfirmationProvider } from './contexts/ConfirmationContext';
+
 import { setUser } from './authSlice';
 
 import { loadItem } from './services/storage';
@@ -32,19 +34,21 @@ export default function App() {
   return (
     <>
       <CssBaseline />
-      <Header />
-      <Container component="main" maxWidth="lg">
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/signup" component={SignupPage} />
-          <Route path="/products/:id" component={ProductPage} />
-          <Route path="/edit/:id" component={EditPage} />
-          <Route path="/newproduct" component={WritePage} />
-          <Route path="/aboutme" component={AboutMePage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </Container>
+      <ConfirmationProvider>
+        <Header />
+        <Container component="main" maxWidth="lg">
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/login" component={LoginPage} />
+            <Route exact path="/signup" component={SignupPage} />
+            <Route path="/products/:id" component={ProductPage} />
+            <Route path="/edit/:id" component={EditPage} />
+            <Route path="/newproduct" component={WritePage} />
+            <Route path="/aboutme" component={AboutMePage} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </Container>
+      </ConfirmationProvider>
     </>
   );
 }
