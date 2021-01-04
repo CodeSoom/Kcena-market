@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 import ConfirmationContext from '../../contexts/ConfirmationContext';
 
-export default function LogoutForm({ onClick }) {
+export default function LogoutForm({ handleClickLogout }) {
   const { showConfirmation, setConfirmForm } = useContext(ConfirmationContext);
 
   const handleOnClick = async () => {
@@ -16,7 +16,7 @@ export default function LogoutForm({ onClick }) {
     const result = await showConfirmation();
 
     if (result) {
-      onClick();
+      handleClickLogout();
     }
   };
 

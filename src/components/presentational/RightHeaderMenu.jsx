@@ -19,7 +19,7 @@ export default function RightHeaderMenu({
           <Button color="inherit">
             <Link to="/aboutme">내 정보</Link>
           </Button>
-          <LogoutForm onClick={handleClickLogout} />
+          <LogoutForm handleClickLogout={handleClickLogout} />
         </>
       ) : (
         <>

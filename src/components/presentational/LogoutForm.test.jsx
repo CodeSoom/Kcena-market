@@ -19,7 +19,7 @@ describe('LogoutForm', () => {
           setConfirmForm,
         }}
       >
-        <LogoutForm onClick={handleClick} />
+        <LogoutForm handleClickLogout={handleClick} />
       </ConfirmationContext.Provider>
     ));
   }
