@@ -44,7 +44,7 @@ describe('UserProductsContainer', () => {
         isLoading: given.isLoading,
       },
     }));
-    showConfirmation.mockResolvedValue(() => true);
+    showConfirmation.mockResolvedValue(true);
   });
 
   context('isLoading is true', () => {

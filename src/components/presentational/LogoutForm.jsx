@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
-export default function LogoutForm({ onClick }) {
+import ConfirmationContext from '../../contexts/ConfirmationContext';
+
+export default function LogoutForm({ handleClickLogout }) {
+  const { showConfirmation, setConfirmForm } = useContext(ConfirmationContext);
+
+  const handleOnClick = async () => {
+    setConfirmForm({
+      title: '로그아웃 하시겠습니까?',
+      content: '',
+    });
+
+    const result = await showConfirmation();
+
+    if (result) {
+      handleClickLogout();
+    }
+  };
+
   return (
     <>
       <Button
         color="inherit"
-        onClick={onClick}
+        onClick={handleOnClick}
       >
         Log out
       </Button>

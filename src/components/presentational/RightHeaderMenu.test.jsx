@@ -1,24 +1,32 @@
 import React from 'react';
 
-import { fireEvent, render } from '@testing-library/react';
-
 import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import RightHeaderMenu from './RightHeaderMenu';
+import ConfirmationContext from '../../contexts/ConfirmationContext';
 
 import { logInUser, logOutUser } from '../../../fixtures/user';
 
 describe('RightHeaderMenu', () => {
   const handleClickLogout = jest.fn();
+  const showConfirmation = jest.fn();
+  const setConfirmForm = jest.fn();
 
   function renderRightHeaderMenu({ user }) {
     return render((
-      <MemoryRouter>
-        <RightHeaderMenu
-          user={user}
-          handleClickLogout={handleClickLogout}
-        />
-      </MemoryRouter>
+      <ConfirmationContext.Provider value={{
+        showConfirmation,
+        setConfirmForm,
+      }}
+      >
+        <MemoryRouter>
+          <RightHeaderMenu
+            user={user}
+            handleClickLogout={handleClickLogout}
+          />
+        </MemoryRouter>
+      </ConfirmationContext.Provider>
     ));
   }
 
@@ -30,12 +38,14 @@ describe('RightHeaderMenu', () => {
       expect(getByText('Log out')).not.toBeNull();
     });
 
-    it('listen logout event', () => {
+    it('listen logout event', async () => {
+      showConfirmation.mockResolvedValue(true);
+
       const { getByText } = renderRightHeaderMenu({ user: logInUser });
 
       fireEvent.click(getByText('Log out'));
 
-      expect(handleClickLogout).toBeCalled();
+      await waitFor(() => expect(handleClickLogout).toBeCalled());
     });
   });
 

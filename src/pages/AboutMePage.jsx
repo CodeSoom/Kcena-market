@@ -12,8 +12,6 @@ import UserProductsContainer from '../components/container/UserProductsContainer
 
 import { loadItem } from '../services/storage';
 
-import { ConfirmationProvider } from '../contexts/ConfirmationContext';
-
 import useStyles from '../styles/styles';
 
 export default function AboutMePage() {
@@ -50,9 +48,7 @@ export default function AboutMePage() {
         <Tab label="판매중인 상품" />
         <Tab label="찜한 상품" />
       </Tabs>
-      <ConfirmationProvider>
-        {selectedTab === 0 && <UserProductsContainer user={user} />}
-      </ConfirmationProvider>
+      {selectedTab === 0 && <UserProductsContainer user={user} />}
     </Container>
   );
 }
