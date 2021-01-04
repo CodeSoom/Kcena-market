@@ -5,7 +5,7 @@ import {
   postGoogleSignIn,
   postSignup,
   postLogout,
-  postProductFireStore,
+  postProduct,
 } from './api';
 
 describe('firebase services', () => {
@@ -98,7 +98,7 @@ describe('firebase services', () => {
     });
   });
 
-  describe('postProductFireStore', () => {
+  describe('postProduct', () => {
     const add = jest.fn((product) => product);
     const collection = jest.spyOn(
       firebase.firestore(), 'collection',
@@ -117,7 +117,7 @@ describe('firebase services', () => {
         },
       };
 
-      await postProductFireStore(newProduct);
+      await postProduct(newProduct);
 
       expect(collection).toHaveBeenCalledWith('products');
 

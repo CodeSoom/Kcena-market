@@ -1,24 +1,26 @@
 import configureStore from 'redux-mock-store';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
+import { push } from 'connected-react-router';
 
 import productReducer, {
   loadInitProducts,
   loadProduct,
-  postProduct,
-  editProduct,
+  createPost,
+  editPost,
+  deletePost,
   setProduct,
   setInitialProduct,
   deleteProductImage,
   setProducts,
   setUserProducts,
-  deleteProduct,
 } from './productSlice';
-
 import { setIsLoading } from './commonSlice';
+
+import { postProduct } from './services/api';
 
 import products from '../fixtures/products';
 import userProducts from '../fixtures/userProducts';
-import newProduct from '../fixtures/newProduct';
+import product from '../fixtures/product';
 import productImages from '../fixtures/productImages';
 import { logInUser } from '../fixtures/user';
 
@@ -36,6 +38,7 @@ const initialProduct = {
 };
 
 jest.mock('./services/api');
+jest.mock('connected-react-router');
 
 describe('productReducer', () => {
   context('when previous state is undefined', () => {
@@ -69,12 +72,11 @@ describe('productReducer', () => {
       product: initialProduct,
     };
 
-    const product = products[0];
+    it('changes product', () => {
+      const state = productReducer(initialState, setProduct(product));
 
-    const state = productReducer(initialState, setProduct(product));
-
-    expect(state.product.id).toBe(1);
-    expect(state.product.title).toBe('크리넥스 KF-AD 소형 마스크 팝니다.');
+      expect(state.product.title).toBe(product.title);
+    });
   });
 
   describe('deleteProductImage', () => {
@@ -85,13 +87,15 @@ describe('productReducer', () => {
       },
     };
 
-    const selectedImageUrl = 'testImageUrl1';
-    const state = productReducer(initialState, deleteProductImage(selectedImageUrl));
+    it('delete images', () => {
+      const selectedImageUrl = 'testImageUrl1';
+      const state = productReducer(initialState, deleteProductImage(selectedImageUrl));
 
-    expect(state.product.productImages).toEqual([
-      { name: 'test2', imageUrl: 'testImageUrl2' },
-      { name: 'test3', imageUrl: 'testImageUrl3' },
-    ]);
+      expect(state.product.productImages).toEqual([
+        { name: 'test2', imageUrl: 'testImageUrl2' },
+        { name: 'test3', imageUrl: 'testImageUrl3' },
+      ]);
+    });
   });
 
   describe('setInitialProduct', () => {
@@ -99,9 +103,11 @@ describe('productReducer', () => {
       product: products[0],
     };
 
-    const state = productReducer(initialState, setInitialProduct());
+    it('initialize product', () => {
+      const state = productReducer(initialState, setInitialProduct());
 
-    expect(state.product).toEqual(initialProduct);
+      expect(state.product).toEqual(initialProduct);
+    });
   });
 
   describe('setUserProducts', () => {
@@ -109,24 +115,39 @@ describe('productReducer', () => {
       userProducts: [],
     };
 
-    const state = productReducer(
-      initialState,
-      setUserProducts(userProducts),
-    );
+    it('set current user products', () => {
+      const state = productReducer(
+        initialState,
+        setUserProducts(userProducts),
+      );
 
-    expect(state.userProducts).toEqual(userProducts);
+      expect(state.userProducts).toEqual(userProducts);
+    });
   });
 });
 
 describe('actions', () => {
   let store;
 
+  beforeEach(() => {
+    postProduct.mockResolvedValue('randomProductId');
+    push.mockImplementation((pathname) => ({
+      type: 'LOCATION_CHANGE',
+      payload: {
+        location: {
+          pathname,
+        },
+        action: 'PUSH',
+      },
+    }));
+  });
+
   describe('loadInitProducts', () => {
     beforeEach(() => {
       store = mockStore({});
     });
 
-    it('runs setProducts', async () => {
+    it('fetch initial product and dispatchs setProducts ', async () => {
       await store.dispatch(loadInitProducts());
 
       const actions = store.getActions();
@@ -142,7 +163,7 @@ describe('actions', () => {
       store = mockStore({});
     });
 
-    it('dispatchs setProduct', async () => {
+    it('fetch product dispatchs setProduct', async () => {
       await store.dispatch(loadProduct({ productId: 1 }));
 
       const actions = store.getActions();
@@ -151,7 +172,7 @@ describe('actions', () => {
     });
   });
 
-  describe('postProduct', () => {
+  describe('createPost', () => {
     beforeEach(() => {
       store = mockStore({
         authReducer: {
@@ -163,19 +184,20 @@ describe('actions', () => {
       });
     });
 
-    it('dispatchs', async () => {
+    it('post product and render product detail page', async () => {
       const files = [];
 
-      await store.dispatch(postProduct({ files, newProduct }));
+      await store.dispatch(createPost({ files, product }));
 
       const actions = store.getActions();
 
       expect(actions[0]).toEqual(setIsLoading(true));
       expect(actions[1]).toEqual(setIsLoading(false));
+      expect(actions[2]).toEqual(push('/products/randomProductId'));
     });
   });
 
-  describe('editProduct', () => {
+  describe('editPost', () => {
     beforeEach(() => {
       store = mockStore({
         productReducer: {
@@ -184,23 +206,24 @@ describe('actions', () => {
       });
     });
 
-    it('dispatchs', async () => {
+    it('edit product and render product detail page', async () => {
       const files = ['newImage1', 'newImage2'];
       const toBeDeletedUrls = [];
-      const productId = '1';
+      const productId = 'mockUrl';
 
-      await store.dispatch(editProduct({
-        files, toBeDeletedUrls, productId, newProduct,
+      await store.dispatch(editPost({
+        files, toBeDeletedUrls, productId, newProduct: product,
       }));
 
       const actions = store.getActions();
 
       expect(actions[0]).toEqual(setIsLoading(true));
       expect(actions[1]).toEqual(setIsLoading(false));
+      expect(actions[2]).toEqual(push(`/products/${productId}`));
     });
   });
 
-  describe('deleteProduct', () => {
+  describe('deletePost', () => {
     const productWillDeleted = userProducts[0];
 
     beforeEach(() => {
@@ -211,13 +234,13 @@ describe('actions', () => {
       });
     });
 
-    it('dispatch setUserProducts', async () => {
-      await store.dispatch(deleteProduct({ product: productWillDeleted }));
+    it('delete product and dispatch setUserProducts', async () => {
+      await store.dispatch(deletePost({ product: productWillDeleted }));
 
       const actions = store.getActions();
 
       expect(actions[0]).toEqual(setUserProducts(
-        userProducts.filter((product) => product.id !== productWillDeleted.id),
+        userProducts.filter((userProduct) => userProduct.id !== productWillDeleted.id),
       ));
     });
   });

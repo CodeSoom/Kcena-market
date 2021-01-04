@@ -8,7 +8,7 @@ import ImagePreview from '../presentational/ImagePreview';
 import Loading from '../presentational/Loading';
 
 import {
-  postProduct,
+  createPost,
 } from '../../productSlice';
 
 import { get } from '../../utils';
@@ -24,7 +24,7 @@ export default function WriteFormContainer() {
   }, [files]);
 
   function handleSubmit({ newProduct }) {
-    dispatch(postProduct({ files, newProduct }));
+    dispatch(createPost({ files, newProduct }));
   }
 
   async function handleOnDrop(acceptedFiles) {
@@ -44,7 +44,7 @@ export default function WriteFormContainer() {
   }
 
   return (
-    <div>
+    <>
       <ImagesDropzone onDrop={handleOnDrop} />
       <ImagePreview
         productImages={files}
@@ -54,6 +54,6 @@ export default function WriteFormContainer() {
         onSubmit={handleSubmit}
       />
       {isLoading && <Loading isLoading />}
-    </div>
+    </>
   );
 }
