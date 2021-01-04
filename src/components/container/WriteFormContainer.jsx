@@ -23,8 +23,8 @@ export default function WriteFormContainer() {
     files.forEach((file) => URL.revokeObjectURL(file.imageUrl));
   }, [files]);
 
-  function handleSubmit({ product }) {
-    dispatch(createPost({ files, product }));
+  function handleSubmit({ newProduct }) {
+    dispatch(createPost({ files, newProduct }));
   }
 
   async function handleOnDrop(acceptedFiles) {

@@ -104,7 +104,7 @@ export function loadUserProducts({ user }) {
   };
 }
 
-export function createPost({ files, product }) {
+export function createPost({ files, newProduct }) {
   return async (dispatch, getState) => {
     const {
       authReducer: {
@@ -115,7 +115,7 @@ export function createPost({ files, product }) {
     dispatch(setIsLoading(true));
     const productImages = await uploadProductImages({ files });
     const productId = await postProduct({
-      ...product,
+      ...newProduct,
       productImages,
       user,
       createAt: Date.now(),
