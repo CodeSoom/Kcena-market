@@ -54,7 +54,7 @@ describe('TableForm', () => {
     beforeEach(() => {
       handleDeleteProduct.mockClear();
       setConfirmForm.mockClear();
-      showConfirmation.mockResolvedValue(() => true);
+      showConfirmation.mockResolvedValue(true);
     });
 
     it('render current user selling products', () => {

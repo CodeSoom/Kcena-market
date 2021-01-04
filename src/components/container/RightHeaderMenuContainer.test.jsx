@@ -40,7 +40,7 @@ describe('RightHeaderMenuContainer', () => {
         user: given.user,
       },
     }));
-    showConfirmation.mockResolvedValue(() => true);
+    showConfirmation.mockResolvedValue(true);
   });
 
   context('with user', () => {

@@ -39,7 +39,7 @@ describe('RightHeaderMenu', () => {
     });
 
     it('listen logout event', async () => {
-      showConfirmation.mockResolvedValue(() => true);
+      showConfirmation.mockResolvedValue(true);
 
       const { getByText } = renderRightHeaderMenu({ user: logInUser });
 

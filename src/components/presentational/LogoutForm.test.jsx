@@ -37,9 +37,7 @@ describe('LogoutForm', () => {
 
   context('when user clicked "YES"', () => {
     beforeEach(() => {
-      showConfirmation.mockImplementation(() => (
-        Promise.resolve(true)
-      ));
+      showConfirmation.mockResolvedValue(true);
     });
 
     it('call handleClick', async () => {
@@ -60,9 +58,7 @@ describe('LogoutForm', () => {
 
   context('when user clicked "NO"', () => {
     beforeEach(() => {
-      showConfirmation.mockImplementation(() => (
-        Promise.resolve(false)
-      ));
+      showConfirmation.mockResolvedValue(false);
     });
 
     it('doesn\'t call handleClick', async () => {
