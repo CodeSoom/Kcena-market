@@ -9,6 +9,8 @@ import {
   postLogin,
   postSignup,
   postLogout,
+  uploadProductImages,
+  postGoogleSignIn,
 } from './api';
 
 import products, { userProducts } from '../../fixtures/products';
@@ -56,6 +58,31 @@ describe('api', () => {
     });
   });
 
+  describe('uploadProductImages', () => {
+    it('returns productImages', async () => {
+      const files = [
+        new File(['file'], 'productImage1.png', {
+          type: 'application/json',
+        }),
+        new File(['file'], 'productImage2.png', {
+          type: 'application/json',
+        }),
+        new File(['file'], 'productImage3.png', {
+          type: 'application/json',
+        }),
+      ];
+
+      const data = await uploadProductImages({ files });
+
+      const productImages = files.map((file, _) => ({
+        name: file.name,
+        imageUrl: 'MOCK_IMAGE_URL',
+      }));
+
+      expect(data).toEqual(productImages);
+    });
+  });
+
   describe('postEditProduct', () => {
     it('request product post edit', async () => {
       const productId = 1;
@@ -83,12 +110,13 @@ describe('api', () => {
     });
 
     context('productImages is empty', () => {
-      it('request only product pos delete', async () => {
-        const emptyImagesProductPost = {
+      it('request only post delete', async () => {
+        const emptyImagesInPost = {
           ...product,
           productImages: [],
         };
-        await postDeleteProduct({ product: emptyImagesProductPost });
+
+        await postDeleteProduct({ product: emptyImagesInPost });
       });
     });
   });
@@ -105,6 +133,14 @@ describe('api', () => {
         email,
         password,
       });
+    });
+  });
+
+  describe('postGoogleSignin', () => {
+    it('returns user', async () => {
+      const data = await postGoogleSignIn();
+
+      expect(data).toEqual(logInUser);
     });
   });
 

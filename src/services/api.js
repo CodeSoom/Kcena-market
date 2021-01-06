@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import firebase from './firebase';
+import firebase, { googleAuthLogin } from './firebase';
 import { isEmpty } from '../utils';
 
 export async function fetchProducts() {
@@ -43,10 +43,10 @@ export async function fetchUserProducts({ user }) {
 
 export async function uploadProductImages({ files }) {
   async function uploadProductImage(file) {
-    const uploadTask = firebase.storage()
+    const reference = firebase.storage()
       .ref().child(`${file.name}${uuidv4()}`);
-    const response = await uploadTask.put(file);
-    const imageUrl = await response.ref.getDownloadURL();
+    await reference.put(file);
+    const imageUrl = await reference.getDownloadURL();
     return imageUrl;
   }
 
@@ -89,7 +89,7 @@ export async function postDeleteProduct({ product }) {
   await firebase
     .firestore().collection('products').doc(id).delete();
 
-  if (isEmpty(productImages || [])) {
+  if (isEmpty(productImages)) {
     return;
   }
 
@@ -106,10 +106,9 @@ export async function postLogin({ email, password }) {
 }
 
 export async function postGoogleSignIn() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  const response = await firebase.auth().signInWithPopup(provider);
+  const { user } = await googleAuthLogin();
 
-  return response;
+  return user;
 }
 
 export async function postSignup({ email, password }) {

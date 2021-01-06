@@ -77,7 +77,7 @@ export function requestGoogleSignIn() {
   return async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
-      const { user } = await postGoogleSignIn();
+      const user = await postGoogleSignIn();
       const { email, displayName, uid } = user;
 
       dispatch(setUser({ email, displayName, uid }));

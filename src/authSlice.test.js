@@ -133,9 +133,7 @@ describe('actions', () => {
 
     context('when request success', () => {
       it('returns user and change url path', async () => {
-        postGoogleSignIn.mockImplementationOnce(() => ({
-          user: logInUser,
-        }));
+        postGoogleSignIn.mockImplementationOnce(() => logInUser);
 
         await store.dispatch(requestGoogleSignIn());
 

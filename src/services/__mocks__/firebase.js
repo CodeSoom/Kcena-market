@@ -1,8 +1,13 @@
 import products from '../../../fixtures/products';
+import { logInUser } from '../../../fixtures/user';
 
 const collections = {
   products,
 };
+
+const googleAuthLogin = jest.fn().mockImplementation(() => ({
+  user: logInUser,
+}));
 
 const firebase = {
   auth: jest.fn(() => ({
@@ -34,7 +39,7 @@ const firebase = {
         delete: jest.fn(),
       })),
       add: jest.fn().mockImplementation((item) => item),
-      where: jest.fn().mockImplementation((fieldName, operator, value) => {
+      where: jest.fn().mockImplementation((_, operator, value) => {
         let result = null;
 
         if (operator === '==') {
@@ -54,10 +59,17 @@ const firebase = {
     })),
   })),
   storage: jest.fn().mockImplementation(() => ({
-    refFromURL: jest.fn().mockImplementation((url) => ({
+    refFromURL: jest.fn().mockImplementation(() => ({
       delete: jest.fn(),
+    })),
+    ref: jest.fn(() => ({
+      child: jest.fn(() => ({
+        put: jest.fn(),
+        getDownloadURL: jest.fn(() => 'MOCK_IMAGE_URL'),
+      })),
     })),
   })),
 };
 
 export default firebase;
+export { googleAuthLogin };
