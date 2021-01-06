@@ -87,8 +87,8 @@ describe('actions', () => {
   });
 
   const loginFields = {
-    email: 'tester@example.com',
-    password: '1234abcd',
+    email: 'ghdrlfehd@example.com',
+    password: 'ghdrlfehd1234',
   };
 
   describe('requestLogin', () => {
@@ -97,9 +97,7 @@ describe('actions', () => {
     });
 
     it('dispatches requestLogin action and returns user', async () => {
-      postLogin.mockImplementationOnce(() => ({
-        user: logInUser,
-      }));
+      postLogin.mockImplementationOnce(() => logInUser);
 
       await store.dispatch(requestLogin({ loginFields }));
 
@@ -172,7 +170,7 @@ describe('actions', () => {
     const signupFields = {
       firstName: '홍',
       lastName: '길동',
-      email: 'tester@example.com',
+      email: 'ghdrlfehd@example.com',
       password: '1234abcd',
     };
 
@@ -184,10 +182,8 @@ describe('actions', () => {
       it('returns user and change url path', async () => {
         const updateProfile = jest.fn();
         postSignup.mockImplementationOnce(() => ({
-          user: {
-            ...logInUser,
-            updateProfile,
-          },
+          ...logInUser,
+          updateProfile,
         }));
 
         await store.dispatch(requestSignup({ signupFields }));

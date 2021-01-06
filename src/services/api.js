@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import firebase from '../../plugin/firebase';
+import firebase from './firebase';
 import { isEmpty } from '../utils';
 
 export async function fetchProducts() {
@@ -87,7 +87,7 @@ export async function deleteAllImages(productImages) {
 export async function postDeleteProduct({ product }) {
   const { id, productImages } = product;
   await firebase
-    .firestore().doc(`products/${id}`).delete();
+    .firestore().collection('products').doc(id).delete();
 
   if (isEmpty(productImages || [])) {
     return;
@@ -98,35 +98,28 @@ export async function postDeleteProduct({ product }) {
 }
 
 export async function postLogin({ email, password }) {
-  const response = await firebase
+  const { user } = await firebase
     .auth()
     .signInWithEmailAndPassword(email, password);
 
-  return response;
+  return user;
 }
 
 export async function postGoogleSignIn() {
-  const response = await firebase
-    .auth()
-    .signInWithPopup(
-      new firebase.auth.GoogleAuthProvider(),
-    );
+  const provider = new firebase.auth.GoogleAuthProvider();
+  const response = await firebase.auth().signInWithPopup(provider);
 
   return response;
 }
 
 export async function postSignup({ email, password }) {
-  const response = await firebase
+  const { user } = await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password);
 
-  return response;
+  return user;
 }
 
 export async function postLogout() {
-  const response = await firebase
-    .auth()
-    .signOut();
-
-  return response;
+  await firebase.auth().signOut();
 }

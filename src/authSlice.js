@@ -58,7 +58,7 @@ export function requestLogin({ loginFields }) {
   return async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
-      const { user } = await postLogin({ email, password });
+      const user = await postLogin({ email, password });
       const { displayName, uid } = user;
 
       dispatch(setUser({ email, displayName, uid }));
@@ -101,7 +101,7 @@ export function requestSignup({ signupFields }) {
   return async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
-      const { user } = await postSignup({ email, password });
+      const user = await postSignup({ email, password });
       user.updateProfile({ displayName: userNickname });
 
       const { displayName, uid } = user;
