@@ -1,7 +1,7 @@
 const logInUser = {
-  uid: '1234abcd',
   displayName: '홍 길동',
-  email: 'tester@example.com',
+  email: 'ghdrlfehd@example.com',
+  uid: 'ghdrlfehd1234',
 };
 
 const logOutUser = {

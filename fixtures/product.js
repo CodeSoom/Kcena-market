@@ -1,15 +1,21 @@
 const product = {
-  title: '아이패드 4세대 팝니다.',
-  description: '신형 아이패드 4세대 12.9인치 팝니다. 사용한지 3개월도 안된 제품이에요.',
-  region: '서울 강남',
-  price: '990000',
+  id: 1,
+  category: '가구/인테리어',
+  createAt: '168828208635',
+  description: '해외 이민으로 인해 가전제품 팝니다!010-****-****로 연락주세요!',
+  price: 350000,
   productImages: [
-    'https://via.placeholder.com/600/810b14',
-    'https://via.placeholder.com/600/24f355',
-    'https://via.placeholder.com/600/f66b97',
+    { name: '가전1.jpeg', imageUrl: '가전1url' },
+    { name: '가전2.jpeg', imageUrl: '가전2url' },
+    { name: '가전3.jpeg', imageUrl: '가전3url' },
   ],
-  createAt: '12341231242',
-  creatorId: 'abc123',
+  region: '서울시 강남구',
+  title: '해외 이사로 인한 가전제품 팔아요!',
+  user: {
+    displayName: '홍길동/연구과제팀/직원',
+    email: 'ghdrlfehd@test.com',
+    uid: 'ghdrlfehd1234',
+  },
 };
 
 export default product;

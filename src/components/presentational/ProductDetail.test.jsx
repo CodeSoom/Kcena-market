@@ -5,6 +5,7 @@ import { render, fireEvent } from '@testing-library/react';
 import ProductDetail from './ProductDetail';
 
 import products from '../../../fixtures/products';
+import product from '../../../fixtures/product';
 
 describe('ProductDetail', () => {
   function renderProductDetail({ product }) {
@@ -16,10 +17,10 @@ describe('ProductDetail', () => {
   }
 
   it('renders product detail', () => {
-    const { container } = renderProductDetail({ product: products[0] });
+    const { container } = renderProductDetail({ product });
 
-    expect(container).toHaveTextContent('크리넥스 KF-AD 소형 마스크 팝니다.');
-    expect(container).toHaveTextContent('미추홀구 용현5동');
+    expect(container).toHaveTextContent(product.title);
+    expect(container).toHaveTextContent(product.region);
   });
 
   context('without product images', () => {
