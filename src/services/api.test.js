@@ -74,7 +74,7 @@ describe('api', () => {
 
       const data = await uploadProductImages({ files });
 
-      const productImages = files.map((file, _) => ({
+      const productImages = files.map((file) => ({
         name: file.name,
         imageUrl: 'MOCK_IMAGE_URL',
       }));
