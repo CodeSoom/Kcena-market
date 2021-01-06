@@ -1,127 +1,131 @@
-import * as firebase from 'firebase';
-
 import {
+  fetchProduct,
+  fetchProducts,
+  fetchUserProducts,
+  postProduct,
+  postDeleteProduct,
+  postEditProduct,
+  deleteAllImages,
   postLogin,
-  postGoogleSignIn,
   postSignup,
   postLogout,
-  postProduct,
 } from './api';
 
-describe('firebase services', () => {
-  describe('postLogin', () => {
-    const mockPostLogin = ({ email, password }) => {
-      firebase.auth()
-        .signInWithEmailAndPassword = jest.fn().mockResolvedValue({
-          email, password,
-        });
-    };
+import products, { userProducts } from '../../fixtures/products';
+import product from '../../fixtures/product';
+import { logInUser } from '../../fixtures/user';
 
-    const email = 'tester@example.com';
-    const password = '123456';
+jest.mock('./firebase.js');
 
-    beforeEach(() => {
-      mockPostLogin({ email, password });
-    });
+describe('api', () => {
+  describe('fetchProducts', () => {
+    it('returns products', async () => {
+      const data = await fetchProducts();
 
-    it('returns uid', async () => {
-      const user = await postLogin({ email, password });
-
-      expect(user).toEqual({ email, password });
+      expect(data).toEqual(products);
     });
   });
 
-  describe('postGoogleSignIn', () => {
-    const mockGoogleSignIn = ({ user }) => {
-      firebase.auth()
-        .signInWithPopup = jest.fn().mockResolvedValue(user);
-    };
+  describe('fetchProduct', () => {
+    it('returns product', async () => {
+      const productId = 1;
 
-    const user = {
-      displayName: 'tester',
-      uid: 'abc1234',
-    };
+      const data = await fetchProduct(productId);
 
-    beforeEach(() => {
-      mockGoogleSignIn({ user });
+      expect(data).toEqual(
+        products.find(({ id }) => id === productId),
+      );
+    });
+  });
+
+  describe('fetchUserProducts', () => {
+    it('returns userProducts', async () => {
+      const user = logInUser;
+
+      const data = await fetchUserProducts({ user });
+
+      expect(data).toEqual(userProducts);
+    });
+  });
+
+  describe('postProduct', () => {
+    it('return post id', async () => {
+      const data = await postProduct(product);
+
+      expect(data).toEqual(product.id);
+    });
+  });
+
+  describe('postEditProduct', () => {
+    it('request product post edit', async () => {
+      const productId = 1;
+      const editedProduct = {
+        ...product,
+        title: '가전제품 팜',
+        price: 400000,
+      };
+
+      await postEditProduct({ productId, editedProduct });
+    });
+  });
+
+  describe('postDeleteProduct', () => {
+    context('productImages is not empty', () => {
+      it('request delete all images and product post delete', async () => {
+        const { productImages } = product;
+
+        await postDeleteProduct({ product });
+
+        const deleteUrls = productImages.map(({ imageUrl }) => imageUrl);
+
+        await deleteAllImages(deleteUrls);
+      });
     });
 
-    it('returns uid', async () => {
-      const mockUser = await postGoogleSignIn();
+    context('productImages is empty', () => {
+      it('request only product pos delete', async () => {
+        const emptyImagesProductPost = {
+          ...product,
+          productImages: [],
+        };
+        await postDeleteProduct({ product: emptyImagesProductPost });
+      });
+    });
+  });
 
-      expect(mockUser).toEqual({
-        displayName: 'tester',
-        uid: 'abc1234',
+  describe('postLogin', () => {
+    it('returns user', async () => {
+      const email = 'ghdrlfehd@test.com';
+      const password = '123456';
+
+      const data = await postLogin({ email, password });
+
+      expect(data).toEqual({
+        displayName: undefined,
+        email,
+        password,
+      });
+    });
+  });
+
+  describe('postSignup', () => {
+    it('returns sign up user', async () => {
+      const email = 'ghdrlfehd@test.com';
+      const password = '123456';
+
+      const data = await postSignup({ email, password });
+
+      expect(data).toEqual({
+        displayName: undefined,
+        email,
+        password,
       });
     });
   });
 
   describe('postLogout', () => {
-    const mockLogout = () => {
-      firebase.auth()
-        .signOut = jest.fn().mockResolvedValue(true);
-    };
-
-    beforeEach(() => {
-      mockLogout();
-    });
-
-    it('returns promise', async () => {
-      const logout = await postLogout();
-
-      expect(logout).toBe(true);
-    });
-  });
-
-  describe('postSignup', () => {
-    const mockFirebaseSignup = ({ email, password }) => {
-      firebase.auth()
-        .createUserWithEmailAndPassword = jest.fn().mockResolvedValue({
-          displayName: '',
-          email,
-          password,
-          uid: '',
-        });
-    };
-
-    const email = 'tester@example.com';
-    const password = '123456';
-
-    beforeEach(() => {
-      mockFirebaseSignup({ email, password });
-    });
-
-    it('returns new account', async () => {
-      const newUser = await postSignup({ email, password });
-
-      expect(newUser.email).toBe(email);
-    });
-  });
-
-  describe('postProduct', () => {
-    const add = jest.fn((product) => product);
-    const collection = jest.spyOn(
-      firebase.firestore(), 'collection',
-    ).mockReturnValue({ add });
-
-    it('post new product', async () => {
-      const newProduct = {
-        title: 'test title',
-        description: 'test description',
-        productImages: [],
-        createdAt: Date.now(),
-        user: {
-          uid: 'test1234',
-          displayName: '홍 길동',
-          email: 'tester@example.com',
-        },
-      };
-
-      await postProduct(newProduct);
-
-      expect(collection).toHaveBeenCalledWith('products');
-
-      expect(add).toHaveBeenCalledWith(newProduct);
+    it('request logout', async () => {
+      await postLogout();
     });
   });
 });
