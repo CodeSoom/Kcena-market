@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import firebase, { googleAuthLogin } from './firebase';
+import { firebase } from './firebase';
 import { isEmpty } from '../utils';
 
 export async function fetchProducts() {
@@ -101,12 +101,6 @@ export async function postLogin({ email, password }) {
   const { user } = await firebase
     .auth()
     .signInWithEmailAndPassword(email, password);
-
-  return user;
-}
-
-export async function postGoogleSignIn() {
-  const { user } = await googleAuthLogin();
 
   return user;
 }

@@ -5,9 +5,7 @@ const collections = {
   products,
 };
 
-const googleAuthLogin = jest.fn().mockImplementation(() => ({
-  user: logInUser,
-}));
+const googleAuthLogin = jest.fn().mockImplementation(() => Promise.resolve({ user: logInUser }));
 
 const firebase = {
   auth: jest.fn(() => ({
@@ -71,5 +69,4 @@ const firebase = {
   })),
 };
 
-export default firebase;
-export { googleAuthLogin };
+export { firebase, googleAuthLogin };

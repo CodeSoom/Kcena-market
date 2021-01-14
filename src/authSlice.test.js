@@ -12,7 +12,6 @@ import authReducer, {
 } from './authSlice';
 
 import {
-  postGoogleSignIn,
   postLogin,
   postSignup,
 } from './services/api';
@@ -24,6 +23,7 @@ const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
 
 jest.mock('./services/api');
+jest.mock('./services/firebase');
 jest.mock('connected-react-router');
 
 describe('reducer', () => {
@@ -131,36 +131,15 @@ describe('actions', () => {
       store = mockStore({});
     });
 
-    context('when request success', () => {
-      it('returns user and change url path', async () => {
-        postGoogleSignIn.mockImplementationOnce(() => logInUser);
+    it('returns user and change url path', async () => {
+      const actions = store.getActions();
 
-        await store.dispatch(requestGoogleSignIn());
+      await store.dispatch(requestGoogleSignIn());
 
-        const actions = store.getActions();
-
-        expect(actions[0]).toEqual(setIsLoading(true));
-        expect(actions[1]).toEqual(setUser(logInUser));
-        expect(actions[2]).toEqual(setIsLoading(false));
-        expect(actions[3]).toEqual(push('/'));
-      });
-    });
-
-    context('when request fail', () => {
-      it('returns an error', async () => {
-        postGoogleSignIn.mockImplementationOnce(
-          () => Promise.reject(
-            new Error('something bad happened'),
-          ),
-        );
-
-        try {
-          await store.dispatch(requestGoogleSignIn());
-        } catch {
-          const actions = store.getActions();
-          expect(actions[0].payload.error).toEqual('Something bad happened');
-        }
-      });
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setUser(logInUser));
+      expect(actions[2]).toEqual(setIsLoading(false));
+      expect(actions[3]).toEqual(push('/'));
     });
   });
 

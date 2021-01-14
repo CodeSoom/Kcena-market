@@ -10,7 +10,6 @@ import {
   postSignup,
   postLogout,
   uploadProductImages,
-  postGoogleSignIn,
 } from './api';
 
 import products, { userProducts } from '../../fixtures/products';
@@ -133,14 +132,6 @@ describe('api', () => {
         email,
         password,
       });
-    });
-  });
-
-  describe('postGoogleSignin', () => {
-    it('returns user', async () => {
-      const data = await postGoogleSignIn();
-
-      expect(data).toEqual(logInUser);
     });
   });
 
