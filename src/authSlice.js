@@ -7,8 +7,11 @@ import { saveItem, deleteItem } from './services/storage';
 import { setIsLoading } from './commonSlice';
 
 import {
+  googleAuthLogin,
+} from './services/firebase';
+
+import {
   postLogin,
-  postGoogleSignIn,
   postSignup,
   postLogout,
 } from './services/api';
@@ -58,7 +61,7 @@ export function requestLogin({ loginFields }) {
   return async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
-      const { user } = await postLogin({ email, password });
+      const user = await postLogin({ email, password });
       const { displayName, uid } = user;
 
       dispatch(setUser({ email, displayName, uid }));
@@ -75,20 +78,15 @@ export function requestLogin({ loginFields }) {
 
 export function requestGoogleSignIn() {
   return async (dispatch) => {
-    try {
-      dispatch(setIsLoading(true));
-      const { user } = await postGoogleSignIn();
-      const { email, displayName, uid } = user;
+    dispatch(setIsLoading(true));
+    const { user } = await googleAuthLogin();
+    const { email, displayName, uid } = user;
 
-      dispatch(setUser({ email, displayName, uid }));
-      saveItem('user', { email, displayName, uid });
-      dispatch(setIsLoading(false));
+    dispatch(setUser({ email, displayName, uid }));
+    saveItem('user', { email, displayName, uid });
+    dispatch(setIsLoading(false));
 
-      dispatch(push('/'));
-    } catch (error) {
-      dispatch(setError(error.message));
-      dispatch(setIsLoading(false));
-    }
+    dispatch(push('/'));
   };
 }
 
@@ -101,7 +99,7 @@ export function requestSignup({ signupFields }) {
   return async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
-      const { user } = await postSignup({ email, password });
+      const user = await postSignup({ email, password });
       user.updateProfile({ displayName: userNickname });
 
       const { displayName, uid } = user;

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import ProductContainer from './ProductContainer';
 
-import products from '../../../fixtures/products';
+import product from '../../../fixtures/product';
 
 jest.mock('react-redux');
 
@@ -29,7 +29,7 @@ describe('ProductContainer', () => {
   }
 
   context('with product', () => {
-    given('product', () => products[0]);
+    given('product', () => product);
 
     it('dispatchs called', () => {
       renderProductContainer();
@@ -38,10 +38,11 @@ describe('ProductContainer', () => {
     });
 
     it('renders product', () => {
+      const { title, region } = product;
       const { container } = renderProductContainer();
 
-      expect(container).toHaveTextContent('크리넥스 KF-AD 소형 마스크 팝니다.');
-      expect(container).toHaveTextContent('미추홀구 용현5동');
+      expect(container).toHaveTextContent(title);
+      expect(container).toHaveTextContent(region);
     });
   });
 });

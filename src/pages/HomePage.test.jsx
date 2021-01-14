@@ -8,6 +8,7 @@ import { render, fireEvent } from '@testing-library/react';
 import HomePage from './HomePage';
 
 import products from '../../fixtures/products';
+import product from '../../fixtures/product';
 
 const mockPush = jest.fn();
 
@@ -55,9 +56,11 @@ describe('HomePage', () => {
 
   context('when click product', () => {
     it('occur handle event', () => {
+      const { title } = product;
+
       const { getByText } = renderHomePage();
 
-      fireEvent.click(getByText('크리넥스 KF-AD 소형 마스크 팝니다.'));
+      fireEvent.click(getByText(title));
 
       expect(mockPush).toBeCalledWith('/products/1');
     });

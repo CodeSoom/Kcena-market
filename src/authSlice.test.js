@@ -12,7 +12,6 @@ import authReducer, {
 } from './authSlice';
 
 import {
-  postGoogleSignIn,
   postLogin,
   postSignup,
 } from './services/api';
@@ -24,6 +23,7 @@ const middlewares = [...getDefaultMiddleware()];
 const mockStore = configureStore(middlewares);
 
 jest.mock('./services/api');
+jest.mock('./services/firebase');
 jest.mock('connected-react-router');
 
 describe('reducer', () => {
@@ -87,8 +87,8 @@ describe('actions', () => {
   });
 
   const loginFields = {
-    email: 'tester@example.com',
-    password: '1234abcd',
+    email: 'ghdrlfehd@example.com',
+    password: 'ghdrlfehd1234',
   };
 
   describe('requestLogin', () => {
@@ -97,9 +97,7 @@ describe('actions', () => {
     });
 
     it('dispatches requestLogin action and returns user', async () => {
-      postLogin.mockImplementationOnce(() => ({
-        user: logInUser,
-      }));
+      postLogin.mockImplementationOnce(() => logInUser);
 
       await store.dispatch(requestLogin({ loginFields }));
 
@@ -133,38 +131,15 @@ describe('actions', () => {
       store = mockStore({});
     });
 
-    context('when request success', () => {
-      it('returns user and change url path', async () => {
-        postGoogleSignIn.mockImplementationOnce(() => ({
-          user: logInUser,
-        }));
+    it('returns user and change url path', async () => {
+      const actions = store.getActions();
 
-        await store.dispatch(requestGoogleSignIn());
+      await store.dispatch(requestGoogleSignIn());
 
-        const actions = store.getActions();
-
-        expect(actions[0]).toEqual(setIsLoading(true));
-        expect(actions[1]).toEqual(setUser(logInUser));
-        expect(actions[2]).toEqual(setIsLoading(false));
-        expect(actions[3]).toEqual(push('/'));
-      });
-    });
-
-    context('when request fail', () => {
-      it('returns an error', async () => {
-        postGoogleSignIn.mockImplementationOnce(
-          () => Promise.reject(
-            new Error('something bad happened'),
-          ),
-        );
-
-        try {
-          await store.dispatch(requestGoogleSignIn());
-        } catch {
-          const actions = store.getActions();
-          expect(actions[0].payload.error).toEqual('Something bad happened');
-        }
-      });
+      expect(actions[0]).toEqual(setIsLoading(true));
+      expect(actions[1]).toEqual(setUser(logInUser));
+      expect(actions[2]).toEqual(setIsLoading(false));
+      expect(actions[3]).toEqual(push('/'));
     });
   });
 
@@ -172,7 +147,7 @@ describe('actions', () => {
     const signupFields = {
       firstName: '홍',
       lastName: '길동',
-      email: 'tester@example.com',
+      email: 'ghdrlfehd@example.com',
       password: '1234abcd',
     };
 
@@ -184,10 +159,8 @@ describe('actions', () => {
       it('returns user and change url path', async () => {
         const updateProfile = jest.fn();
         postSignup.mockImplementationOnce(() => ({
-          user: {
-            ...logInUser,
-            updateProfile,
-          },
+          ...logInUser,
+          updateProfile,
         }));
 
         await store.dispatch(requestSignup({ signupFields }));

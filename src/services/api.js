@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import firebase from '../../plugin/firebase';
+import { firebase } from './firebase';
 import { isEmpty } from '../utils';
 
 export async function fetchProducts() {
@@ -43,10 +43,10 @@ export async function fetchUserProducts({ user }) {
 
 export async function uploadProductImages({ files }) {
   async function uploadProductImage(file) {
-    const uploadTask = firebase.storage()
+    const reference = firebase.storage()
       .ref().child(`${file.name}${uuidv4()}`);
-    const response = await uploadTask.put(file);
-    const imageUrl = await response.ref.getDownloadURL();
+    await reference.put(file);
+    const imageUrl = await reference.getDownloadURL();
     return imageUrl;
   }
 
@@ -87,9 +87,9 @@ export async function deleteAllImages(productImages) {
 export async function postDeleteProduct({ product }) {
   const { id, productImages } = product;
   await firebase
-    .firestore().doc(`products/${id}`).delete();
+    .firestore().collection('products').doc(id).delete();
 
-  if (isEmpty(productImages || [])) {
+  if (isEmpty(productImages)) {
     return;
   }
 
@@ -98,35 +98,21 @@ export async function postDeleteProduct({ product }) {
 }
 
 export async function postLogin({ email, password }) {
-  const response = await firebase
+  const { user } = await firebase
     .auth()
     .signInWithEmailAndPassword(email, password);
 
-  return response;
-}
-
-export async function postGoogleSignIn() {
-  const response = await firebase
-    .auth()
-    .signInWithPopup(
-      new firebase.auth.GoogleAuthProvider(),
-    );
-
-  return response;
+  return user;
 }
 
 export async function postSignup({ email, password }) {
-  const response = await firebase
+  const { user } = await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password);
 
-  return response;
+  return user;
 }
 
 export async function postLogout() {
-  const response = await firebase
-    .auth()
-    .signOut();
-
-  return response;
+  await firebase.auth().signOut();
 }

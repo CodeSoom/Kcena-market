@@ -16,10 +16,11 @@ describe('ProductDetail', () => {
   }
 
   it('renders product detail', () => {
+    const { title, region } = products[0];
     const { container } = renderProductDetail({ product: products[0] });
 
-    expect(container).toHaveTextContent('크리넥스 KF-AD 소형 마스크 팝니다.');
-    expect(container).toHaveTextContent('미추홀구 용현5동');
+    expect(container).toHaveTextContent(title);
+    expect(container).toHaveTextContent(region);
   });
 
   context('without product images', () => {
