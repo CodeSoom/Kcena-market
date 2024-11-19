@@ -65,7 +65,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "connected-react-router": "^6.8.0",
     "facepaint": "^1.2.1",
-    "firebase": "^7.21.0",
+    "firebase": "^10.9.0",
     "fontsource-roboto": "^3.0.3",
     "formik": "^2.2.5",
     "history": "^4.10.1",
